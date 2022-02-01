@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: fit-content;
+    overflow: auto;
+}
+
+div {
+    margin: 100px 100px;
+}
+
+canvas {
+    margin: 50px 50px;
+}
+
+img {
+    width: 800px;
+    height: 500px;
+}

@@ -6,8 +6,8 @@
          // object containing configuration options
          let gameConfig = {
              type: Phaser.AUTO,
-             width: 800,
-             height: 600,
+             width: 1600, //800
+             height: 600, //600
              scene: [preloadGame, playGame],
              backgroundColor: 0x0c88c7,
 
@@ -48,9 +48,6 @@
              });
          }
 
-
-
-
          // se crean las animaciones
          create() {
              this.anims.create({
@@ -71,10 +68,16 @@
      class playGame extends Phaser.Scene {
          constructor() {
              super("PlayGame");
+             this.score = 0;
+             this.created = false;
+
+
          }
 
          create() {
              this.add.image(400, 300, 'sky');
+             this.add.image(1200, 300, 'sky');
+
              this.nPlatforms = 0;
              //platforms = this.physics.add.staticGroup();
              //platforms2 = this.physics.add.staticGroup();
@@ -129,11 +132,12 @@
              this.playerBot = this.physics.add.sprite(90, 450, 'dude');
              this.playerBot.body.setGravityY(300);
              this.playerBot.setCollideWorldBounds(true);
+             this.playerBotJumps = 0;
 
              this.playerTop = this.physics.add.sprite(90, 150, 'dude');
              this.playerTop.body.setGravityY(300);
              this.playerTop.setCollideWorldBounds(true);
-
+             this.playerTopJumps = 0;
              this.cursors = this.input.keyboard.createCursorKeys();
              this.stars = this.physics.add.group({ // agrega 11 estrellas no terminan de funcionar porqtengo que poner el collider con las plataformas añadidas
                  key: 'star',
@@ -185,6 +189,7 @@
                  if (!this.playerBot.anims.isPlaying) {
                      this.playerBot.anims.play("run");
                      this.playerBot.body.setVelocityX(100);
+                     this.playerBotJumps = 0;
                  }
              }, null, this);
 
@@ -194,6 +199,7 @@
                  if (!this.playerTop.anims.isPlaying) {
                      this.playerTop.anims.play("run");
                      this.playerTop.body.setVelocityX(100);
+                     this.playerTopJumps = 0;
                  }
              }, null, this);
              //this.physics.add.overlap(this.player, this.stars, this.collectStar(), null, this);
@@ -223,8 +229,49 @@
    
                addPlatformFloorTop(this, nPlatforms);
            }*/
+
+
              this.addPlatformFloorBot();
              this.addPlatformFloorTop();
+             if (this.score >= 0 && !this.created) {
+                 this.created = true
+                 this.createPJs()
+             }
+             if (this.created) {
+                 this.jumpPlayerTop1();
+                 this.jumpPlayerBot1();
+             }
+         }
+         createPJs() {
+             this.playerBot1 = this.physics.add.sprite(890, 450, 'dude');
+             this.playerBot1.body.setGravityY(300);
+             this.playerBot1.setCollideWorldBounds(true);
+             this.playerBot1Jumps = 0;
+
+             this.playerTop1 = this.physics.add.sprite(890, 150, 'dude');
+             this.playerTop1.body.setGravityY(300);
+             this.playerTop1.setCollideWorldBounds(true);
+             this.playerTop1Jumps = 0;
+
+             this.platformColliderBot1 = this.physics.add.collider(this.playerBot1, this.platformGroupBot, function() {
+
+                 // play "run" animation if the player is on a platform
+                 if (!this.playerBot1.anims.isPlaying) {
+                     this.playerBot1.anims.play("run");
+                     this.playerBot1.body.setVelocityX(100);
+                     this.playerBot1Jumps = 0;
+                 }
+             }, null, this);
+
+             this.platformColliderTop1 = this.physics.add.collider(this.playerTop1, this.platformGroupTop, function() {
+
+                 // play "run" animation if the player is on a platform
+                 if (!this.playerTop1.anims.isPlaying) {
+                     this.playerTop1.anims.play("run");
+                     this.playerTop1.body.setVelocityX(100);
+                     this.playerTop1Jumps = 0;
+                 }
+             }, null, this);
          }
 
          collectStar(player, star) {
@@ -322,7 +369,8 @@
          }
 
          jumpPlayerTop() {
-             if (this.cursors.up.isDown && this.playerTop.body.touching.down) { //saltar
+             if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 10)) { //saltar
+                 this.playerTopJumps++;
                  this.playerTop.anims.stop()
                  this.playerTop.setVelocityY(-200);
                  this.playerTop.setVelocityX(0);
@@ -333,8 +381,9 @@
          }
 
          jumpPlayerBot() {
-             if (this.cursors.space.isDown && this.playerBot.body.touching.down) {
-
+             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 10)) {
+                 this.playerBotJumps++;
+                 console.log(this.playerBotJumps);
                  this.playerBot.setVelocityY(-200);
                  this.playerBot.setVelocityX(0);
                  this.playerBot.anims.stop()
@@ -344,9 +393,33 @@
                  this.playerBot.setVelocityX(0);
              }
          }
+
+         jumpPlayerTop1() {
+             if (this.cursors.down.isDown && (this.playerTop1.body.touching.down || this.playerTop1Jumps < 10)) { //saltar
+                 this.playerTop1Jumps++;
+                 this.playerTop1.anims.stop()
+                 this.playerTop1.setVelocityY(-200);
+                 this.playerTop1.setVelocityX(0);
+             }
+             if (!this.playerTop1.body.touching.down) { //velocidad durante salto
+                 this.playerTop1.setVelocityX(0);
+             }
+         }
+
+         jumpPlayerBot1() {
+             if (this.cursors.right.isDown && (this.playerBot1.body.touching.down || this.playerBot1Jumps < 10)) {
+                 this.playerBot1Jumps++;
+                 console.log(this.playerBot1Jumps);
+                 this.playerBot1.setVelocityY(-200);
+                 this.playerBot1.setVelocityX(0);
+                 this.playerBot1.anims.stop()
+
+             }
+             if (!this.playerBot1.body.touching.down) {
+                 this.playerBot1.setVelocityX(0);
+             }
+         }
      }
-
-
  }
 
  script()
