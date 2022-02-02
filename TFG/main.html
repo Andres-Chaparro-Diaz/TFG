@@ -9,15 +9,37 @@
 
 </head>
 
-<body>
-    <div id="Introduccion">
+<body style=" overflow: auto!important;">
+    <header>
+        <nav class="login">
+            <ul>
+                <div style="display: flex;">
+                    <li><a href="#">Iniciar sesión</a></li>
+                    <li><a href="#">Registrarse</a></li>
+                    <li><a href="#">Nueva partida</a></li>
+                </div>
+            </ul>
+        </nav>
+        <nav class="logged" style="display: none; overflow: auto!important;">
+            <ul>
+                <div>
+                    <li><a href="#">Usuario</a></li>
+                    <li><a href="#">Cerrar sesion</a></li>
+                    <li><a href="#">Nueva partida</a></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div id="Introduccion" style="margin: 100px 100px;">
         <h1>Titulo principal ( aun no se cual)</h1>
         <h2>Introduccion</h2>
         <p>Este juego consiste en esquivar los obstaculos de forma simultanea para evitar que ninguno de nuestros personajes sea golpeado. Si alguno recibe un golpe se acaba el juego.
         </p>
         <h2>Controles:</h2>
         <p>Los personajes solo pueden realizar saltos, aunque pueden realizar saltos largos o dobles saltos. Los saltos son asincronos</p>
-        <img src="assets/Leyenda.PNG" alt="">
+        <img src="assets/Leyenda.PNG" alt="" style="width: 800px; height: 400px;">
         <ul>Teclas:
             <li>
                 <span>P1:  flecha superior</span>

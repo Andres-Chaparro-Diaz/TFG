@@ -39,9 +39,9 @@
               };*/
          preload() {
              this.load.image('sky', 'assets/sky.png');
-             this.load.image('ground', 'assets/platform.png');
+             this.load.image('ground', 'assets/ground.png');
              this.load.image('star', 'assets/star.png');
-             this.load.image('bomb', 'assets/bomb.png');
+             this.load.image('tree', 'assets/Tree_2.png');
              this.load.spritesheet('dude', 'assets/dude.png', {
                  frameWidth: 32,
                  frameHeight: 48
@@ -78,7 +78,8 @@
              this.add.image(400, 300, 'sky');
              this.add.image(1200, 300, 'sky');
 
-             this.nPlatforms = 0;
+             this.nPlatformsBot = 0;
+             this.nPlatformsTop = 0;
              //platforms = this.physics.add.staticGroup();
              //platforms2 = this.physics.add.staticGroup();
 
@@ -127,8 +128,38 @@
                      platform.scene.platformGroupTop.add(platform)
                  }
              })
-             this.addPlatformFloorTop(400, 268);
-             this.addPlatformFloorBot(400, 568);
+
+
+             this.obstacleGroupTop = this.add.group({
+
+                 // once a platform is removed, it's added to the pool
+                 removeCallback: function(obstacle) {
+                     obstacle.scene.obstaclePoolTop.add(obstacle)
+                 }
+             });
+             this.obstaclePoolTop = this.add.group({
+                 // once a platform is removed from the pool, it's added to the active platforms group
+                 removeCallback: function(obstacle) {
+                     obstacle.scene.obstacleGroupTop.add(obstacle)
+                 }
+             })
+
+             this.obstacleGroupBot = this.add.group({
+
+                 // once a platform is removed, it's added to the pool
+                 removeCallback: function(obstacle) {
+                     obstacle.scene.obstaclePoolBot.add(obstacle)
+                 }
+             });
+             this.obstaclePoolBot = this.add.group({
+                 // once a platform is removed from the pool, it's added to the active platforms group
+                 removeCallback: function(obstacle) {
+                     obstacle.scene.obstacleGroupBot.add(obstacle)
+                 }
+             })
+             this.addPlatformFloorTop(800, 268);
+             this.addPlatformFloorBot(800, 568);
+
              this.playerBot = this.physics.add.sprite(90, 450, 'dude');
              this.playerBot.body.setGravityY(300);
              this.playerBot.setCollideWorldBounds(true);
@@ -183,7 +214,7 @@
 
              this.physics.add.collider(this.stars, platform1);
              this.physics.add.collider(this.stars2, platform2);*/
-             this.platformColliderBot = this.physics.add.collider(this.playerBot, this.platformGroupBot, function() {
+             this.platformPlayerColliderBot = this.physics.add.collider(this.playerBot, this.platformGroupBot, function() {
 
                  // play "run" animation if the player is on a platform
                  if (!this.playerBot.anims.isPlaying) {
@@ -193,7 +224,8 @@
                  }
              }, null, this);
 
-             this.platformColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
+
+             this.platformPlayerColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
 
                  // play "run" animation if the player is on a platform
                  if (!this.playerTop.anims.isPlaying) {
@@ -202,11 +234,16 @@
                      this.playerTopJumps = 0;
                  }
              }, null, this);
-             //this.physics.add.overlap(this.player, this.stars, this.collectStar(), null, this);
-             //this.physics.add.overlap(player2, stars, collectStar, null, this);
+
+             this.platformObstacleColliderBot = this.physics.add.collider(this.stars, this.platformGroupBot, function() {}, null, this);
+             this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupBot, function() {}, null, this);
+             this.platformObstacleColliderTop = this.physics.add.collider(this.obstacleGroupTop, this.platformGroupTop, null, this);
+
+             //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
+             //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
 
              //this.physics.add.overlap(player, stars2, collectStar, null, this);
-             //this.physics.add.overlap(this.player2, this.stars2, collectStar(), null, this);
+             //this.physics.add.overlap(this.player2, this.obstacleGroupTop, collectStar(), null, this);
          }
          update() {
              this.jumpPlayerTop();
@@ -279,37 +316,41 @@
          }
 
          addPlatformFloorBot(posX, posY) {
-             this.nPlatforms++;
+             this.nPlatformsBot++;
              let platform1;
-             if (this.platformPoolBot.getLength()) {
-                 platform1 = this.platformPoolBot.getFirst();
-                 if (posX == undefined && posY == undefined) {
-                     platform1.x = 1200;
-                     platform1.y = 568;
+             if (this.nPlatformsBot % 136 == 0 || this.nPlatformsBot == 1) {
+                 if (this.platformPoolBot.getLength()) {
+                     platform1 = this.platformPoolBot.getFirst();
+                     if (posX == undefined && posY == undefined) {
+                         platform1.x = 2400;
+                         platform1.y = 568;
+                     } else {
+                         platform1.x = posX;
+                         platform1.y = posY;
+                     }
+                     platform1.active = true;
+                     platform1.visible = true;
+                     this.platformPoolBot.remove(platform1);
+                     platform1.displayWidth = platformWidth;
+                     this.addObstacleBot();
                  } else {
-                     platform1.x = posX;
-                     platform1.y = posY;
+                     if (posX == undefined && posY == undefined) {
+                         platform1 = this.add.tileSprite(2400, 568, 1600, 64, "ground");
+                     } else {
+                         platform1 = this.add.tileSprite(posX, posY, 2048, 64, "ground");
+                     }
+                     this.physics.add.existing(platform1);
+                     //platform1.data = "ground" + nPlatforms;
+                     platform1.body.setImmovable(true);
+                     platform1.body.setVelocityX(-100);
+                     platform1.active = true;
+                     platform1.visible = true;
+                     this.platformGroupBot.add(platform1);
+                     this.addObstacleBot();
+                     //this.physics.add.collider(this.player, platform1);
                  }
-                 platform1.active = true;
-                 platform1.visible = true;
-                 this.platformPoolBot.remove(platform1);
-                 platform.displayWidth = platformWidth;
-             } else {
-                 if (posX == undefined && posY == undefined) {
-                     platform1 = this.add.tileSprite(1200, 568, 800, 64, "ground");
-                 } else {
-                     platform1 = this.add.tileSprite(posX, posY, 800, 64, "ground");
-                 }
-                 this.physics.add.existing(platform1);
-                 //platform1.data = "ground" + nPlatforms;
-                 platform1.body.setImmovable(true);
-                 platform1.body.setVelocityX(-100);
-                 platform1.active = true;
-                 platform1.visible = true;
-                 this.platformGroupBot.add(platform1);
-                 //this.physics.add.collider(this.player, platform1);
+                 this.nextPlatformDistance = 800;
              }
-             this.nextPlatformDistance = 800;
 
 
              /*if (nPlatforms >= 4) {
@@ -326,50 +367,103 @@
          }
 
          addPlatformFloorTop(posX, posY) {
-             this.nPlatforms++;
+             this.nPlatformsTop++;
              let platform1;
-             if (this.platformPoolTop.getLength()) {
-                 platform1 = this.platformPoolTop.getFirst();
-                 if (posX == undefined && posY == undefined) {
-                     platform1.x = 1200;
-                     platform1.y = 268;
+             if (this.nPlatformsTop % 136 == 0 || this.nPlatformsTop == 1) {
+                 if (this.platformPoolTop.getLength()) {
+                     platform1 = this.platformPoolTop.getFirst();
+                     if (posX == undefined && posY == undefined) {
+                         platform1.x = 2400;
+                         platform1.y = 268;
+                     } else {
+                         platform1.x = posX;
+                         platform1.y = posY;
+                     }
+                     platform1.active = true;
+                     platform1.visible = true;
+                     this.platformPoolTop.remove(platform1);
+                     platform1.displayWidth = platformWidth;
                  } else {
-                     platform1.x = posX;
-                     platform1.y = posY;
+                     if (posX == undefined && posY == undefined) {
+                         platform1 = this.add.tileSprite(2400, 268, 1600, 64, "ground");
+                     } else {
+                         platform1 = this.add.tileSprite(posX, posY, 2048, 64, "ground");
+                     }
+                     this.physics.add.existing(platform1);
+                     platform1.body.setImmovable(true);
+                     platform1.body.setVelocityX(-100);
+                     platform1.active = true;
+                     platform1.visible = true;
+                     this.platformGroupTop.add(platform1);
                  }
-                 platform1.active = true;
-                 platform1.visible = true;
-                 this.platformPoolTop.remove(platform1);
-                 platform.displayWidth = platformWidth;
+                 this.nextPlatformDistance = 800;
+             }
+         }
+
+         addObstacleBot(posX, posY) {
+             let obstacle1;
+             if (this.obstaclePoolBot.getLength()) {
+                 obstacle1 = this.obstaclePoolBot.getFirst();
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1.x = 1700;
+                     obstacle1.y = 500;
+                 } else {
+                     obstacle1.x = posX;
+                     obstacle1.y = posY;
+                 }
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstaclePoolBot.remove(obstacle1);
+                 obstacle1.displayWidth = platformWidth;
              } else {
                  if (posX == undefined && posY == undefined) {
-                     platform1 = this.add.tileSprite(1200, 268, 800, 64, "ground");
+                     obstacle1 = this.add.tileSprite(1700, 400, 228, 280, "tree");
                  } else {
-                     platform1 = this.add.tileSprite(posX, posY, 800, 64, "ground");
+                     obstacle1 = this.add.tileSprite(posX, posY, 400, 280, "tree");
                  }
-                 this.physics.add.existing(platform1);
-                 //platform1.data = "ground" + nPlatforms;
-                 platform1.body.setImmovable(true);
-                 platform1.body.setVelocityX(-100);
-                 platform1.active = true;
-                 platform1.visible = true;
-                 this.platformGroupTop.add(platform1);
-                 //this.physics.add.collider(this.player, platform1);
+                 this.physics.add.existing(obstacle1);
+                 obstacle1.body.setImmovable(true);
+                 obstacle1.body.setVelocityX(-100);
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstacleGroupBot.add(obstacle1);
              }
              this.nextPlatformDistance = 800;
-             /*var name = "platform" + nPlatforms.toString();
-             let platform2 = this.add.tileSprite(1200, 268, 800, 64, "ground");
-             this.physics.add.existing(platform2);
-             platform2.body.setVelocityX(-100);
-             platform2.body.setImmovable(true);
-             platform2.active = true;
-             platform2.visible = true;
-             this.physics.add.collider(this.player2, platform2);*/
+         }
 
+         addObstacleTop(posX, posY) {
+             let obstacle1;
+             if (this.obstaclePoolTop.getLength()) {
+                 obstacle1 = this.obstaclePoolTop.getFirst();
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1.x = 1200;
+                     obstacle1.y = 268;
+                 } else {
+                     obstacle1.x = posX;
+                     obstacle1.y = posY;
+                 }
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstaclePoolTop.remove(obstacle1);
+                 obstacle1.displayWidth = platformWidth;
+             } else {
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1 = this.add.tileSprite(1200, 268, 800, 64, "ground");
+                 } else {
+                     obstacle1 = this.add.tileSprite(posX, posY, 800, 64, "ground");
+                 }
+                 this.physics.add.existing(obstacle1);
+                 obstacle1.body.setImmovable(true);
+                 obstacle1.body.setVelocityX(-100);
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstacleGroupTop.add(obstacle1);
+             }
+             this.nextPlatformDistance = 800;
          }
 
          jumpPlayerTop() {
-             if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 10)) { //saltar
+             if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 15)) { //saltar
                  this.playerTopJumps++;
                  this.playerTop.anims.stop()
                  this.playerTop.setVelocityY(-200);
@@ -381,7 +475,7 @@
          }
 
          jumpPlayerBot() {
-             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 10)) {
+             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 15)) {
                  this.playerBotJumps++;
                  console.log(this.playerBotJumps);
                  this.playerBot.setVelocityY(-200);
