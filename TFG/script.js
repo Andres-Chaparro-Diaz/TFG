@@ -42,6 +42,7 @@
              this.load.image('ground', 'assets/ground.png');
              this.load.image('star', 'assets/star.png');
              this.load.image('tree', 'assets/Tree_2.png');
+             this.load.image('treeSmall', 'assets/Tree_1.png');
              this.load.spritesheet('dude', 'assets/dude.png', {
                  frameWidth: 32,
                  frameHeight: 48
@@ -235,9 +236,8 @@
                  }
              }, null, this);
 
-             this.platformObstacleColliderBot = this.physics.add.collider(this.stars, this.platformGroupBot, function() {}, null, this);
              this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupBot, function() {}, null, this);
-             this.platformObstacleColliderTop = this.physics.add.collider(this.obstacleGroupTop, this.platformGroupTop, null, this);
+             this.platformObstacleColliderTop = this.physics.add.collider(this.obstacleGroupTop, this.platformGroupTop, function() {}, null, this);
 
              //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
              //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
@@ -249,7 +249,8 @@
              this.jumpPlayerTop();
              this.jumpPlayerBot();
              let minDistance = 0
-                 /*this.platformGroup.getChildren().forEach(function(platform) {
+             this.score++;
+             /*this.platformGroup.getChildren().forEach(function(platform) {
                let platformDistance = 64 - 1200 - platform.displayWidth / 2;
                console.log(platformDistance);
                let minDistance = 800;
@@ -267,10 +268,12 @@
                addPlatformFloorTop(this, nPlatforms);
            }*/
 
-
+             var puntuacion = document.getElementById("spPuntuacion");
+             puntuacion.textContent = this.score;
              this.addPlatformFloorBot();
              this.addPlatformFloorTop();
-             if (this.score >= 0 && !this.created) {
+
+             if (this.score >= 300 && !this.created) {
                  this.created = true
                  this.createPJs()
              }
@@ -383,6 +386,8 @@
                      platform1.visible = true;
                      this.platformPoolTop.remove(platform1);
                      platform1.displayWidth = platformWidth;
+                     this.addObstacleTop();
+
                  } else {
                      if (posX == undefined && posY == undefined) {
                          platform1 = this.add.tileSprite(2400, 268, 1600, 64, "ground");
@@ -395,6 +400,8 @@
                      platform1.active = true;
                      platform1.visible = true;
                      this.platformGroupTop.add(platform1);
+                     this.addObstacleTop();
+
                  }
                  this.nextPlatformDistance = 800;
              }
@@ -406,7 +413,7 @@
                  obstacle1 = this.obstaclePoolBot.getFirst();
                  if (posX == undefined && posY == undefined) {
                      obstacle1.x = 1700;
-                     obstacle1.y = 500;
+                     obstacle1.y = 480;
                  } else {
                      obstacle1.x = posX;
                      obstacle1.y = posY;
@@ -417,9 +424,9 @@
                  obstacle1.displayWidth = platformWidth;
              } else {
                  if (posX == undefined && posY == undefined) {
-                     obstacle1 = this.add.tileSprite(1700, 400, 228, 280, "tree");
+                     obstacle1 = this.add.tileSprite(1700, 480, 98, 120, "tree");
                  } else {
-                     obstacle1 = this.add.tileSprite(posX, posY, 400, 280, "tree");
+                     obstacle1 = this.add.tileSprite(posX, posY, 98, 120, "tree");
                  }
                  this.physics.add.existing(obstacle1);
                  obstacle1.body.setImmovable(true);
@@ -436,8 +443,8 @@
              if (this.obstaclePoolTop.getLength()) {
                  obstacle1 = this.obstaclePoolTop.getFirst();
                  if (posX == undefined && posY == undefined) {
-                     obstacle1.x = 1200;
-                     obstacle1.y = 268;
+                     obstacle1.x = 1700;
+                     obstacle1.y = 192;
                  } else {
                      obstacle1.x = posX;
                      obstacle1.y = posY;
@@ -448,9 +455,9 @@
                  obstacle1.displayWidth = platformWidth;
              } else {
                  if (posX == undefined && posY == undefined) {
-                     obstacle1 = this.add.tileSprite(1200, 268, 800, 64, "ground");
+                     obstacle1 = this.add.tileSprite(1700, 192, 117, 90, "treeSmall");
                  } else {
-                     obstacle1 = this.add.tileSprite(posX, posY, 800, 64, "ground");
+                     obstacle1 = this.add.tileSprite(posX, posY, 117, 90, "treeSmall");
                  }
                  this.physics.add.existing(obstacle1);
                  obstacle1.body.setImmovable(true);
@@ -463,8 +470,10 @@
          }
 
          jumpPlayerTop() {
-             if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 15)) { //saltar
+             if (this.cursors.up.isDown) {
                  this.playerTopJumps++;
+             }
+             if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
                  this.playerTop.anims.stop()
                  this.playerTop.setVelocityY(-200);
                  this.playerTop.setVelocityX(0);
@@ -475,8 +484,10 @@
          }
 
          jumpPlayerBot() {
-             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 15)) {
+             if (this.cursors.space.isDown) {
                  this.playerBotJumps++;
+             }
+             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
                  console.log(this.playerBotJumps);
                  this.playerBot.setVelocityY(-200);
                  this.playerBot.setVelocityX(0);
@@ -489,8 +500,10 @@
          }
 
          jumpPlayerTop1() {
-             if (this.cursors.down.isDown && (this.playerTop1.body.touching.down || this.playerTop1Jumps < 10)) { //saltar
+             if (this.cursors.down.isDown) {
                  this.playerTop1Jumps++;
+             }
+             if (this.cursors.down.isDown && (this.playerTop1.body.touching.down || this.playerTop1Jumps < 23)) { //saltar
                  this.playerTop1.anims.stop()
                  this.playerTop1.setVelocityY(-200);
                  this.playerTop1.setVelocityX(0);
@@ -501,8 +514,10 @@
          }
 
          jumpPlayerBot1() {
-             if (this.cursors.right.isDown && (this.playerBot1.body.touching.down || this.playerBot1Jumps < 10)) {
+             if (this.cursors.right.isDown) {
                  this.playerBot1Jumps++;
+             }
+             if (this.cursors.right.isDown && (this.playerBot1.body.touching.down || this.playerBot1Jumps < 23)) {
                  console.log(this.playerBot1Jumps);
                  this.playerBot1.setVelocityY(-200);
                  this.playerBot1.setVelocityX(0);
