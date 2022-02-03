@@ -39,6 +39,7 @@
               };*/
          preload() {
              this.load.image('sky', 'assets/sky.png');
+             this.load.image('background', 'assets/BG.png')
              this.load.image('ground', 'assets/ground.png');
              this.load.image('star', 'assets/star.png');
              this.load.image('tree', 'assets/Tree_2.png');
@@ -272,7 +273,16 @@
              puntuacion.textContent = this.score;
              this.addPlatformFloorBot();
              this.addPlatformFloorTop();
-
+             if (this.score % 250 == 0 || this.score < 10) {
+                 var random = this.randomIntFromInterval(1, 4);
+                 if (random == 1 || random == 3) {
+                     this.addTreeBot();
+                     this.addSmallTreeTop();
+                 } else {
+                     this.addSmallTreeBot();
+                     this.addTreeTop();
+                 }
+             }
              if (this.score >= 300 && !this.created) {
                  this.created = true
                  this.createPJs()
@@ -282,6 +292,11 @@
                  this.jumpPlayerBot1();
              }
          }
+
+         randomIntFromInterval(min, max) { // min and max included 
+             return Math.floor(Math.random() * (max - min + 1) + min)
+         }
+
          createPJs() {
              this.playerBot1 = this.physics.add.sprite(890, 450, 'dude');
              this.playerBot1.body.setGravityY(300);
@@ -335,7 +350,7 @@
                      platform1.visible = true;
                      this.platformPoolBot.remove(platform1);
                      platform1.displayWidth = platformWidth;
-                     this.addObstacleBot();
+
                  } else {
                      if (posX == undefined && posY == undefined) {
                          platform1 = this.add.tileSprite(2400, 568, 1600, 64, "ground");
@@ -349,7 +364,6 @@
                      platform1.active = true;
                      platform1.visible = true;
                      this.platformGroupBot.add(platform1);
-                     this.addObstacleBot();
                      //this.physics.add.collider(this.player, platform1);
                  }
                  this.nextPlatformDistance = 800;
@@ -386,7 +400,7 @@
                      platform1.visible = true;
                      this.platformPoolTop.remove(platform1);
                      platform1.displayWidth = platformWidth;
-                     this.addObstacleTop();
+
 
                  } else {
                      if (posX == undefined && posY == undefined) {
@@ -400,14 +414,15 @@
                      platform1.active = true;
                      platform1.visible = true;
                      this.platformGroupTop.add(platform1);
-                     this.addObstacleTop();
+
+
 
                  }
                  this.nextPlatformDistance = 800;
              }
          }
 
-         addObstacleBot(posX, posY) {
+         addTreeBot(posX, posY) {
              let obstacle1;
              if (this.obstaclePoolBot.getLength()) {
                  obstacle1 = this.obstaclePoolBot.getFirst();
@@ -438,12 +453,74 @@
              this.nextPlatformDistance = 800;
          }
 
-         addObstacleTop(posX, posY) {
+         addSmallTreeBot(posX, posY) {
              let obstacle1;
              if (this.obstaclePoolTop.getLength()) {
                  obstacle1 = this.obstaclePoolTop.getFirst();
                  if (posX == undefined && posY == undefined) {
-                     obstacle1.x = 1700;
+                     obstacle1.x = 2000;
+                     obstacle1.y = 492;
+                 } else {
+                     obstacle1.x = posX;
+                     obstacle1.y = posY;
+                 }
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstaclePoolTop.remove(obstacle1);
+                 obstacle1.displayWidth = platformWidth;
+             } else {
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1 = this.add.tileSprite(2000, 492, 117, 90, "treeSmall");
+                 } else {
+                     obstacle1 = this.add.tileSprite(posX, posY, 117, 90, "treeSmall");
+                 }
+                 this.physics.add.existing(obstacle1);
+                 obstacle1.body.setImmovable(true);
+                 obstacle1.body.setVelocityX(-100);
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstacleGroupTop.add(obstacle1);
+             }
+             this.nextPlatformDistance = 800;
+         }
+
+         addTreeTop(posX, posY) {
+             let obstacle1;
+             if (this.obstaclePoolBot.getLength()) {
+                 obstacle1 = this.obstaclePoolBot.getFirst();
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1.x = 2000;
+                     obstacle1.y = 180;
+                 } else {
+                     obstacle1.x = posX;
+                     obstacle1.y = posY;
+                 }
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstaclePoolBot.remove(obstacle1);
+                 obstacle1.displayWidth = platformWidth;
+             } else {
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1 = this.add.tileSprite(2000, 180, 98, 120, "tree");
+                 } else {
+                     obstacle1 = this.add.tileSprite(posX, posY, 98, 120, "tree");
+                 }
+                 this.physics.add.existing(obstacle1);
+                 obstacle1.body.setImmovable(true);
+                 obstacle1.body.setVelocityX(-100);
+                 obstacle1.active = true;
+                 obstacle1.visible = true;
+                 this.obstacleGroupBot.add(obstacle1);
+             }
+             this.nextPlatformDistance = 800;
+         }
+
+         addSmallTreeTop(posX, posY) {
+             let obstacle1;
+             if (this.obstaclePoolTop.getLength()) {
+                 obstacle1 = this.obstaclePoolTop.getFirst();
+                 if (posX == undefined && posY == undefined) {
+                     obstacle1.x = 1800;
                      obstacle1.y = 192;
                  } else {
                      obstacle1.x = posX;
@@ -455,7 +532,7 @@
                  obstacle1.displayWidth = platformWidth;
              } else {
                  if (posX == undefined && posY == undefined) {
-                     obstacle1 = this.add.tileSprite(1700, 192, 117, 90, "treeSmall");
+                     obstacle1 = this.add.tileSprite(1800, 192, 117, 90, "treeSmall");
                  } else {
                      obstacle1 = this.add.tileSprite(posX, posY, 117, 90, "treeSmall");
                  }
