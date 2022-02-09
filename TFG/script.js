@@ -44,6 +44,8 @@
              this.load.image('star', 'assets/star.png');
              this.load.image('tree', 'assets/Tree_2.png');
              this.load.image('treeSmall', 'assets/Tree_1.png');
+             this.load.image('snowMan', 'assets/SnowMan.png');
+
              this.load.spritesheet('dude', 'assets/dude.png', {
                  frameWidth: 32,
                  frameHeight: 48
@@ -237,6 +239,16 @@
                  }
              }, null, this);
 
+             this.platformPlayerColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
+
+                 // play "run" animation if the player is on a platform
+                 if (!this.playerTop.anims.isPlaying) {
+                     this.playerTop.anims.play("run");
+                     this.playerTop.body.setVelocityX(100);
+                     this.playerTopJumps = 0;
+                 }
+             }, null, this);
+
              this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupBot, function() {}, null, this);
              this.platformObstacleColliderTop = this.physics.add.collider(this.obstacleGroupTop, this.platformGroupTop, function() {}, null, this);
 
@@ -283,7 +295,7 @@
                      this.addTreeTop();
                  }
              }
-             if (this.score >= 300 && !this.created) {
+             if (this.score >= 4000 && !this.created) {
                  this.created = true
                  this.createPJs()
              }
