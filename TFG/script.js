@@ -36,7 +36,23 @@
              this.load.image('treeSmall', 'assets/Tree_1.png');
              this.load.image('snowMan', 'assets/SnowMan.png');
 
+             this.load.image('crystalBlue', 'assets/Crystal.png');
+             this.load.image('crystalRed', 'assets/crystalRed.png');
+             this.load.image('crystalGreen', 'assets/crystalGreen.png');
+
              this.load.spritesheet('dude', 'assets/dude.png', {
+                 frameWidth: 32,
+                 frameHeight: 48
+             });
+             this.load.spritesheet('dudeGreen', 'assets/dudeGreen.png', {
+                 frameWidth: 32,
+                 frameHeight: 48
+             });
+             this.load.spritesheet('dudeBlue', 'assets/dudeBlue.png', {
+                 frameWidth: 32,
+                 frameHeight: 48
+             });
+             this.load.spritesheet('dudeRed', 'assets/dudeRed.png', {
                  frameWidth: 32,
                  frameHeight: 48
              });
@@ -44,6 +60,33 @@
 
          // se crean las animaciones
          create() {
+             this.anims.create({
+                 key: 'runGreen',
+                 frames: this.anims.generateFrameNumbers('dudeGreen', {
+                     start: 5,
+                     end: 8
+                 }),
+                 frameRate: 10,
+                 repeat: -1
+             });
+             this.anims.create({
+                 key: 'runBlue',
+                 frames: this.anims.generateFrameNumbers('dudeBlue', {
+                     start: 5,
+                     end: 8
+                 }),
+                 frameRate: 10,
+                 repeat: -1
+             });
+             this.anims.create({
+                 key: 'runRed',
+                 frames: this.anims.generateFrameNumbers('dudeRed', {
+                     start: 5,
+                     end: 8
+                 }),
+                 frameRate: 10,
+                 repeat: -1
+             });
              this.anims.create({
                  key: 'run',
                  frames: this.anims.generateFrameNumbers('dude', {
@@ -161,7 +204,19 @@
                      obstacle.scene.obstacleGroupBotR.add(obstacle)
                  }
              })
+             this.crystalGroup = this.add.group({
 
+                 // once a platform is removed, it's added to the pool
+                 removeCallback: function(crystal) {
+                     crystal.scene.crystalPool.add(crystal)
+                 }
+             });
+             this.crystalPool = this.add.group({
+                 // once a platform is removed from the pool, it's added to the active platforms group
+                 removeCallback: function(crystal) {
+                     crystal.scene.crystalGroup.add(crystal)
+                 }
+             })
              this.cameras.main.setSize(0, 0);
              this.cameraTop = this.cameras.add(0, 0, 800, 600);
              this.cameraBot = this.cameras.add(0, 300, 800, 600);
@@ -176,7 +231,7 @@
              this.playerBot.setCollideWorldBounds(true);
              this.playerBotJumps = 0;
 
-             this.playerTop = this.physics.add.sprite(90, 150, 'dude');
+             this.playerTop = this.physics.add.sprite(90, 150, 'dudeBlue');
              this.playerTop.body.setGravityY(300);
              this.playerTop.setCollideWorldBounds(true);
              this.playerTopJumps = 0;
@@ -239,7 +294,7 @@
 
                  // play "run" animation if the player is on a platform
                  if (!this.playerTop.anims.isPlaying) {
-                     this.playerTop.anims.play("run");
+                     this.playerTop.anims.play("runBlue");
                      this.playerTop.body.setVelocityX(100);
                      this.playerTopJumps = 0;
                  }
@@ -251,13 +306,22 @@
              //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
              //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
 
-             //this.physics.add.overlap(player, stars2, collectStar, null, this);
-             //this.physics.add.overlap(this.player2, this.obstacleGroupTop, collectStar(), null, this);
+             this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
+             this.physics.add.overlap(this.playerTop, this.crystalGroup, collectCrystal, null, this);
+
              this.cameraBot.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupTop]);
              this.cameraTop.ignore([this.playerBot, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
              this.cameraTopR.ignore([this.playerBot, this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
              this.cameraBotR.ignore([this.playerBot, this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
 
+             function collectCrystal(player, crystal) {
+                 if (crystal.visible) {
+                     this.score += 1000;
+                 }
+                 crystal.setVisible(false);
+
+
+             }
          }
          update() {
              this.jumpPlayerTop();
@@ -273,6 +337,9 @@
                  this.created = true
                  this.createPJs()
              }
+             if (this.score % 200 == 0) {
+                 this.addCrystal();
+             }
              if (this.created) {
                  this.jumpPlayerTopR();
                  this.jumpPlayerBotR();
@@ -285,12 +352,12 @@
          }
 
          createPJs() {
-             this.playerBotR = this.physics.add.sprite(90, 150, 'dude');
+             this.playerBotR = this.physics.add.sprite(90, 150, 'dudeGreen');
              this.playerBotR.body.setGravityY(300);
              this.playerBotR.setCollideWorldBounds(true);
              this.playerBotRJumps = 0;
 
-             this.playerTopR = this.physics.add.sprite(90, 150, 'dude');
+             this.playerTopR = this.physics.add.sprite(90, 150, 'dudeRed');
              this.playerTopR.body.setGravityY(300);
              this.playerTopR.setCollideWorldBounds(true);
              this.playerTopRJumps = 0;
@@ -305,7 +372,7 @@
 
                  // play "run" animation if the player is on a platform
                  if (!this.playerBotR.anims.isPlaying) {
-                     this.playerBotR.anims.play("run");
+                     this.playerBotR.anims.play("runGreen");
                      this.playerBotR.body.setVelocityX(100);
                      this.playerBotRJumps = 0;
                  }
@@ -315,16 +382,14 @@
 
                  // play "run" animation if the player is on a platform
                  if (!this.playerTopR.anims.isPlaying) {
-                     this.playerTopR.anims.play("run");
+                     this.playerTopR.anims.play("runRed");
                      this.playerTopR.body.setVelocityX(100);
                      this.playerTopRJumps = 0;
                  }
              }, null, this);
          }
 
-         collectStar(player, star) {
-             star.disableBody(true, true);
-         }
+
          addObstacle() {
              if (this.score % 150 == 0 || this.score < 10) {
                  this.addObstacleTop();
@@ -364,7 +429,28 @@
                  this.nextPlatformDistance = 800;
              }
          }
-
+         addCrystal() {
+             let crystal1;
+             if (this.crystalPool.getLength()) {
+                 crystal1 = this.crystalPool.getFirst();
+                 crystal1.x = 2400;
+                 crystal1.y = 100;
+                 crystal1.active = true;
+                 crystal1.visible = true;
+                 this.crystalPool.remove(crystal1);
+                 crystal1.displayWidth = platformWidth;
+             } else {
+                 var random = this.randomIntFromInterval(50, 210)
+                 crystal1 = this.add.tileSprite(2400, random, 37, 30, "crystalBlue");
+                 this.physics.add.existing(crystal1);
+                 crystal1.body.setImmovable(true);
+                 crystal1.body.setVelocityX(-100);
+                 crystal1.setVisible(true);
+                 crystal1.active = true;
+                 crystal1.visible = true;
+                 this.crystalGroup.add(crystal1);
+             }
+         }
          addObstacleTop(posX, posY) {
              let obstacle1;
              if (this.obstaclePoolTop.getLength()) {
@@ -387,7 +473,7 @@
                      if (random == 1) {
                          obstacle1 = this.add.tileSprite(2000, 180, 98, 120, "tree");
                      } else if (random == 2) {
-                         obstacle1 = this.add.tileSprite(1800, 198, 124, 78, "stone");
+                         obstacle1 = this.add.tileSprite(1800, 200, 119, 75, "stone");
                      } else if (random == 3) {
                          obstacle1 = this.add.tileSprite(2000, 185, 101, 110, "snowMan");
                      } else {
@@ -446,10 +532,9 @@
          }
 
          jumpPlayerTop() {
-             if (this.cursors.up.isDown) {
-                 this.playerTopJumps++;
-             }
              if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
+                 this.playerTopJumps++;
+
                  this.playerTop.anims.stop()
                  this.playerTop.setVelocityY(-200);
                  this.playerTop.setVelocityX(0);
@@ -460,10 +545,8 @@
          }
 
          jumpPlayerBot() {
-             if (this.cursors.space.isDown) {
-                 this.playerBotJumps++;
-             }
              if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
+                 this.playerBotJumps++;
                  console.log(this.playerBotJumps);
                  this.playerBot.setVelocityY(-200);
                  this.playerBot.setVelocityX(0);
@@ -475,11 +558,9 @@
          }
 
          jumpPlayerTopR() {
-             if (this.cursors.down.isDown) {
+             if (this.cursors.right.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
                  this.playerTopRJumps++;
-             }
-             if (this.cursors.down.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
-                 this.playerTopR.anims.stop()
+                 this.playerTopR.anims.stop();
                  this.playerTopR.setVelocityY(-200);
                  this.playerTopR.setVelocityX(0);
              }
@@ -489,11 +570,9 @@
          }
 
          jumpPlayerBotR() {
-             if (this.cursors.right.isDown) {
-                 this.playerBotRJumps++;
-             }
-             if (this.cursors.right.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
+             if (this.cursors.down.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
                  console.log(this.playerBotRJumps);
+                 this.playerBotRJumps++;
                  this.playerBotR.setVelocityY(-200);
                  this.playerBotR.setVelocityX(0);
                  this.playerBotR.anims.stop()
