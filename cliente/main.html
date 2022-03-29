@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TFG</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+
+</head>
+
+<body>
+    <header>
+        <nav class="login">
+            <ul>
+                <div style="display: flex;">
+                    <li><a href="introduccion.html">Instrucciones</a></li>
+                    <li><a href="login.html">Iniciar sesión</a></li>
+                    <li><a href="register.html">Registrarse</a></li>
+                    <li><a href="main.html">Nueva partida</a></li>
+                    <li><a href="ranking.html">Ranking</a></li>
+
+                </div>
+            </ul>
+        </nav>
+        <nav class="logged" style="display: none; overflow: auto!important;">
+            <ul>
+                <div>
+                    <li><a href="#">Usuario</a></li>
+                    <li><a href="#">Cerrar sesion</a></li>
+                    <li><a href="#">Nueva partida</a></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <div style="top: 83px; position: absolute;">
+        <span style="width: 50%; margin: 100px;">Puntuación: </span>
+        <span id="spPuntuacion" style="width: 50%;">Puntuación: </span>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="userController.js"></script>
+
+
+</body>
+
+</html>
