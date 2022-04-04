@@ -47,9 +47,9 @@ function userController() {
             //falta controlar excepciones 
             let btnLogin = document.getElementById("entrar");
 
-            let controller = this;
+            let thisController = this;
             btnLogin.addEventListener('click', function(e) {
-                controller.login();
+                thisController.login();
             }, false);
             //btnLogin.dispatchEvent(event);
         }
@@ -57,41 +57,35 @@ function userController() {
         createEventsRegister() {
             let btnRegister = document.getElementById("btnCrearCuenta");
 
-            let controller = this;
-            btnRegister.addEventListener('click', function(e) { controller.newUser() }, false);
+            let thisController = this;
+            btnRegister.addEventListener('click', function(e) { thisController.newUser() }, false);
             //btnRegister.dispatchEvent(event);
         }
 
         newUser() {
             let error = document.getElementById("error");
             let message = document.getElementById("message");
-            let tbUserName = document.getElementById("tbUsuario");
-            let tbPwd = document.getElementById("tbPwd");
-            let tbPwd2 = document.getElementById("tbPwd2");
 
-            let users = this.readJSON();
-            let userName = tbUserName.value;
-            let pwd = tbPwd.value;
-            let pwd2 = tbPwd2.value;
+            let username = document.getElementById("tbUsuario").value;
+            let pwd = document.getElementById("tbPwd").value;
+            let pwd2 = document.getElementById("tbPwd2").value;
+            let email = document.getElementById("tbEmail").value;
 
             let exist = false;
-            if (userName == "" || pwd == "" || pwd2 == "") {
+            if (username == "" || email == "" || pwd == "" || pwd2 == "") {
                 error.textContent = "Rellene los campos";
                 return;
             }
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].userName.toLowerCase() == userName.toLowerCase()) {
+            /*for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == userName.toLowerCase()) {
                     exist = true;
                     break;
                 }
-            }
+            }*/
             if (!exist) {
                 if (pwd == pwd2) {
-                    let userJSON = { "userName": userName, "password": pwd, "topPosiciones": [] };
-                    users.push(userJSON);
-                    this.writeJSON(users);
-                    message.textContent = "El usuario ha sido registrado";
-                    error.textContent = "";
+                    let userJSON = { "username": username, "password": pwd, "topPosiciones": [], "email": email };
+                    let result = this.buildRequest('post', 'http://localhost:3000/user/register', userJSON);
 
                 } else {
                     message.textContent = "";
@@ -104,53 +98,72 @@ function userController() {
             }
         }
 
-        login() {
+        buildRequest(rType, url, body) {
             let error = document.getElementById("error");
             let message = document.getElementById("message");
-            let tbUserName = document.getElementById("tbUsuario");
-            let tbPwd = document.getElementById("tbPwd");
+            let thisController = this;
+            $.ajax({
+                type: rType,
+                url: url,
+                dataType: "JSON",
+                data: JSON.stringify(body),
+                cache: false,
+                beforeSend: function(xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Accept", "application/json");
+                },
+                success: function(result) {
+                    thisController.checkResponse(result);
+                    return result;
 
-            let users = this.readJSON();
-            let userName = tbUserName.value;
-            let password = tbPwd.value;
-
-            var found = false;
-
-            if (userName != "") {
-                for (var i = 0; i < users.length; i++) {
-                    if (users[i].userName.toLowerCase() == userName.toLowerCase()) {
-                        found = true;
-                        if (users[i].password == password) {
-                            error.textContent = "";
-                            message.textContent = "Credenciales válidas"
-                        } else {
-                            message.textContent = "";
-                            error.textContent = "Contraseña incorrecta";
-                        }
-                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("erro register", jqXHR, textStatus, errorThrown);
+                    //reject()
                 }
-                if (!found) {
-                    message.textContent = "";
-                    error.textContent = "Usuario no encontrado";
-                }
+            });
+        }
+        checkResponse(res) {
+            let error = document.getElementById("error");
+            let message = document.getElementById("message");
+            if (res.msg != undefined) {
+                message.textContent = res.msg;
+                error.textContent = "";
             } else {
+                error.textContent = res.error;
                 message.textContent = "";
-                error.textContent = "Rellene los campos";
             }
         }
 
-        changePassword(password, newPassword, userName) {
+        login() {
+            let error = document.getElementById("error");
+            let message = document.getElementById("message");
+            let username = document.getElementById("tbUsuario").value;
+            let password = document.getElementById("tbPwd").value;
+            let userJSON = { 'username': username, 'password': password };
+
+            if (username == "" || password == "") {
+                message.textContent = "";
+                error.textContent = "Rellene los campos";
+            } else {
+                this.buildRequest('post', 'http://localhost:3000/user/login', userJSON);
+
+            }
+        }
+
+        /*changePassword(password, newPassword, userName) {
             let users = this.readJSON();
             if ("existe el usuario en la bbdd" == userName) {
 
-                userJSON = { "id143": { "userName": userName, "password": newPassword, "topPosiciones": [] } };
+                userJSON = { "id143": { "username": userName, "password": newPassword, "topPosiciones": [] } };
                 users.push(userJSON);
                 this.writeJSON(users)
             } else {
                 let error = document.getElementById("error");
                 error.textContent = "El usuario no existe";
             }
-        }
+        }*/
+
         loadPersonalRank() {
             let userLogged = sessionStorage.getItem("userName");
             if (userLogged != "" || userLogged != null) {
@@ -227,34 +240,14 @@ function userController() {
                 }
             }
         }
-
-        readJSON() {
-            const requestURL = 'http://localhost/phaser/tutorial/TFG/users.json';
-            const request = new XMLHttpRequest();
-            request.open('GET', requestURL, false);
-            let users;
-            request.onload = function() {
-                users = request.response;
-            }
-            request.send();
-            return JSON.parse(users);
-
-        }
-        writeJSON(users) {
-            const requestURL = 'http://localhost/phaser/tutorial/TFG/users.json';
-            const request = new XMLHttpRequest();
-            request.open('POST', requestURL, false);
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.send(JSON.stringify(users));
-        }
     }
     let control = new controller();
-    if (document.location.href == 'http://localhost/phaser/tutorial/TFG/register.html') {
+    if (document.location.href == 'http://localhost/phaser/tutorial/TFG/cliente/register.html') {
         control.createEventsRegister();
 
-    } else if (document.location.href == 'http://localhost/phaser/tutorial/TFG/login.html') {
+    } else if (document.location.href == 'http://localhost/phaser/tutorial/TFG/cliente/login.html') {
         control.createEventsLogin();
-    } else if (document.location.href == 'http://localhost/phaser/tutorial/TFG/ranking.html') {
+    } else if (document.location.href == 'http://localhost/phaser/tutorial/TFG/cliente/ranking.html') {
         control.loadGlobalRank();
         control.loadPersonalRank();
     }
