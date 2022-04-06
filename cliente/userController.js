@@ -46,10 +46,15 @@ function userController() {
         createEventsLogin() {
             //falta controlar excepciones 
             let btnLogin = document.getElementById("entrar");
+            let linkChangePwd = document.getElementById("changePwd")
 
             let thisController = this;
             btnLogin.addEventListener('click', function(e) {
                 thisController.login();
+            }, false);
+
+            linkChangePwd.addEventListener('click', function(e) {
+                thisController.sendMail();
             }, false);
             //btnLogin.dispatchEvent(event);
         }
@@ -76,31 +81,31 @@ function userController() {
                 error.textContent = "Rellene los campos";
                 return;
             }
-            /*for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == userName.toLowerCase()) {
-                    exist = true;
-                    break;
-                }
-            }*/
-            if (!exist) {
-                if (pwd == pwd2) {
-                    let userJSON = { "username": username, "password": pwd, "topPosiciones": [], "email": email };
-                    let result = this.buildRequest('post', 'http://localhost:3000/user/register', userJSON);
-
-                } else {
-                    message.textContent = "";
-                    error.textContent = "Las contraseñas no coinciden";
-                }
+            if (pwd == pwd2) {
+                let userJSON = { "username": username, "password": pwd, "topPosiciones": [], "email": email };
+                this.buildRequest('post', 'http://localhost:3000/user/register', userJSON);
 
             } else {
                 message.textContent = "";
-                error.textContent = "El usuario ya existe";
+                error.textContent = "Las contraseñas no coinciden";
             }
+        }
+        sendPoints() {
+            let username = sessionStorage.username;
+            if (username == undefined || username == "") {
+                return
+            }
+            let points = document.getElementById("spPuntuacion").value;
+            let userJSON = { "username": username, "points": points };
+            this.buildRequest('post', 'http://localhost:3000/user/addRecord', userJSON);
+
+        }
+
+        sendMail() {
+
         }
 
         buildRequest(rType, url, body) {
-            let error = document.getElementById("error");
-            let message = document.getElementById("message");
             let thisController = this;
             $.ajax({
                 type: rType,

@@ -8,14 +8,6 @@ function listall(req, res) {
         }).catch(err => res.status(500).send({ err }))
 }
 
-function readUsers() {
-    return User.find({})
-        .then(users => {
-            return users
-        });
-
-}
-
 function create(req, res) {
     let user = new User(req.body);
     user.save()
@@ -80,6 +72,43 @@ function login(req, res) {
         });
 }
 
+function addRecord(req, res) {
+    User.find({})
+        .then(users => {
+            let points = req.body.points;
+            let username = req.body.username;
+            var found = false;
+            let user;
+
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    user = users[i]
+                    if (users[i].password == password) {
+                        res.status(201).send({ user, msg: "Credenciales válidas" })
+                    } else {
+                        res.status(201).send({ error: "Contraseña incorrecta" })
+                    }
+                }
+            }
+            let recordList = user.records;
+            recordList.sort(function(a, b) { return b - a });
+            if (recordList[4] == undefined || points > recordList[4]) {
+                recordList[4] = points;
+            }
+
+            user.records = recordList;
+            user.save()
+                .then(newUser =>
+                    res.status(201).send({ newUser, msg: "Guardado el record" })
+                ).catch(err => res.status(500).send({ err }))
+
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado" })
+            }
+        });
+}
+
 function show(req, res) {
     if (req.body.error) return res.status(500).send({ error });
     if (!req.body.users) return res.status(404).send({ message: 'Not Found' });
@@ -121,6 +150,7 @@ function find(req, res, next) {
 module.exports = {
     listall,
     login,
+    addRecord,
     register,
     show,
     create,
