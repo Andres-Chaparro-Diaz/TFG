@@ -26,8 +26,6 @@ function script() {
         }
         preload() {
             this.load.image('sky', 'assets/sky.png');
-            this.load.image('star', 'assets/star.png');
-
             this.load.image('background', 'assets/BG.png')
             this.load.image('ground', 'assets/ground.png');
 
@@ -122,20 +120,6 @@ function script() {
             this.nPlatformsBotR = 0;
             this.nPlatformsTopR = 0;
 
-            this.platformGroupBot = this.add.group({
-
-                // once a platform is removed, it's added to the pool
-                removeCallback: function(platform) {
-                    platform.scene.platformPoolBot.add(platform)
-                }
-            });
-            this.platformPoolBot = this.add.group({
-                // once a platform is removed from the pool, it's added to the active platforms group
-                removeCallback: function(platform) {
-                    platform.scene.platformGroupBot.add(platform)
-                }
-            });
-
             this.platformGroupTop = this.add.group({
 
                 // once a platform is removed, it's added to the pool
@@ -226,70 +210,11 @@ function script() {
 
             this.addPlatformFloor(800, 268);
 
-
-            this.playerBot = this.physics.add.sprite(90, 150, 'dude');
-            this.playerBot.body.setGravityY(300);
-            this.playerBot.setCollideWorldBounds(true);
-            this.playerBotJumps = 0;
-
             this.playerTop = this.physics.add.sprite(90, 150, 'dudeBlue');
             this.playerTop.body.setGravityY(300);
             this.playerTop.setCollideWorldBounds(true);
             this.playerTopJumps = 0;
             this.cursors = this.input.keyboard.createCursorKeys();
-
-            this.stars = this.physics.add.group({ // agrega 11 estrellas no terminan de funcionar porqtengo que poner el collider con las plataformas añadidas
-                key: 'star',
-                repeat: 11,
-                setXY: {
-                    x: 12,
-                    y: 500,
-                    stepX: 70
-                }
-            });
-
-            this.stars2 = this.physics.add.group({ // agrega 11 estrellas
-                key: 'star',
-                repeat: 11,
-                setXY: {
-                    x: 12,
-                    y: 0,
-                    stepX: 70
-                }
-            });
-
-            this.stars.children.iterate(function(child) {
-
-                child.setGravityY(300);
-                if (child.body.touching.down) {
-                    child.setVelocityX(-100)
-                }
-            });
-
-
-            this.stars2.children.iterate(function(child) {
-
-                child.setGravityY(300);
-                if (child.body.touching.down) {
-                    child.setVelocityX(-100)
-                }
-            });
-
-            /*this.physics.add.collider(this.player, platform1);
-            this.physics.add.collider(this.player2, platform2);
-
-            this.physics.add.collider(this.stars, platform1);
-            this.physics.add.collider(this.stars2, platform2);*/
-            this.platformPlayerColliderBot = this.physics.add.collider(this.playerBot, this.platformGroupTop, function() {
-
-                // play "run" animation if the player is on a platform
-                if (!this.playerBot.anims.isPlaying) {
-                    this.playerBot.anims.play("run");
-                    this.playerBot.body.setVelocityX(100);
-                    this.playerBotJumps = 0;
-                }
-            }, null, this);
-
 
             this.platformPlayerColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
 
@@ -301,19 +226,20 @@ function script() {
                 }
             }, null, this);
 
-            this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupBot, function() {}, null, this);
             this.platformObstacleColliderTop = this.physics.add.collider(this.obstacleGroupTop, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderTopR = this.physics.add.collider(this.obstacleGroupTopR, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderBotR = this.physics.add.collider(this.obstacleGroupBotR, this.platformGroupTop, function() {}, null, this);
 
             //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
             //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
 
-            this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
             this.physics.add.overlap(this.playerTop, this.crystalGroup, collectCrystal, null, this);
 
             this.cameraBot.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupTop]);
-            this.cameraTop.ignore([this.playerBot, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
-            this.cameraTopR.ignore([this.playerBot, this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
-            this.cameraBotR.ignore([this.playerBot, this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
+            this.cameraTop.ignore([this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
+            this.cameraTopR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
+            this.cameraBotR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
@@ -324,23 +250,40 @@ function script() {
         }
         update() {
             this.jumpPlayerTop();
-            this.jumpPlayerBot();
             let minDistance = 0
             this.score++;
 
             var puntuacion = document.getElementById("spPuntuacion");
             puntuacion.textContent = this.score;
             this.addPlatformFloor();
-            this.addObstacle();
-            if (this.score >= 200 && !this.created) {
-                this.created = true
-                this.createPJs()
+            if (this.score > 10) {
+                this.addObstacle();
             }
+            if (this.score >= 500 && !this.createdBot) {
+                this.createdBot = true
+                this.createPJBot()
+            }
+
+            if (this.score >= 1000 && !this.createdTopR) {
+                this.createdTopR = true;
+                this.createPJTopR();
+            }
+
+            if (this.score >= 2000 && !this.createdBotR) {
+                this.createdBotR = true;
+                this.createPJBotR();
+            }
+
             if (this.score % 200 == 0) {
                 this.addCrystal();
             }
-            if (this.created) {
+            if (this.createdBot) {
+                this.jumpPlayerBot();
+            }
+            if (this.createdTopR) {
                 this.jumpPlayerTopR();
+            }
+            if (this.createdBotR) {
                 this.jumpPlayerBotR();
             }
 
@@ -350,32 +293,45 @@ function script() {
             return Math.floor(Math.random() * (max - min + 1) + min)
         }
 
-        createPJs() {
-            this.playerBotR = this.physics.add.sprite(90, 150, 'dudeGreen');
-            this.playerBotR.body.setGravityY(300);
-            this.playerBotR.setCollideWorldBounds(true);
-            this.playerBotRJumps = 0;
+        createPJBot() {
+            this.playerBot = this.physics.add.sprite(90, 150, 'dude');
+            this.playerBot.body.setGravityY(300);
+            this.playerBot.setCollideWorldBounds(true);
+            this.playerBotJumps = 0;
 
+            this.cameraTop.ignore([this.playerBot]);
+            this.cameraTopR.ignore([this.playerBot]);
+            this.cameraBotR.ignore([this.playerBot]);
+
+            this.platformPlayerColliderBot = this.physics.add.collider(this.playerBot, this.platformGroupTop, function() {
+
+                // play "run" animation if the player is on a platform
+                if (!this.playerBot.anims.isPlaying) {
+                    this.playerBot.anims.play("run");
+                    this.playerBot.body.setVelocityX(100);
+                    this.playerBotJumps = 0;
+                }
+            }, null, this);
+            this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
+
+            function collectCrystal(player, crystal) {
+                if (crystal.visible) {
+                    this.score += 1000;
+                }
+                crystal.setVisible(false);
+            }
+        }
+
+        createPJTopR() {
             this.playerTopR = this.physics.add.sprite(90, 150, 'dudeRed');
             this.playerTopR.body.setGravityY(300);
             this.playerTopR.setCollideWorldBounds(true);
             this.playerTopRJumps = 0;
 
 
-            this.cameraBot.ignore([this.playerTopR, this.playerBotR]);
-            this.cameraTop.ignore([this.playerBotR, this.playerTopR]);
-            this.cameraTopR.ignore([this.playerBotR]);
+            this.cameraBot.ignore([this.playerTopR]);
+            this.cameraTop.ignore([this.playerTopR]);
             this.cameraBotR.ignore([this.playerTopR]);
-
-            this.platformColliderBotR = this.physics.add.collider(this.playerBotR, this.platformGroupTop, function() {
-
-                // play "run" animation if the player is on a platform
-                if (!this.playerBotR.anims.isPlaying) {
-                    this.playerBotR.anims.play("runGreen");
-                    this.playerBotR.body.setVelocityX(100);
-                    this.playerBotRJumps = 0;
-                }
-            }, null, this);
 
             this.platformColliderTopR = this.physics.add.collider(this.playerTopR, this.platformGroupTop, function() {
 
@@ -386,6 +342,44 @@ function script() {
                     this.playerTopRJumps = 0;
                 }
             }, null, this);
+
+            this.physics.add.overlap(this.playerTopR, this.crystalGroup, collectCrystal, null, this);
+
+            function collectCrystal(player, crystal) {
+                if (crystal.visible) {
+                    this.score += 1000;
+                }
+                crystal.setVisible(false);
+            }
+        }
+
+        createPJBotR() {
+            this.playerBotR = this.physics.add.sprite(90, 150, 'dudeGreen');
+            this.playerBotR.body.setGravityY(300);
+            this.playerBotR.setCollideWorldBounds(true);
+            this.playerBotRJumps = 0;
+
+            this.cameraBot.ignore([this.playerBotR]);
+            this.cameraTop.ignore([this.playerBotR]);
+            this.cameraTopR.ignore([this.playerBotR]);
+
+            this.platformColliderBotR = this.physics.add.collider(this.playerBotR, this.platformGroupTop, function() {
+
+                // play "run" animation if the player is on a platform
+                if (!this.playerBotR.anims.isPlaying) {
+                    this.playerBotR.anims.play("runGreen");
+                    this.playerBotR.body.setVelocityX(100);
+                    this.playerBotRJumps = 0;
+                }
+            }, null, this);
+            this.physics.add.overlap(this.playerBotR, this.crystalGroup, collectCrystal, null, this);
+
+            function collectCrystal(player, crystal) {
+                if (crystal.visible) {
+                    this.score += 1000;
+                }
+                crystal.setVisible(false);
+            }
         }
 
 
@@ -455,7 +449,7 @@ function script() {
             if (this.obstaclePoolTop.getLength()) {
                 obstacle1 = this.obstaclePoolTop.getFirst();
                 if (posX == undefined && posY == undefined) {
-                    obstacle1.x = 1700;
+                    obstacle1.x = 900;
                     obstacle1.y = 480;
                 } else {
                     obstacle1.x = posX;
@@ -468,26 +462,34 @@ function script() {
             } else {
                 var random = this.randomIntFromInterval(1, 4);
                 if (posX == undefined && posY == undefined) {
-
-                    if (random == 1) {
-                        obstacle1 = this.add.tileSprite(2000, 180, 98, 120, "tree");
-                    } else if (random == 2) {
-                        obstacle1 = this.add.tileSprite(1800, 200, 119, 75, "stone");
-                    } else if (random == 3) {
-                        obstacle1 = this.add.tileSprite(2000, 185, 101, 110, "snowMan");
-                    } else {
-                        obstacle1 = this.add.tileSprite(1800, 200, 98, 75, "treeSmall");
+                    switch (random) {
+                        case 1:
+                            obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
+                            break;
+                        case 2:
+                            obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
+                            break;
+                        case 3:
+                            obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
+                            break;
+                        case 4:
+                            obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
+                            break;
                     }
                 } else {
-                    if (random == 1) {
-                        obstacle1 = this.add.tileSprite(posX, posY, 98, 120, "tree");
-                    } else if (random == 2) {
-                        obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "stone");
-                    } else if (random == 3) {
-                        obstacle1 = this.add.tileSprite(posX, posY, 101, 110, "snowMan");
-                    } else {
-                        obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "treeSmall");
-
+                    switch (random) {
+                        case 1:
+                            obstacle1 = this.add.tileSprite(posX, posY, 98, 120, "tree");
+                            break;
+                        case 2:
+                            obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "stone");
+                            break;
+                        case 3:
+                            obstacle1 = this.add.tileSprite(posX, posY, 101, 110, "snowMan");
+                            break;
+                        case 4:
+                            obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "treeSmall");
+                            break;
                     }
                 }
                 this.physics.add.existing(obstacle1);
@@ -501,19 +503,33 @@ function script() {
             this.nextPlatformDistance = 800;
         }
         addObstacleToGroup(obstacle1) {
-            var random = this.randomIntFromInterval(1, 4);
+            var range = 1;
+            if (this.createdBot) {
+                range++;
+            }
+            if (this.createdBotR) {
+                range++
+            }
+            if (this.creadTopR) {
+                range++;
+            }
+            if (range > 4) {
+                range = 4;
+            }
+            var random = this.randomIntFromInterval(1, range);
+
             switch (random) {
                 case 1:
-                    this.obstacleGroupBot.add(obstacle1);
-                    this.cameraBotR.ignore([obstacle1]);
-                    this.cameraTopR.ignore([obstacle1]);
-                    this.cameraTop.ignore([obstacle1]);
-                    break;
-                case 2:
                     this.obstacleGroupTop.add(obstacle1);
                     this.cameraBotR.ignore([obstacle1]);
                     this.cameraTopR.ignore([obstacle1]);
                     this.cameraBot.ignore([obstacle1]);
+                    break;
+                case 2:
+                    this.obstacleGroupBot.add(obstacle1);
+                    this.cameraBotR.ignore([obstacle1]);
+                    this.cameraTopR.ignore([obstacle1]);
+                    this.cameraTop.ignore([obstacle1]);
                     break;
                 case 3:
                     this.obstacleGroupBotR.add(obstacle1);
