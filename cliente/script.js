@@ -106,6 +106,7 @@ function script() {
             super("PlayGame");
             this.score = 0;
             this.created = false;
+            this.lifes = 3;
 
 
         }
@@ -235,6 +236,7 @@ function script() {
             //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
 
             this.physics.add.overlap(this.playerTop, this.crystalGroup, collectCrystal, null, this);
+            this.physics.add.overlap(this.playerTop, this.obstacleGroupTop, hit, null, this);
 
             this.cameraBot.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupTop]);
             this.cameraTop.ignore([this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
@@ -246,6 +248,32 @@ function script() {
                     this.score += 1000;
                 }
                 crystal.setVisible(false);
+            }
+
+            function hit(player, obstacle) {
+                if (obstacle.visible) {
+                    if (this.lifes > 0) {
+                        this.removeLife();
+                        this.lifes--;
+                    } else {
+                        this.scene.stop("PlayGame");
+                    }
+                }
+                obstacle.setVisible(false);
+            }
+
+        }
+        removeLife() {
+            switch (this.lifes) {
+                case 1:
+                    document.getElementById('life1').remove();
+                    break;
+                case 2:
+                    document.getElementById('life2').remove();
+                    break;
+                case 3:
+                    document.getElementById('life3').remove();
+                    break;
             }
         }
         update() {
@@ -313,12 +341,25 @@ function script() {
                 }
             }, null, this);
             this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
+            this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
                     this.score += 1000;
                 }
                 crystal.setVisible(false);
+            }
+
+            function hit(player, obstacle) {
+                if (obstacle.visible) {
+                    if (this.lifes > 0) {
+                        this.removeLife();
+                        this.lifes--;
+                    } else {
+                        this.scene.stop("PlayGame");
+                    }
+                }
+                obstacle.setVisible(false);
             }
         }
 
@@ -344,6 +385,7 @@ function script() {
             }, null, this);
 
             this.physics.add.overlap(this.playerTopR, this.crystalGroup, collectCrystal, null, this);
+            this.physics.add.overlap(this.playerTopR, this.obstacleGroupTopR, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
@@ -351,6 +393,19 @@ function script() {
                 }
                 crystal.setVisible(false);
             }
+
+            function hit(player, obstacle) {
+                if (obstacle.visible) {
+                    if (this.lifes > 0) {
+                        this.removeLife();
+                        this.lifes--;
+                    } else {
+                        this.scene.stop("PlayGame");
+                    }
+                }
+                obstacle.setVisible(false);
+            }
+
         }
 
         createPJBotR() {
@@ -373,6 +428,7 @@ function script() {
                 }
             }, null, this);
             this.physics.add.overlap(this.playerBotR, this.crystalGroup, collectCrystal, null, this);
+            this.physics.add.overlap(this.playerBotR, this.obstacleGroupBotR, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
@@ -380,6 +436,19 @@ function script() {
                 }
                 crystal.setVisible(false);
             }
+
+            function hit(player, obstacle) {
+                if (obstacle.visible) {
+                    if (this.lifes > 0) {
+                        this.removeLife();
+                        this.lifes--;
+                    } else {
+                        this.scene.stop("PlayGame");
+                    }
+                }
+                obstacle.setVisible(false);
+            }
+
         }
 
 
@@ -598,5 +667,8 @@ function script() {
         }
     }
 }
+
+
+//<a href="https://www.flaticon.com/free-icons/hearth" title="hearth icons">Hearth icons created by Andrean Prabowo - Flaticon</a>
 
 script()
