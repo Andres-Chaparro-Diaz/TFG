@@ -35,15 +35,15 @@ function register(req, res) {
                 if (pwd == pwd2) {
                     let user = new User(req.body);
                     user.save()
-                        .then(newUser =>
-                            res.status(201).send({ newUser, msg: "Usuario registrado correctamente" })
+                        .then(user =>
+                            res.status(201).send({ user, msg: "Usuario registrado correctamente", type: "register" })
                         ).catch(err => res.status(500).send({ err }))
                 } else {
-                    res.status(201).send({ error: "Las contraseñas no coinciden" });
+                    res.status(201).send({ error: "Las contraseñas no coinciden", type: "register" });
                 }
 
             } else {
-                res.status(201).send({ error: "El usuario ya existe" });
+                res.status(201).send({ error: "El usuario ya existe", type: "register" });
             }
         });
 }
@@ -60,14 +60,62 @@ function login(req, res) {
                     found = true;
                     let user = users[i]
                     if (users[i].password == password) {
-                        res.status(201).send({ user, msg: "Credenciales válidas" })
+                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
                     } else {
-                        res.status(201).send({ error: "Contraseña incorrecta" })
+                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
                     }
                 }
             }
             if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado" })
+                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
+            }
+        });
+}
+
+function getAllRecords(req, res) {
+    User.find({})
+        .then(users => {
+            let username = req.body.username;
+            let password = req.body.password;
+            var found = false;
+
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    let user = users[i]
+                    if (users[i].password == password) {
+                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
+                    } else {
+                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
+                    }
+                }
+            }
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
+            }
+        });
+}
+
+function getRecords(req, res) {
+    User.find({})
+        .then(users => {
+            let username = req.body.username;
+            let password = req.body.password;
+            var found = false;
+
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    let user = users[i]
+                    if (users[i].password == password) {
+                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
+                    } else {
+                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
+                    }
+                }
+            }
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
             }
         });
 }
@@ -84,27 +132,36 @@ function addRecord(req, res) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
                     user = users[i]
-                    if (users[i].password == password) {
-                        res.status(201).send({ user, msg: "Credenciales válidas" })
-                    } else {
-                        res.status(201).send({ error: "Contraseña incorrecta" })
-                    }
                 }
             }
+            console.log(user);
             let recordList = user.records;
-            recordList.sort(function(a, b) { return b - a });
-            if (recordList[4] == undefined || points > recordList[4]) {
-                recordList[4] = points;
+            let result;
+            for (var i = 0; i <= 4; i++) {
+                if (recordList[i] == null || recordList[i] == undefined) {
+                    recordList[i] = 0;
+                }
             }
 
+            recordList.sort(function(a, b) { return b - a });
+
+            if (recordList[4] == undefined || points > recordList[4]) {
+                recordList[4] = points;
+                result = "Nuevo record guardado";
+            } else {
+                result = "No has ningun record anterior";
+            }
+
+            recordList.sort(function(a, b) { return b - a });
             user.records = recordList;
+            console.log(user);
             user.save()
                 .then(newUser =>
-                    res.status(201).send({ newUser, msg: "Guardado el record" })
+                    res.status(201).send({ newUser, msg: result, type: "newRecord" })
                 ).catch(err => res.status(500).send({ err }))
 
             if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado" })
+                res.status(201).send({ error: "Usuario no encontrado", type: "newRecord" })
             }
         });
 }
@@ -151,6 +208,8 @@ module.exports = {
     listall,
     login,
     addRecord,
+    getRecords,
+    getAllRecords,
     register,
     show,
     create,

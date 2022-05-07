@@ -1,4 +1,5 @@
-//const preloadGame = require("preloadGame")
+//const userController = require("controller")
+
 
 function script() {
     let game;
@@ -6,15 +7,16 @@ function script() {
 
         // object containing configuration options
         let gameConfig = {
+
             type: Phaser.AUTO,
             width: 1600, //800
             height: 600, //600
             scene: [preloadGame, playGame],
             backgroundColor: 0x0c88c7,
 
-            // physics settings
             physics: {
-                default: "arcade"
+                default: 'arcade'
+
             }
         }
         game = new Phaser.Game(gameConfig);
@@ -28,6 +30,9 @@ function script() {
             this.load.image('sky', 'assets/sky.png');
             this.load.image('background', 'assets/BG.png')
             this.load.image('ground', 'assets/ground.png');
+
+            this.load.image('InvBody', 'assets/StoneInv.png');
+            this.load.image('skyInv', 'assets/skyInv.png');
 
 
             this.load.image('tree', 'assets/Tree_2.png');
@@ -55,6 +60,9 @@ function script() {
                 frameWidth: 32,
                 frameHeight: 48
             });
+
+            this.load.json('shapes', 'physics/physicsMatter.json');
+
         }
 
         // se crean las animaciones
@@ -107,12 +115,20 @@ function script() {
             this.score = 0;
             this.created = false;
             this.lifes = 3;
+            this.hittable = true;
+            this.scoreTocreateBot = 500;
+            this.scoreTocreateTopR = 1000;
+            this.scoreTocreateBotR = 2000;
+            this.frecuencyToAddCrystal = 200;
+            this.valueOfCrystal = 300;
+            this.frecuencytoAddObstacle = 200;
+            this.frecuencytoAddPlatform = 136;
+            this.puntuacion = document.getElementById("spPuntuacion");
 
 
         }
 
         create() {
-
             this.add.image(400, 300, 'sky');
             this.add.image(1200, 300, 'sky');
 
@@ -149,6 +165,20 @@ function script() {
                 }
             })
 
+            this.obstacleGroupTopInv = this.add.group({
+
+                // once a platform is removed, it's added to the pool
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstaclePoolTop.add(obstacle)
+                }
+            });
+            this.obstaclePoolTopInv = this.add.group({
+                // once a platform is removed from the pool, it's added to the active platforms group
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstacleGroupTop.add(obstacle)
+                }
+            })
+
             this.obstacleGroupTopR = this.add.group({
 
                 // once a platform is removed, it's added to the pool
@@ -157,6 +187,20 @@ function script() {
                 }
             });
             this.obstaclePoolTopR = this.add.group({
+                // once a platform is removed from the pool, it's added to the active platforms group
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstacleGroupTopR.add(obstacle)
+                }
+            })
+
+            this.obstacleGroupTopRInv = this.add.group({
+
+                // once a platform is removed, it's added to the pool
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstaclePoolTopR.add(obstacle)
+                }
+            });
+            this.obstaclePoolTopRInv = this.add.group({
                 // once a platform is removed from the pool, it's added to the active platforms group
                 removeCallback: function(obstacle) {
                     obstacle.scene.obstacleGroupTopR.add(obstacle)
@@ -177,6 +221,20 @@ function script() {
                 }
             })
 
+            this.obstacleGroupBotInv = this.add.group({
+
+                // once a platform is removed, it's added to the pool
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstaclePoolBot.add(obstacle)
+                }
+            });
+            this.obstaclePoolBotInv = this.add.group({
+                // once a platform is removed from the pool, it's added to the active platforms group
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstacleGroupBot.add(obstacle)
+                }
+            })
+
             this.obstacleGroupBotR = this.add.group({
 
                 // once a platform is removed, it's added to the pool
@@ -190,6 +248,21 @@ function script() {
                     obstacle.scene.obstacleGroupBotR.add(obstacle)
                 }
             })
+
+            this.obstacleGroupBotRInv = this.add.group({
+
+                // once a platform is removed, it's added to the pool
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstaclePoolBotR.add(obstacle)
+                }
+            });
+            this.obstaclePoolBotRInv = this.add.group({
+                // once a platform is removed from the pool, it's added to the active platforms group
+                removeCallback: function(obstacle) {
+                    obstacle.scene.obstacleGroupBotR.add(obstacle)
+                }
+            })
+
             this.crystalGroup = this.add.group({
 
                 // once a platform is removed, it's added to the pool
@@ -232,34 +305,43 @@ function script() {
             this.platformObstacleColliderBot = this.physics.add.collider(this.obstacleGroupBot, this.platformGroupTop, function() {}, null, this);
             this.platformObstacleColliderBotR = this.physics.add.collider(this.obstacleGroupBotR, this.platformGroupTop, function() {}, null, this);
 
+            this.platformObstacleColliderTopInv = this.physics.add.collider(this.obstacleGroupTopInv, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderTopRInv = this.physics.add.collider(this.obstacleGroupTopRInv, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderBotInv = this.physics.add.collider(this.obstacleGroupBotInv, this.platformGroupTop, function() {}, null, this);
+            this.platformObstacleColliderBotRInv = this.physics.add.collider(this.obstacleGroupBotRInv, this.platformGroupTop, function() {}, null, this);
+
             //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
             //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
 
             this.physics.add.overlap(this.playerTop, this.crystalGroup, collectCrystal, null, this);
-            this.physics.add.overlap(this.playerTop, this.obstacleGroupTop, hit, null, this);
+            this.physics.add.overlap(this.playerTop, this.obstacleGroupTopInv, hit, null, this);
 
-            this.cameraBot.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupTop]);
-            this.cameraTop.ignore([this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
-            this.cameraTopR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
-            this.cameraBotR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot]);
+            this.cameraBot.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupTop, this.obstacleGroupTopRInv, this.obstacleGroupBotRInv, this.obstacleGroupTopInv]);
+            this.cameraTop.ignore([this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot, this.obstacleGroupTopRInv, this.obstacleGroupBotRInv, this.obstacleGroupBotInv]);
+            this.cameraTopR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot, this.obstacleGroupTopRInv, this.obstacleGroupBotRInv, this.obstacleGroupBotInv]);
+            this.cameraBotR.ignore([this.playerTop, this.platformGroupTop, this.obstacleGroupTopR, this.obstacleGroupBotR, this.obstacleGroupBot, this.obstacleGroupTopRInv, this.obstacleGroupBotRInv, this.obstacleGroupBotInv]);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
-                    this.score += 1000;
+                    this.score += this.valueOfCrystal;
                 }
                 crystal.setVisible(false);
             }
 
             function hit(player, obstacle) {
-                if (obstacle.visible) {
-                    if (this.lifes > 0) {
-                        this.removeLife();
-                        this.lifes--;
-                    } else {
-                        this.scene.stop("PlayGame");
+                if (this.hittable) {
+                    if (obstacle.visible) {
+                        if (this.lifes > 1) {
+                            this.removeLife();
+                            this.lifes--;
+                        } else {
+                            control.sendPoints();
+                            this.removeLife();
+                            this.scene.stop("PlayGame");
+                        }
                     }
+                    obstacle.setVisible(false);
                 }
-                obstacle.setVisible(false);
             }
 
         }
@@ -278,43 +360,47 @@ function script() {
         }
         update() {
             this.jumpPlayerTop();
-            let minDistance = 0
             this.score++;
 
-            var puntuacion = document.getElementById("spPuntuacion");
-            puntuacion.textContent = this.score;
+            this.puntuacion.textContent = this.score;
             this.addPlatformFloor();
             if (this.score > 10) {
                 this.addObstacle();
             }
-            if (this.score >= 500 && !this.createdBot) {
-                this.createdBot = true
-                this.createPJBot()
-            }
 
-            if (this.score >= 1000 && !this.createdTopR) {
-                this.createdTopR = true;
-                this.createPJTopR();
-            }
 
-            if (this.score >= 2000 && !this.createdBotR) {
-                this.createdBotR = true;
-                this.createPJBotR();
-            }
-
-            if (this.score % 200 == 0) {
-                this.addCrystal();
-            }
-            if (this.createdBot) {
+            if (!this.createdBot) {
+                if (this.score >= this.scoreTocreateBot) {
+                    this.createdBot = true
+                    this.createPJBot()
+                }
+            } else {
                 this.jumpPlayerBot();
             }
-            if (this.createdTopR) {
+
+            if (!this.createdTopR) {
+                if (this.score >= this.scoreTocreateTopR) {
+                    this.createdTopR = true;
+                    this.createPJTopR();
+                }
+            } else {
                 this.jumpPlayerTopR();
             }
-            if (this.createdBotR) {
+
+
+            if (!this.createdBotR) {
+                if (this.score >= this.scoreTocreateBotR) {
+                    this.createdBotR = true;
+                    this.createPJBotR();
+                }
+            } else {
                 this.jumpPlayerBotR();
             }
 
+
+            if (this.score % this.frecuencyToAddCrystal == 0) {
+                this.addCrystal();
+            }
         }
 
         randomIntFromInterval(min, max) { // min and max included 
@@ -341,25 +427,29 @@ function script() {
                 }
             }, null, this);
             this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
-            this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, hit, null, this);
+            this.physics.add.overlap(this.playerBot, this.obstacleGroupBotInv, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
-                    this.score += 1000;
+                    this.score += this.valueOfCrystal;
                 }
                 crystal.setVisible(false);
             }
 
             function hit(player, obstacle) {
-                if (obstacle.visible) {
-                    if (this.lifes > 0) {
-                        this.removeLife();
-                        this.lifes--;
-                    } else {
-                        this.scene.stop("PlayGame");
+                if (this.hittable) {
+                    if (obstacle.visible) {
+                        if (this.lifes > 1) {
+                            this.removeLife();
+                            this.lifes--;
+                        } else {
+                            control.sendPoints();
+                            this.removeLife();
+                            this.scene.stop("PlayGame");
+                        }
                     }
+                    obstacle.setVisible(false);
                 }
-                obstacle.setVisible(false);
             }
         }
 
@@ -385,25 +475,29 @@ function script() {
             }, null, this);
 
             this.physics.add.overlap(this.playerTopR, this.crystalGroup, collectCrystal, null, this);
-            this.physics.add.overlap(this.playerTopR, this.obstacleGroupTopR, hit, null, this);
+            this.physics.add.overlap(this.playerTopR, this.obstacleGroupTopRInv, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
-                    this.score += 1000;
+                    this.score += this.valueOfCrystal;
                 }
                 crystal.setVisible(false);
             }
 
             function hit(player, obstacle) {
-                if (obstacle.visible) {
-                    if (this.lifes > 0) {
-                        this.removeLife();
-                        this.lifes--;
-                    } else {
-                        this.scene.stop("PlayGame");
+                if (this.hittable) {
+                    if (obstacle.visible) {
+                        if (this.lifes > 1) {
+                            this.removeLife();
+                            this.lifes--;
+                        } else {
+                            control.sendPoints();
+                            this.removeLife();
+                            this.scene.stop("PlayGame");
+                        }
                     }
+                    obstacle.setVisible(false);
                 }
-                obstacle.setVisible(false);
             }
 
         }
@@ -428,32 +522,35 @@ function script() {
                 }
             }, null, this);
             this.physics.add.overlap(this.playerBotR, this.crystalGroup, collectCrystal, null, this);
-            this.physics.add.overlap(this.playerBotR, this.obstacleGroupBotR, hit, null, this);
+            this.physics.add.overlap(this.playerBotR, this.obstacleGroupBotRInv, hit, null, this);
 
             function collectCrystal(player, crystal) {
                 if (crystal.visible) {
-                    this.score += 1000;
+                    this.score += this.valueOfCrystal;
                 }
                 crystal.setVisible(false);
             }
 
             function hit(player, obstacle) {
-                if (obstacle.visible) {
-                    if (this.lifes > 0) {
-                        this.removeLife();
-                        this.lifes--;
-                    } else {
-                        this.scene.stop("PlayGame");
+                if (this.hittable) {
+                    if (obstacle.visible) {
+                        if (this.lifes > 1) {
+                            this.removeLife();
+                            this.lifes--;
+                        } else {
+                            control.sendPoints();
+                            this.removeLife();
+                            this.scene.stop("PlayGame");
+                        }
                     }
+                    obstacle.setVisible(false);
                 }
-                obstacle.setVisible(false);
             }
 
         }
 
-
         addObstacle() {
-            if (this.score % 150 == 0 || this.score < 10) {
+            if (this.score % this.frecuencytoAddObstacle == 0 || this.score < 10) {
                 this.addObstacleTop();
             }
         }
@@ -461,7 +558,7 @@ function script() {
         addPlatformFloor(posX, posY) {
             this.nPlatformsTop++;
             let platform1;
-            if (this.nPlatformsTop % 136 == 0 || this.nPlatformsTop == 1) {
+            if (this.nPlatformsTop % this.frecuencytoAddPlatform == 0 || this.nPlatformsTop == 1) {
                 if (this.platformPoolTop.getLength()) {
                     platform1 = this.platformPoolTop.getFirst();
                     if (posX == undefined && posY == undefined) {
@@ -491,6 +588,7 @@ function script() {
                 this.nextPlatformDistance = 800;
             }
         }
+
         addCrystal() {
             let crystal1;
             if (this.crystalPool.getLength()) {
@@ -515,49 +613,50 @@ function script() {
         }
         addObstacleTop(posX, posY) {
             let obstacle1;
+            let obstacleInv;
             if (this.obstaclePoolTop.getLength()) {
                 obstacle1 = this.obstaclePoolTop.getFirst();
+                obstacleInv = this.obstaclePoolTopInv.getFirst();
                 if (posX == undefined && posY == undefined) {
                     obstacle1.x = 900;
                     obstacle1.y = 480;
+                    obstacleInv.x = 900;
+                    obstacleInv.y = 480;
                 } else {
                     obstacle1.x = posX;
                     obstacle1.y = posY;
+                    obstacleInv.x = posX;
+                    obstacleInv.y = posY;
                 }
                 obstacle1.active = true;
                 obstacle1.visible = true;
                 this.obstaclePoolTop.remove(obstacle1);
                 obstacle1.displayWidth = platformWidth;
+
+                obstacleInv.active = true;
+                obstacleInv.visible = true;
+                this.obstaclePoolTopInv.remove(obstacleInv);
+                obstacleInv.displayWidth = platformWidth;
             } else {
                 var random = this.randomIntFromInterval(1, 4);
                 if (posX == undefined && posY == undefined) {
                     switch (random) {
                         case 1:
+                            obstacleInv = this.add.tileSprite(998, 180, 55, 110, "InvBody");
                             obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
                             break;
                         case 2:
+                            obstacleInv = this.add.tileSprite(900, 200, 90, 50, "InvBody");
                             obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
+
                             break;
                         case 3:
+                            obstacleInv = this.add.tileSprite(993, 185, 60, 95, "InvBody");
                             obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
                             break;
                         case 4:
+                            obstacleInv = this.add.tileSprite(900, 200, 75, 60, "InvBody");
                             obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
-                            break;
-                    }
-                } else {
-                    switch (random) {
-                        case 1:
-                            obstacle1 = this.add.tileSprite(posX, posY, 98, 120, "tree");
-                            break;
-                        case 2:
-                            obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "stone");
-                            break;
-                        case 3:
-                            obstacle1 = this.add.tileSprite(posX, posY, 101, 110, "snowMan");
-                            break;
-                        case 4:
-                            obstacle1 = this.add.tileSprite(posX, posY, 98, 75, "treeSmall");
                             break;
                     }
                 }
@@ -567,11 +666,17 @@ function script() {
                 obstacle1.active = true;
                 obstacle1.visible = true;
 
-                this.addObstacleToGroup(obstacle1)
+                this.physics.add.existing(obstacleInv);
+                obstacleInv.body.setImmovable(true);
+                obstacleInv.body.setVelocityX(-100);
+                obstacleInv.active = true;
+                obstacleInv.visible = true;
+
+                this.addObstacleToGroup(obstacle1, obstacleInv)
             }
             this.nextPlatformDistance = 800;
         }
-        addObstacleToGroup(obstacle1) {
+        addObstacleToGroup(obstacle1, obstacleInv) {
             var range = 1;
             if (this.createdBot) {
                 range++;
@@ -590,27 +695,31 @@ function script() {
             switch (random) {
                 case 1:
                     this.obstacleGroupTop.add(obstacle1);
-                    this.cameraBotR.ignore([obstacle1]);
-                    this.cameraTopR.ignore([obstacle1]);
-                    this.cameraBot.ignore([obstacle1]);
+                    this.obstacleGroupTopInv.add(obstacleInv);
+                    this.cameraBotR.ignore([obstacle1, obstacleInv]);
+                    this.cameraTopR.ignore([obstacle1, obstacleInv]);
+                    this.cameraBot.ignore([obstacle1, obstacleInv]);
                     break;
                 case 2:
                     this.obstacleGroupBot.add(obstacle1);
-                    this.cameraBotR.ignore([obstacle1]);
-                    this.cameraTopR.ignore([obstacle1]);
-                    this.cameraTop.ignore([obstacle1]);
+                    this.obstacleGroupBotInv.add(obstacleInv);
+                    this.cameraBotR.ignore([obstacle1, obstacleInv]);
+                    this.cameraTopR.ignore([obstacle1, obstacleInv]);
+                    this.cameraTop.ignore([obstacle1, obstacleInv]);
                     break;
                 case 3:
                     this.obstacleGroupBotR.add(obstacle1);
-                    this.cameraBot.ignore([obstacle1]);
-                    this.cameraTopR.ignore([obstacle1]);
-                    this.cameraTop.ignore([obstacle1]);
+                    this.obstacleGroupBotRInv.add(obstacleInv);
+                    this.cameraBot.ignore([obstacle1, obstacleInv]);
+                    this.cameraTopR.ignore([obstacle1, obstacleInv]);
+                    this.cameraTop.ignore([obstacle1, obstacleInv]);
                     break;
                 case 4:
                     this.obstacleGroupTopR.add(obstacle1);
-                    this.cameraBotR.ignore([obstacle1]);
-                    this.cameraBot.ignore([obstacle1]);
-                    this.cameraTop.ignore([obstacle1]);
+                    this.obstacleGroupTopRInv.add(obstacleInv);
+                    this.cameraBotR.ignore([obstacle1, obstacleInv]);
+                    this.cameraBot.ignore([obstacle1, obstacleInv]);
+                    this.cameraTop.ignore([obstacle1, obstacleInv]);
                     break;
             }
         }
@@ -631,7 +740,6 @@ function script() {
         jumpPlayerBot() {
             if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
                 this.playerBotJumps++;
-                console.log(this.playerBotJumps);
                 this.playerBot.setVelocityY(-200);
                 this.playerBot.setVelocityX(0);
                 this.playerBot.anims.stop()
@@ -655,7 +763,6 @@ function script() {
 
         jumpPlayerBotR() {
             if (this.cursors.down.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
-                console.log(this.playerBotRJumps);
                 this.playerBotRJumps++;
                 this.playerBotR.setVelocityY(-200);
                 this.playerBotR.setVelocityX(0);
