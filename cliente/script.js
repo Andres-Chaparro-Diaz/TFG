@@ -112,17 +112,28 @@ function script() {
     class playGame extends Phaser.Scene {
         constructor() {
             super("PlayGame");
-            this.score = 0;
+
+            let config;
+            $.ajax({
+                url: 'config.json',
+                async: false,
+                dataType: 'json',
+                success: function(response) {
+                    config = response;
+                }
+            });
+
+            this.score = config.startPoints;
             this.created = false;
-            this.lifes = 3;
-            this.hittable = true;
-            this.scoreTocreateBot = 500;
-            this.scoreTocreateTopR = 1000;
-            this.scoreTocreateBotR = 2000;
-            this.frecuencyToAddCrystal = 200;
-            this.valueOfCrystal = 300;
-            this.frecuencytoAddObstacle = 200;
-            this.frecuencytoAddPlatform = 136;
+            this.lives = 3;
+            this.hittable = config.hittableObstacles;
+            this.scoreTocreateBot = config.scoreToCreateBot;
+            this.scoreTocreateTopR = config.scoreToCreateTopR;
+            this.scoreTocreateBotR = config.scoreToCreateBotR;
+            this.frecuencyToAddCrystal = config.frecuencytoAddCrystal;
+            this.valueOfCrystal = config.valueOfCrystal;
+            this.frecuencytoAddObstacle = config.frecuencytoAddObstacle;
+            this.frecuencytoAddPlatform = config.frecuencytoAddPlatform;
             this.puntuacion = document.getElementById("spPuntuacion");
 
 
@@ -331,9 +342,9 @@ function script() {
             function hit(player, obstacle) {
                 if (this.hittable) {
                     if (obstacle.visible) {
-                        if (this.lifes > 1) {
+                        if (this.lives > 1) {
                             this.removeLife();
-                            this.lifes--;
+                            this.lives--;
                         } else {
                             control.sendPoints();
                             this.removeLife();
@@ -346,7 +357,7 @@ function script() {
 
         }
         removeLife() {
-            switch (this.lifes) {
+            switch (this.lives) {
                 case 1:
                     document.getElementById('life1').remove();
                     break;
@@ -439,9 +450,9 @@ function script() {
             function hit(player, obstacle) {
                 if (this.hittable) {
                     if (obstacle.visible) {
-                        if (this.lifes > 1) {
+                        if (this.lives > 1) {
                             this.removeLife();
-                            this.lifes--;
+                            this.lives--;
                         } else {
                             control.sendPoints();
                             this.removeLife();
@@ -487,9 +498,9 @@ function script() {
             function hit(player, obstacle) {
                 if (this.hittable) {
                     if (obstacle.visible) {
-                        if (this.lifes > 1) {
+                        if (this.lives > 1) {
                             this.removeLife();
-                            this.lifes--;
+                            this.lives--;
                         } else {
                             control.sendPoints();
                             this.removeLife();
@@ -534,9 +545,9 @@ function script() {
             function hit(player, obstacle) {
                 if (this.hittable) {
                     if (obstacle.visible) {
-                        if (this.lifes > 1) {
+                        if (this.lives > 1) {
                             this.removeLife();
-                            this.lifes--;
+                            this.lives--;
                         } else {
                             control.sendPoints();
                             this.removeLife();

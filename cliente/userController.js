@@ -92,20 +92,36 @@ class Controller {
             case "login":
                 if (res.msg != undefined) {
                     sessionStorage.setItem("username", res.username)
+                    window.location.href = 'introduccion.html';
                 }
                 break;
             case "newRecord":
+                window.location.href = 'ranking.html';
                 break;
             case "register":
+                window.location.href = 'introduccion.html';
+                break;
+            case "getRecords":
+                if (res.personalRank != undefined) {
+                    this.showPersonalRank(res.personalRank);
+                }
+                break;
+            case "getGlobalRecords":
+                if (res.globalRank != undefined) {
+                    this.showGlobalRank(res.globalRank);
+                }
                 break;
         }
-        if (res.msg != undefined) {
-            message.textContent = res.msg;
-            error.textContent = "";
-        } else {
-            error.textContent = res.error;
-            message.textContent = "";
+        if (message != undefined) {
+            if (res.msg != undefined) {
+                message.textContent = res.msg;
+                error.textContent = "";
+            } else {
+                error.textContent = res.error;
+                message.textContent = "";
+            }
         }
+
     }
 
     login() {
@@ -140,45 +156,52 @@ class Controller {
     loadPersonalRank() {
         let userLogged = sessionStorage.getItem("username");
         if (userLogged != "" || userLogged != null) {
-            this.buildRequest('post', 'http://localhost:3000/user/login', userJSON);
-            let users = this.readJSON();
-            let ulPP = document.getElementById("ulPersonalPoints");
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].userName.toLowerCase() == userLogged.toLowerCase()) {
-                    found = true;
-                    let pointList = users[i].topPuntuaciones;
-                    pointList.sort(function(a, b) { return b - a });
-                    for (var j = 0; j < pointList.length; j++) {
-                        let li = document.createElement("li");
-                        let div = document.createElement("div");
-                        let div1 = document.createElement("div");
-                        let p = document.createElement("p");
-                        p.value = pointList[j];
-                        p.textContent = pointList[j];
-                        div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
-                        div1.appendChild(p);
-                        div.appendChild(div1);
-                        li.appendChild(div)
-                        ulPP.appendChild(li);
-                    }
-                }
-            }
+            let userJSON = { 'username': userLogged };
+            this.buildRequest('post', 'http://localhost:3000/user/getRecords', userJSON);
+        }
+    }
+
+    showPersonalRank(records) {
+        let ulPP = document.getElementById("ulPersonalPoints");
+        records.sort(function(a, b) { return b - a });
+        for (var j = 0; j < records.length; j++) {
+            let li = document.createElement("li");
+            let div = document.createElement("div");
+            let div1 = document.createElement("div");
+            let p = document.createElement("p");
+            p.value = records[j];
+            p.textContent = records[j];
+            div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
+            div1.appendChild(p);
+            div.appendChild(div1);
+            li.appendChild(div)
+            ulPP.appendChild(li);
         }
     }
 
     loadGlobalRank() {
-        let users = this.readJSON();
+        let userLogged = sessionStorage.getItem("username");
+        if (userLogged != "" || userLogged != null) {
+            let userJSON = { 'username': userLogged };
+            this.buildRequest('post', 'http://localhost:3000/user/getGlobalRecords', userJSON);
+
+        }
+    }
+
+    showGlobalRank(globalRank) {
         let ulGP = document.getElementById("ulGlobalPoints");
         let ulGU = document.getElementById("ulGlobalUsers");
         let globalListPoints = [];
         let globalListUsers = [];
-        for (var i = 0; i < users.length; i++) {
-            let personalList = users[i].topPuntuaciones;
+        for (var i in globalRank) {
+            var key = i;
+            let personalList = globalRank[i];
             personalList.sort(function(a, b) { return b - a });
             globalListPoints.push(personalList[0]);
-            let user = { "userName": users[i].userName, "points": personalList[0] };
+            let user = { "username": key, "points": personalList[0] };
             globalListUsers.push(user);
         }
+
         globalListPoints.sort(function(a, b) { return b - a });
         for (var i = 0; i < globalListPoints.length; i++) {
             let li = document.createElement("li");
@@ -193,16 +216,15 @@ class Controller {
             li.appendChild(div)
             ulGP.appendChild(li);
             for (var j = 0; j < globalListUsers.length; j++) {
-                // si hay 2 puntuaciones iguales la liamos aqui eh
                 if (globalListUsers[j].points != 0) {
                     if (globalListPoints[i] == globalListUsers[j].points) {
                         let liU = document.createElement("li");
                         let divU = document.createElement("div");
                         let divU1 = document.createElement("div");
                         let pU = document.createElement("p");
-                        pU.value = globalListUsers[j].userName;
-                        pU.textContent = globalListUsers[j].userName;
-                        globalListUsers[j].userName = "";
+                        pU.value = globalListUsers[j].username;
+                        pU.textContent = globalListUsers[j].username;
+                        globalListUsers[j].username = "";
                         globalListUsers[j].points = 0;
                         div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
                         divU1.appendChild(pU);
@@ -213,8 +235,10 @@ class Controller {
                 }
             }
         }
+
     }
 }
+
 let control = new Controller();
 if (document.location.href == 'http://localhost/phaser/tutorial/TFG/cliente/register.html') {
     control.createEventsRegister();

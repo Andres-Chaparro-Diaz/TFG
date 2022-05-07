@@ -75,24 +75,14 @@ function login(req, res) {
 function getAllRecords(req, res) {
     User.find({})
         .then(users => {
-            let username = req.body.username;
-            let password = req.body.password;
-            var found = false;
-
+            let globalRecords = {};
             for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    let user = users[i]
-                    if (users[i].password == password) {
-                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
-                    } else {
-                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
-                    }
-                }
+                let username = users[i].username;
+                globalRecords[username] = users[i].records;
             }
-            if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
-            }
+            res.status(201).send({ globalRank: globalRecords, msg: "Credenciales válidas", type: "getGlobalRecords" })
+
+
         });
 }
 
@@ -107,15 +97,12 @@ function getRecords(req, res) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
                     let user = users[i]
-                    if (users[i].password == password) {
-                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
-                    } else {
-                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
-                    }
+                    res.status(201).send({ personalRank: user.records, msg: "Credenciales válidas", type: "getRecords" })
+
                 }
             }
             if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
+                res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
             }
         });
 }
