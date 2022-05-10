@@ -171,6 +171,7 @@ class Controller {
             let p = document.createElement("p");
             p.value = records[j];
             p.textContent = records[j];
+            p.className = "pFila"
             div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
             div1.appendChild(p);
             div.appendChild(div1);
@@ -209,6 +210,7 @@ class Controller {
             let div1 = document.createElement("div");
             let p = document.createElement("p");
             p.value = globalListPoints[i];
+            p.className = "pFila"
             p.textContent = globalListPoints[i];
             div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
             div1.appendChild(p);
@@ -224,9 +226,10 @@ class Controller {
                         let pU = document.createElement("p");
                         pU.value = globalListUsers[j].username;
                         pU.textContent = globalListUsers[j].username;
+                        pU.className = "pFila"
                         globalListUsers[j].username = "";
                         globalListUsers[j].points = 0;
-                        div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
+                        divU.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
                         divU1.appendChild(pU);
                         divU.appendChild(divU1);
                         liU.appendChild(divU)

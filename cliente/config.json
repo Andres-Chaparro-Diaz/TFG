@@ -1,1 +1,12 @@
-{ "startPoints": 0, "lives": 3, "hittableObstacles": true, "scoreToCreateBot": 500, "scoreToCreateTopR": 1000, "scoreToCreateBotR": 2000, "frecuencytoAddCrystal": 200, "frecuencytoAddObstacle": 200, "frecuencytoAddPlatform": 136, "valueOfCrystal": 300 }
+{
+    "startPoints": 0,
+    "lives": 3,
+    "hittableObstacles": false,
+    "scoreToCreateBot": 500,
+    "scoreToCreateTopR": 1000,
+    "scoreToCreateBotR": 2000,
+    "frecuencytoAddCrystal": 200,
+    "frecuencytoAddObstacle": 200,
+    "frecuencytoAddPlatform": 136,
+    "valueOfCrystal": 300
+}

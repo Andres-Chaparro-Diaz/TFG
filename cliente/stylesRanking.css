@@ -18,15 +18,38 @@ body {
     margin: 0;
 }
 
+.pTabla {
+    background-color: #75ACEC;
+    font-size: 30px;
+}
+
+li {
+    list-style: none;
+}
+
+.liDiv {
+    padding: 3%;
+    border: solid 0.07cm;
+    border-color: #75ACEC;
+}
+
+.pFila {
+    margin: 10px 10px;
+    text-align: center;
+}
+
+.rank {
+    border: solid;
+    border-radius: 10px;
+    border-color: #75ACEC;
+    ;
+}
+
 p,
 footer,
 header,
-h2 {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+h2,
+h1 {
     user-select: none;
 }
 

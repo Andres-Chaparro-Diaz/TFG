@@ -16,7 +16,6 @@ function script() {
 
             physics: {
                 default: 'arcade'
-
             }
         }
         game = new Phaser.Game(gameConfig);
@@ -44,6 +43,7 @@ function script() {
             this.load.image('crystalRed', 'assets/crystalRed.png');
             this.load.image('crystalGreen', 'assets/crystalGreen.png');
 
+
             this.load.spritesheet('dude', 'assets/dude.png', {
                 frameWidth: 32,
                 frameHeight: 48
@@ -61,7 +61,6 @@ function script() {
                 frameHeight: 48
             });
 
-            this.load.json('shapes', 'physics/physicsMatter.json');
 
         }
 
@@ -140,8 +139,10 @@ function script() {
         }
 
         create() {
-            this.add.image(400, 300, 'sky');
-            this.add.image(1200, 300, 'sky');
+
+
+            this.add.image(400, 300, 'sky'); //background
+
 
             this.nPlatformsBot = 0;
             this.nPlatformsTop = 0;
@@ -293,13 +294,18 @@ function script() {
             this.cameraTopR = this.cameras.add(800, 0, 800, 600);
             this.cameraBotR = this.cameras.add(800, 300, 800, 600);
 
+
             this.addPlatformFloor(800, 268);
 
             this.playerTop = this.physics.add.sprite(90, 150, 'dudeBlue');
             this.playerTop.body.setGravityY(300);
             this.playerTop.setCollideWorldBounds(true);
             this.playerTopJumps = 0;
-            this.cursors = this.input.keyboard.createCursorKeys();
+
+            this.keyE = this.input.keyboard.addKey('E');
+            this.keyA = this.input.keyboard.addKey('A');
+            this.keyT = this.input.keyboard.addKey('T');
+            this.keyH = this.input.keyboard.addKey('H');
 
             this.platformPlayerColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
 
@@ -378,6 +384,7 @@ function script() {
             if (this.score > 10) {
                 this.addObstacle();
             }
+
 
 
             if (!this.createdBot) {
@@ -736,7 +743,9 @@ function script() {
         }
 
         jumpPlayerTop() {
-            if (this.cursors.up.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
+            //this.cursors.up.isDown
+
+            if (this.keyE.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
                 this.playerTopJumps++;
 
                 this.playerTop.anims.stop()
@@ -749,7 +758,7 @@ function script() {
         }
 
         jumpPlayerBot() {
-            if (this.cursors.space.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
+            if (this.keyA.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
                 this.playerBotJumps++;
                 this.playerBot.setVelocityY(-200);
                 this.playerBot.setVelocityX(0);
@@ -761,7 +770,7 @@ function script() {
         }
 
         jumpPlayerTopR() {
-            if (this.cursors.right.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
+            if (this.keyT.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
                 this.playerTopRJumps++;
                 this.playerTopR.anims.stop();
                 this.playerTopR.setVelocityY(-200);
@@ -773,7 +782,7 @@ function script() {
         }
 
         jumpPlayerBotR() {
-            if (this.cursors.down.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
+            if (this.keyH.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
                 this.playerBotRJumps++;
                 this.playerBotR.setVelocityY(-200);
                 this.playerBotR.setVelocityX(0);
