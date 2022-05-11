@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const CryptoJS = require('crypto-js');
 
 function listall(req, res) {
     User.find({})
@@ -19,9 +20,13 @@ function create(req, res) {
 function register(req, res) {
     User.find({})
         .then(users => {
+            console.log(req.body);
             let username = req.body.username;
-            let pwd = req.body.pwd;
-            let pwd2 = req.body.pwd2;
+            let pwd = req.body.password;
+            //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
+            pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
+            console.log(req.body.password + "Contraseña encriptada");
+            console.log(pwd + "Contraseña desencriptada");
 
             var exist = false;
 
@@ -32,15 +37,14 @@ function register(req, res) {
                 }
             }
             if (!exist) {
-                if (pwd == pwd2) {
-                    let user = new User(req.body);
-                    user.save()
-                        .then(user =>
-                            res.status(201).send({ user, msg: "Usuario registrado correctamente", type: "register" })
-                        ).catch(err => res.status(500).send({ err }))
-                } else {
-                    res.status(201).send({ error: "Las contraseñas no coinciden", type: "register" });
-                }
+
+                let user = new User(req.body);
+                user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
+                console.log(user)
+                user.save()
+                    .then(user =>
+                        res.status(201).send({ username: user.username, msg: "Usuario registrado correctamente", type: "register" })
+                    ).catch(err => res.status(500).send({ err }))
 
             } else {
                 res.status(201).send({ error: "El usuario ya existe", type: "register" });
@@ -54,12 +58,16 @@ function login(req, res) {
             let username = req.body.username;
             let password = req.body.password;
             var found = false;
-
+            password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
+            console.log(req.body.password + "Contraseña encriptada");
+            console.log(password + "Contraseña desencriptada");
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
                     let user = users[i]
-                    if (users[i].password == password) {
+                    let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
+                    console.log(passwordDB + "DB");
+                    if (passwordDB == password) {
                         res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
                     } else {
                         res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
@@ -90,20 +98,21 @@ function getRecords(req, res) {
     User.find({})
         .then(users => {
             let username = req.body.username;
-            let password = req.body.password;
             var found = false;
+            if (username != undefined) {
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                        found = true;
+                        let user = users[i]
+                        res.status(201).send({ personalRank: user.records, msg: "Credenciales válidas", type: "getRecords" })
 
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    let user = users[i]
-                    res.status(201).send({ personalRank: user.records, msg: "Credenciales válidas", type: "getRecords" })
-
+                    }
+                }
+                if (!found) {
+                    res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
                 }
             }
-            if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
-            }
+
         });
 }
 
@@ -141,10 +150,9 @@ function addRecord(req, res) {
 
             recordList.sort(function(a, b) { return b - a });
             user.records = recordList;
-            console.log(user);
             user.save()
-                .then(newUser =>
-                    res.status(201).send({ newUser, msg: result, type: "newRecord" })
+                .then(userUpdated =>
+                    res.status(201).send({ username: userUpdated.username, msg: result, type: "newRecord" })
                 ).catch(err => res.status(500).send({ err }))
 
             if (!found) {

@@ -1,5 +1,7 @@
 class Controller {
+
     createEventsLogin() {
+
         //falta controlar excepciones 
         let btnLogin = document.getElementById("entrar");
         let linkChangePwd = document.getElementById("changePwd")
@@ -38,6 +40,8 @@ class Controller {
             return;
         }
         if (pwd == pwd2) {
+            pwd = CryptoJS.AES.encrypt(pwd, 'public_key').toString();
+            pwd2 = null;
             let userJSON = { "username": username, "password": pwd, "topPosiciones": [], "email": email };
             this.buildRequest('post', 'http://localhost:3000/user/register', userJSON);
 
@@ -129,12 +133,15 @@ class Controller {
         let message = document.getElementById("message");
         let username = document.getElementById("tbUsuario").value;
         let password = document.getElementById("tbPwd").value;
-        let userJSON = { 'username': username, 'password': password };
+
+
 
         if (username == "" || password == "") {
             message.textContent = "";
             error.textContent = "Rellene los campos";
         } else {
+            password = CryptoJS.AES.encrypt(password, 'public_key').toString();
+            let userJSON = { 'username': username, 'password': password };
             this.buildRequest('post', 'http://localhost:3000/user/login', userJSON);
 
         }

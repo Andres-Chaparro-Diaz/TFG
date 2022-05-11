@@ -11,11 +11,13 @@ input {
 .ranking {
     top: 63px;
     position: absolute;
+    display: flex;
 }
 
 body {
     padding: 0;
     margin: 0;
+    background-color: lightgray;
 }
 
 .pTabla {
@@ -42,7 +44,26 @@ li {
     border: solid;
     border-radius: 10px;
     border-color: #75ACEC;
-    ;
+    width: fit-content;
+}
+
+@media (max-width: 865px) {
+    .ranking {
+        display: block;
+    }
+}
+
+@media (max-width: 783px) {
+    nav.horizontal {
+        display: none;
+    }
+    .hide {
+        display: block;
+    }
+    aside {
+        width: 15%;
+        margin-left: 10px;
+    }
 }
 
 p,
