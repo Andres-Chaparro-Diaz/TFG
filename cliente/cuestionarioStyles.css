@@ -1,0 +1,238 @@
+html {
+    -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+}
+
+body {
+    height: 100%;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+body,
+html {
+    touch-action: auto
+}
+
+.jfCardForm .jfProgress {
+    bottom: 20px !important;
+}
+
+.jfCardForm .jfForm-backgroundOverlay,
+.jfCardForm .jfForm-backgroundUnderlay {
+    height: 100%;
+}
+
+header nav {
+    background: #528fd5;
+    overflow: hidden;
+    width: 100%;
+    height: 63px;
+}
+
+nav ul {
+    list-style: none;
+    height: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+
+header nav ul li a {
+    padding: 20px 30px;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+header nav ul li a:hover {
+    background: #75ACEC;
+}
+
+.form-label-left {
+    width: 150px;
+}
+
+.form-line {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-label-right {
+    width: 150px;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+.form-all {
+    margin: 0px auto;
+    padding-top: 0px;
+    color: #555 !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    max-width: 950px;
+    width: 100%;
+}
+
+label {
+    font-size: 20px;
+}
+
+select {
+    margin-left: 5%;
+    font-size: 20px;
+}
+
+.form-label-player {
+    min-width: 460px;
+}
+
+
+/* Injected CSS Code */
+
+
+/*PREFERENCES STYLE*/
+
+.form-all .qq-upload-button,
+.form-all .form-submit-button,
+.form-all .form-submit-reset,
+.form-all .form-submit-print {
+    font-family: Verdana, sans-serif;
+}
+
+.form-all .form-pagebreak-back-container,
+.form-all .form-pagebreak-next-container {
+    font-family: Verdana, sans-serif;
+}
+
+.form-header-group {
+    font-family: Verdana, sans-serif;
+}
+
+.form-label {
+    font-family: Verdana, sans-serif;
+}
+
+.form-label.form-label-auto {
+    display: inline-block;
+    float: left;
+    text-align: left;
+}
+
+.form-line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-label.form-label-left,
+.form-label.form-label-right,
+.form-label.form-label-left.form-label-auto,
+.form-label.form-label-right.form-label-auto {
+    width: 150px;
+}
+
+.form-all {
+    font-size: 12px
+}
+
+.form-all .qq-upload-button,
+.form-all .qq-upload-button,
+.form-all .form-submit-button,
+.form-all .form-submit-reset,
+.form-all .form-submit-print {
+    font-size: 12px
+}
+
+.form-all .form-pagebreak-back-container,
+.form-all .form-pagebreak-next-container {
+    font-size: 12px
+}
+
+.supernova .form-all,
+.form-all {
+    background-color: lightgray;
+}
+
+.form-all {
+    color: Black;
+}
+
+.form-header-group .form-header {
+    color: Black;
+}
+
+.form-header-group .form-subHeader {
+    color: Black;
+}
+
+.form-label-top,
+.form-label-left,
+.form-label-right,
+.form-html,
+.form-checkbox-item label,
+.form-radio-item label {
+    color: Black;
+}
+
+.form-sub-label {
+    color: 1a1a25;
+}
+
+.supernova {
+    background-color: undefined;
+}
+
+.supernova body {
+    background: transparent;
+}
+
+.form-textbox,
+.form-textarea,
+.form-dropdown,
+.form-radio-other-input,
+.form-checkbox-other-input,
+.form-captcha input,
+.form-spinner input {
+    background-color: undefined;
+}
+
+.supernova {
+    background-image: none;
+}
+
+#stage {
+    background-image: none;
+}
+
+.form-all {
+    background-image: none;
+}
+
+.ie-8 .form-all:before {
+    display: none;
+}
+
+.ie-8 {
+    margin-top: auto;
+    margin-top: initial;
+}
+
+
+/*PREFERENCES STYLE*/
+
+
+/*__INSPECT_SEPERATOR__*/
+
+
+/* Injected CSS Code */

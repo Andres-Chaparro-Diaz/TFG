@@ -1,0 +1,329 @@
+<!doctype html>
+<html style="overflow: hidden; scroll-behavior: smooth;" class="supernova isEmbeded" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="alternate" type="application/json+oembed" href="https://www.jotform.com/oembed/?format=json&amp;url=https%3A%2F%2Fform.jotform.com%2F40262748878972" title="oEmbed Form">
+    <link rel="alternate" type="text/xml+oembed" href="https://www.jotform.com/oembed/?format=xml&amp;url=https%3A%2F%2Fform.jotform.com%2F40262748878972" title="oEmbed Form">
+    <link rel="shortcut icon" href="https://cdn.jotfor.ms/assets/img/favicons/favicon-2021.svg">
+    <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/css/styles/form.css?v3&amp;v=3.3.33213">
+    <link href="https://cdn02.jotfor.ms/css/calendarview.css?v3&amp;v=3.3.33213" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        @media print {
+            .form-section {
+                display: inline!important
+            }
+            .form-pagebreak {
+                display: none!important
+            }
+            .form-section-closed {
+                height: auto!important
+            }
+            .page-section {
+                position: initial!important
+            }
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://cdn03.jotfor.ms/css/styles/nova.css?3&amp;v=3.3.33213">
+    <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/themes/CSS/566a91c2977cdfcd478b4567.css?themeRevisionID=5f6c4c83346ec05354558fe8&amp;v=3.3.33213">
+    <link type="text/css" rel="stylesheet" href="https://cdn02.jotfor.ms/css/styles/payment/payment_feature.css?3&amp;v=3.3.33213">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (document.querySelector("div.form-all") !== null) {
+                var formOffset = window.getComputedStyle(document.querySelector("div.form-all"), ":before").getPropertyValue("top");
+                if (parseInt(formOffset.replace("px", "")) < 0) {
+                    document.querySelector("div.form-all").style.cssText = "margin-top:0 !important";
+                    document.querySelector("div.form-all").style.top = (-1 * parseInt(formOffset.replace("px", "")) + "px");
+                    document.querySelector("div.form-all").style.marginBottom = (-1 * parseInt(formOffset.replace("px", "")) + "px");
+                }
+            }
+        }, false);
+        setInterval(function() {
+            var form = document.querySelectorAll("form.jotform-form");
+            if (typeof form !== "undefined" && form && form.length) {
+                form[0].setAttribute("action", "http://localhost/phaser/tutorial/TFG/cliente/cuestionario.html");
+                form[0].setAttribute("method", "post");
+            }
+        }, 1000);
+        var _extScriptSources = '["https:\/\/cdn03.jotfor.ms\/js\/prototype.js?v=3","https:\/\/cdn01.jotfor.ms\/js\/vendor\/json2.js?v=3","https:\/\/cdn02.jotfor.ms\/js\/protoplus.js?v=3","https:\/\/cdn03.jotfor.ms\/js\/protoplus-ui-form.js?v=3","https:\/\/cdn01.jotfor.ms\/js\/jotform.js?v=3","https:\/\/cdn02.jotfor.ms\/js\/calendarview.js?v=3","https:\/\/hcaptcha.com\/1\/api.js"]';
+
+        function loadInlineScripts() {
+            JotForm.newDefaultTheme = false;
+            JotForm.extendsNewTheme = false;
+            JotForm.newPaymentUIForNewCreatedForms = false;
+            JotForm.debug = true;
+            window.alert = function() {
+                console.log(arguments);
+            }
+            JotForm.init(function() {
+                /*INIT-START*/
+                if (window.JotForm && JotForm.accessible) $('input_3').setAttribute('tabindex', 0);
+                if (window.JotForm && JotForm.accessible) $('input_4').setAttribute('tabindex', 0);
+                if (window.JotForm && JotForm.accessible) $('input_5').setAttribute('tabindex', 0);
+                if (window.JotForm && JotForm.accessible) $('input_17').setAttribute('tabindex', 0);
+                JotForm.alterTexts({
+                    "confirmClearForm": "Are you sure you want to clear the form",
+                    "lessThan": "Your score should be less than"
+                });
+                /*INIT-END*/
+            });
+            JotForm.prepareCalculationsOnTheFly([null, {
+                "name": "hagaClic",
+                "qid": "1",
+                "text": "Satisfaccion Formulario de encuesta",
+                "type": "control_head"
+            }, {
+                "name": "presentarEl",
+                "qid": "2",
+                "text": "Enviar",
+                "type": "control_button"
+            }, {
+                "name": "Usuarionombre",
+                "qid": "3",
+                "text": "Usuario ",
+                "type": "control_textbox"
+            }, {
+                "name": "nombreDe",
+                "qid": "4",
+                "text": "Nombre de la Persona de Contacto (quien contesta la encuesta)",
+                "type": "control_textbox"
+            }, {
+                "name": "cargo",
+                "qid": "5",
+                "text": "Cargo",
+                "type": "control_textbox"
+            }, {
+                "name": "hagaClic6",
+                "qid": "6",
+                "text": "Su opinion nos importa",
+                "type": "control_head"
+            }, null, null, null, null, null, null, {
+                "name": "cualEs",
+                "qid": "13",
+                "text": "¿Cual es su opinion sobre los siguientes aspectos de nuestra gestion?",
+                "type": "control_matrix"
+            }, null, {
+                "name": "captcha",
+                "qid": "15",
+                "text": "Captcha",
+                "type": "control_captcha"
+            }, null, {
+                "name": "tieneAlguna",
+                "qid": "17",
+                "text": "¿Tiene alguna propuesta de mejora para sugerirnos?",
+                "type": "control_textarea"
+            }]);
+            setTimeout(function() {
+                JotForm.paymentExtrasOnTheFly([null, {
+                    "name": "hagaClic",
+                    "qid": "1",
+                    "text": "Satisfaccion Formulario de encuesta",
+                    "type": "control_head"
+                }, {
+                    "name": "presentarEl",
+                    "qid": "2",
+                    "text": "Enviar",
+                    "type": "control_button"
+                }, {
+                    "name": "username",
+                    "qid": "3",
+                    "text": "Usuario",
+                    "type": "control_textbox"
+                }, {
+                    "name": "edad",
+                    "qid": "5",
+                    "text": "Edad",
+                    "type": "control_textbox"
+                }, {
+                    "name": "hagaClic6",
+                    "qid": "6",
+                    "text": "Su opinion nos importa",
+                    "type": "control_head"
+                }, null, null, null, null, null, null, {
+                    "name": "cualEs",
+                    "qid": "13",
+                    "text": "¿Cual es su opinion sobre los siguientes aspectos de nuestra gestion?",
+                    "type": "control_matrix"
+                }, null, {
+                    "name": "tieneAlguna",
+                    "qid": "17",
+                    "text": "¿Tiene alguna propuesta de mejora para sugerirnos?",
+                    "type": "control_textarea"
+                }]);
+            }, 20);
+            var all_spc = document.querySelectorAll("form[id='40262748878972'] .si" + "mple" + "_spc");
+            for (var i = 0; i < all_spc.length; i++) {
+                all_spc[i].value = "40262748878972-40262748878972";
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="cuestionarioStyles.css" type="text/css">
+
+</head>
+
+<body style="overflow: auto;">
+    <header>
+        <nav class="login">
+            <ul>
+                <div style="display: flex;">
+                    <li><a href="introduccion.html">Introducción</a></li>
+                    <li><a href="login.html">Iniciar sesión</a></li>
+                    <li><a href="register.html">Registrarse</a></li>
+                    <li><a href="main.html">Nueva partida</a></li>
+                    <li><a href="ranking.html">Ranking</a></li>
+
+                </div>
+            </ul>
+        </nav>
+        <nav class="logged" style="display: none; overflow: auto!important;">
+            <ul>
+                <div>
+                    <li><a href="#">Usuario</a></li>
+                    <li><a href="#">Cerrar sesion</a></li>
+                    <li><a href="#">Nueva partida</a></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <form class="jotform-form" action="http://localhost/phaser/tutorial/TFG/cliente/cuestionario.html" method="post" name="form_40262748878972" id="40262748878972" accept-charset="utf-8" autocomplete="on" novalidate="true"><input type="hidden" name="formID" value="40262748878972"><input type="hidden" id="JWTContainer" value=""><input type="hidden" id="cardinalOrderNumber" value="">
+        <div role="main" class="form-all" style="margin:0 auto;">
+            <ul class="form-section page-section">
+                <li id="cid_1" class="form-input-wide" data-type="control_head">
+                    <div class="form-header-group header-defecto">
+                        <div class="header-text httal htvam">
+                            <h2 id="header_1" class="form-header" data-component="header">Ingreso al experimento</h2>
+                        </div>
+                    </div>
+                </li>
+                <li class="form-line" data-type="control_textbox" id="id_3"><label class="form-label form-label-top form-label-auto" id="label_3" for="input_3"> Usuario </label>
+                    <div id="cid_3" class="form-input-wide"><input type="text" id="input_3" name="q1_usurname" data-type="input-textbox" class="form-textbox" data-defaultvalue="" size="20" value="" placeholder=" " data-component="textbox" aria-labelledby="label_3"></div>
+                </li>
+                <li class="form-line" data-type="control_textbox" id="id_5"><label class="form-label form-label-top form-label-auto" id="label_5" for="input_5"> Edad </label>
+                    <div id="cid_5" class="form-input-wide"><input type="text" id="input_5" name="q2_edad" data-type="input-textbox" class="form-textbox" data-defaultvalue="" size="20" value="" placeholder=" " data-component="textbox" aria-labelledby="label_5"></div>
+                </li>
+
+                <li class="form-line" data-type="control_matrix" id="id_13"><label class="form-label form-label-top" id="label_13" for="input_13"> ¿Cuál es su opinión sobre los siguientes aspectos de nuestra gestión? </label>
+                    <div id="cid_13" class="form-input-wide">
+                        <table summary="" aria-labelledby="label_13" cellpadding="4" cellspacing="0" class="form-matrix-table" data-component="matrix">
+                            <tbody>
+                                <tr class="form-matrix-tr form-matrix-header-tr">
+                                    <th class="form-matrix-th" style="border:none">&nbsp;</th>
+                                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_0"><label id="label_13_col_0"> Malo-Muy poco </label></th>
+                                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_1"><label id="label_13_col_1"> Regular-Poco </label></th>
+                                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_2"><label id="label_13_col_2"> Bueno-Bastante </label></th>
+                                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_3"><label id="label_13_col_3"> Muy Bueno- Mucho </label></th>
+                                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_4"><label id="label_13_col_4"> Excelente- Muchisimo </label></th>
+                                </tr>
+                                <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_13 label_13_row_0">
+                                    <th scope="row" class="form-matrix-headers form-matrix-row-headers"><label id="label_13_row_0"> ¿Cuánto juegas a videojuegos?  </label></th>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_0_0" class="form-radio" name="q13_cualEs[0]" value="Malo" aria-labelledby="label_13_col_0 label_13_row_0"><label for="input_13_0_0" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_0_1" class="form-radio" name="q13_cualEs[0]" value="Regular" aria-labelledby="label_13_col_1 label_13_row_0"><label for="input_13_0_1" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_0_2" class="form-radio" name="q13_cualEs[0]" value="Bueno " aria-labelledby="label_13_col_2 label_13_row_0"><label for="input_13_0_2" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_0_3" class="form-radio" name="q13_cualEs[0]" value="Muy Bueno" aria-labelledby="label_13_col_3 label_13_row_0"><label for="input_13_0_3" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_0_4" class="form-radio" name="q13_cualEs[0]" value="Excelente" aria-labelledby="label_13_col_4 label_13_row_0"><label for="input_13_0_4" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                </tr>
+                                <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_13 label_13_row_1">
+                                    <th scope="row" class="form-matrix-headers form-matrix-row-headers"><label id="label_13_row_1">¿Consideras que tienes un buen nivel jugando a videojuegos?  </label></th>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_1_0" class="form-radio" name="q13_cualEs[1]" value="Malo" aria-labelledby="label_13_col_0 label_13_row_1"><label for="input_13_1_0" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_1_1" class="form-radio" name="q13_cualEs[1]" value="Regular" aria-labelledby="label_13_col_1 label_13_row_1"><label for="input_13_1_1" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_1_2" class="form-radio" name="q13_cualEs[1]" value="Bueno " aria-labelledby="label_13_col_2 label_13_row_1"><label for="input_13_1_2" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_1_3" class="form-radio" name="q13_cualEs[1]" value="Muy Bueno" aria-labelledby="label_13_col_3 label_13_row_1"><label for="input_13_1_3" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_1_4" class="form-radio" name="q13_cualEs[1]" value="Excelente" aria-labelledby="label_13_col_4 label_13_row_1"><label for="input_13_1_4" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                </tr>
+                                <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_13 label_13_row_2">
+                                    <th scope="row" class="form-matrix-headers form-matrix-row-headers"><label id="label_13_row_2"> ¿Se te da bien hacer varias cosas a la vez?  </label></th>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_2_0" class="form-radio" name="q13_cualEs[2]" value="Malo" aria-labelledby="label_13_col_0 label_13_row_2"><label for="input_13_2_0" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_2_1" class="form-radio" name="q13_cualEs[2]" value="Regular" aria-labelledby="label_13_col_1 label_13_row_2"><label for="input_13_2_1" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_2_2" class="form-radio" name="q13_cualEs[2]" value="Bueno " aria-labelledby="label_13_col_2 label_13_row_2"><label for="input_13_2_2" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_2_3" class="form-radio" name="q13_cualEs[2]" value="Muy Bueno" aria-labelledby="label_13_col_3 label_13_row_2"><label for="input_13_2_3" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                    <td class="form-matrix-values"><input type="radio" id="input_13_2_4" class="form-radio" name="q13_cualEs[2]" value="Excelente" aria-labelledby="label_13_col_4 label_13_row_2"><label for="input_13_2_4" class="matrix-choice-label matrix-radio-label"> </label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto" id="label_17" for="input_17"> ¿Te interesa participar en un estudio? Solo debe jugar al menos 2 partidas al dia, una por la mañana y otra por la tarde, después se mostrará un cuestionario muy breve al que agradecería que respondiese.  </label>
+                    <div id="cid_17" class="form-input-wide"><label><input type="checkbox" name= "participa" id="cbox1" value="true"> Participar</label><br></div>
+                </li>
+                <li class="form-line" data-type="control_button" id="id_2">
+                    <div id="cid_2" class="form-input-wide">
+                        <div style="margin-left:156px" data-align="auto" class="form-buttons-wrapper form-buttons-auto jsTest-button-wrapperField"><button id="input_2" type="submit" class="form-submit-button submit-button jf-form-buttons jsTest-submitField" data-component="button" data-content="">Enviar</button></div>
+                    </div>
+                </li>
+                <li style="display:none">Should be Empty:<input type="text" name="website" value=""></li>
+            </ul>
+        </div><input type="hidden" class="simple_spc" id="simple_spc" name="simple_spc" value="40262748878972-40262748878972"><input type="hidden" name="embedUrl" value="https://www.jotform.com/es/form-templates/formulario-de-encuesta-de-satisfaccion-del-cliente"></form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            if (typeof window.top.FormTemplate !== "undefined") {
+                window.top.FormTemplate.hideFormLoaderIndicators();
+            } else if (typeof window.parent.Embed !== "undefined") {
+                window.parent.Embed.hideFormLoaderIndicators();
+            } else {
+                if (window.parent.document.querySelectorAll("div.template-loader").length) {
+                    window.parent.document.querySelector("div.template-loader").style.display = "none";
+                    if (typeof window.parent.loadJSFiles !== "undefined") {
+                        window.parent.loadJSFiles();
+                    }
+                }
+            }
+            if (document.querySelectorAll("div.formFooter").length) {
+                document.querySelector("div.formFooter").remove();
+            }
+        });
+        let previewContainer = document.querySelector("body");
+
+        function loadJSFiles() {
+            var sources = JSON.parse(window._extScriptSources);
+            if (sources && sources.length) {
+                sources.forEach(function(source, key) {
+                    let script = document.createElement('script');
+                    script.src = source;
+                    setTimeout(function() {
+                        document.getElementsByTagName('head')[0].appendChild(script);
+                    }, key * 100);
+                });
+            }
+            setTimeout(function() {
+                loadInlineScripts();
+            }, window._extScriptSources.split(",").length * 250);
+        }
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)) {
+            previewContainer.addEventListener("touchstart", function _listener(event) {
+                previewContainer.removeEventListener("touchstart", _listener, true);
+                loadJSFiles();
+                if (typeof window.parent.loadJSWithDefer !== "undefined") {
+                    window.parent.loadJSWithDefer([
+                        "https://cdn02.jotfor.ms/form-templates/assets/js/form-templates/min/core-min.js?v=1652341221",
+                        "https://cdn02.jotfor.ms/form-templates/assets/js/form-templates/min/edit-min.js?v=1652341221",
+                        "https://cdn.jotfor.ms/assets/js/actions.js"
+                    ], true);
+                }
+            }, true);
+        } else {
+            previewContainer.addEventListener("mouseenter", function _listener(event) {
+                previewContainer.removeEventListener("mouseenter", _listener, true);
+                loadJSFiles();
+                if (typeof window.parent.loadJSWithDefer !== "undefined") {
+                    window.parent.loadJSWithDefer([
+                        "https://cdn02.jotfor.ms/form-templates/assets/js/form-templates/min/core-min.js?v=1652341221",
+                        "https://cdn02.jotfor.ms/form-templates/assets/js/form-templates/min/edit-min.js?v=1652341221",
+                        "https://cdn.jotfor.ms/assets/js/actions.js"
+                    ], true);
+                }
+            }, true);
+        }
+    </script>
+    <div aria-hidden="true" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(215, 215, 215); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 4px; border-radius: 4px; left: -10000px; top: -10000px; z-index: -2147483648; position: absolute; transition: opacity 0.15s ease-out 0s; opacity: 0; visibility: hidden;">
+        <div style="position: relative; z-index: 1;"><iframe src="https://newassets.hcaptcha.com/captcha/v1/5e41016/static/hcaptcha.html#frame=challenge&amp;id=0dmj1p98lywr&amp;host=www.jotform.com&amp;sentry=true&amp;reportapi=https%3A%2F%2Faccounts.hcaptcha.com&amp;recaptchacompat=true&amp;custom=false&amp;hl=es&amp;tplinks=on&amp;sitekey=772f4a50-7161-425e-8cd5-4d7e361ab765&amp;theme=light"
+                title="Main content of the hCaptcha challenge" frameborder="0" scrolling="no" style="border: 0px; z-index: 2000000000; position: relative;"></iframe></div>
+        <div style="width: 100%; height: 100%; position: fixed; pointer-events: none; top: 0px; left: 0px; z-index: 0; background-color: rgb(255, 255, 255); opacity: 0.05;"></div>
+        <div style="border-width: 11px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 1; right: 100%;">
+            <div style="border-width: 10px; border-style: solid; border-color: transparent rgb(255, 255, 255) transparent transparent; position: relative; top: 10px; z-index: 1;"></div>
+            <div style="border-width: 11px; border-style: solid; border-color: transparent rgb(215, 215, 215) transparent transparent; position: relative; top: -11px; z-index: 0;"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -23,12 +23,16 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 const user = require('./routes/user');
+const survey = require('./routes/survey');
+const postGameSurvey = require('./routes/postGameSurvey');
 //Nos permite manejar peticiones y enviar respuesta en formato json
 app.use(bodyParser.json());
 //De esta manera indicamos que no vamos a recibir peticiones enviadas directamente de un formulario, sino que sera todo enviado en json
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/user', user);
+app.use('/survey', survey);
+app.use('/postGameSurvey', postGameSurvey);
 app.use('/', indexRouter);
 
 module.exports = app

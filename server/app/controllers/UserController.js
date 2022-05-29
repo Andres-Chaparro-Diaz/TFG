@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const CryptoJS = require('crypto-js');
 
+
 function listall(req, res) {
     User.find({})
         .exec(users => {
