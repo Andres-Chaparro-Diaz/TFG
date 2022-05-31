@@ -1,34 +1,13 @@
 const User = require('../models/User');
 const CryptoJS = require('crypto-js');
 
-
-function listall(req, res) {
-    User.find({})
-        .exec(users => {
-            if (users.length) return res.status(200).send({ users })
-            return res.status(204).send({ message: 'NO CONTENT' });
-        }).catch(err => res.status(500).send({ err }))
-}
-
-function create(req, res) {
-    let user = new User(req.body);
-    user.save()
-        .then(user =>
-            res.status(201).send({ user })
-        ).catch(err => res.status(500).send({ err }))
-}
-
 function register(req, res) {
     User.find({})
         .then(users => {
-            console.log(req.body);
             let username = req.body.username;
             let pwd = req.body.password;
             //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
             pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            console.log(req.body.password + "Contraseña encriptada");
-            console.log(pwd + "Contraseña desencriptada");
-
             var exist = false;
 
             for (var i = 0; i < users.length; i++) {
@@ -41,7 +20,6 @@ function register(req, res) {
 
                 let user = new User(req.body);
                 user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
-                console.log(user)
                 user.save()
                     .then(user =>
                         res.status(201).send({ username: user.username, msg: "Usuario registrado correctamente", type: "register" })
@@ -60,14 +38,12 @@ function login(req, res) {
             let password = req.body.password;
             var found = false;
             password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            console.log(req.body.password + "Contraseña encriptada");
-            console.log(password + "Contraseña desencriptada");
+
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
                     let user = users[i]
                     let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
-                    console.log(passwordDB + "DB");
                     if (passwordDB == password) {
                         res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
                     } else {
@@ -162,54 +138,10 @@ function addRecord(req, res) {
         });
 }
 
-function show(req, res) {
-    if (req.body.error) return res.status(500).send({ error });
-    if (!req.body.users) return res.status(404).send({ message: 'Not Found' });
-    let users = req.body.users;
-    return res.status(200).send({ users });
-}
-
-function update(req, res) {
-    if (req.body.error) return res.status(500).send({ error });
-    if (!req.body.users) return res.status(404).send({ message: 'Not Found' });
-    let user = req.body.users[0];
-    user = Object.assign(user, req.body);
-    user.save()
-        .then(newUser => res.status(200).send({ message: 'User Updated', newUser })).catch(err => res.status(500).send({ err }))
-}
-
-function deleted(req, res) {
-    if (req.body.error) return res.status(500).send({ error });
-    if (!req.body.users) return res.status(404).send({ message: 'Not Found' });
-    req.body.users[0].remove()
-        .then(user => {
-            res.status(200).send({ message: 'User removed', user })
-        }).catch(err => res.status(500).send({ err }));
-}
-
-function find(req, res, next) {
-    let query = {};
-    query[req.params.key] = req.params.value
-    User.find(query).then(users => {
-        if (!users.length) return next();
-        req.body.users = users;
-        return next();
-    }).catch(err => {
-        req.body.error = err;
-        next();
-    })
-}
-
 module.exports = {
-    listall,
     login,
     addRecord,
     getRecords,
     getAllRecords,
     register,
-    show,
-    create,
-    update,
-    deleted,
-    find,
 }

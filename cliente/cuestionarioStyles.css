@@ -38,7 +38,6 @@ nav ul {
 }
 
 header {
-    position: fixed;
     width: 100%;
     z-index: 2;
 }
@@ -86,6 +85,11 @@ html {
 }
 
 label {
+    font-size: 20px;
+}
+
+.form-textbox {
+    margin-left: 2%;
     font-size: 20px;
 }
 

@@ -103,7 +103,9 @@ class Controller {
                 window.location.href = 'ranking.html';
                 break;
             case "register":
-                window.location.href = 'introduccion.html';
+                if (res.msg != undefined) {
+                    window.location.href = 'login.html';
+                }
                 break;
             case "getRecords":
                 if (res.personalRank != undefined) {

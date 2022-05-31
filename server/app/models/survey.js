@@ -7,13 +7,17 @@ const SurveySchema = new mongoose.Schema({
     edad: {
         type: String
     },
-    contribute: {
+    cuantoJuegasAnswer: {
         type: String
     },
-    questions: {
-        type: [{
-            type: String
-        }]
+    nivelJugandoAnswer: {
+        type: String
+    },
+    variasCosasALaVezAnswer: {
+        type: String
+    },
+    participa: {
+        type: Boolean
     }
 });
 

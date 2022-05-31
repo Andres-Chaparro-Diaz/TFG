@@ -27,7 +27,7 @@ function script() {
         }
         preload() {
             this.load.image('sky', 'assets/sky.png');
-            this.load.image('background', 'assets/BG.png')
+            this.load.image('background', 'assets/BGFixed.png')
             this.load.image('ground', 'assets/ground.png');
 
             this.load.image('InvBody', 'assets/StoneInv.png');
@@ -141,7 +141,7 @@ function script() {
         create() {
 
 
-            this.add.image(400, 300, 'sky'); //background
+            this.add.image(400, 100, 'background'); //background
 
 
             this.nPlatformsBot = 0;

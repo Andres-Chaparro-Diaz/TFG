@@ -4,28 +4,35 @@ const postGameSurveySchema = new mongoose.Schema({
     username: {
         type: String
     },
-    edad: {
+    gustadoAnswer: {
         type: String
     },
-    contribute: {
+    jugarHabitualAnswer: {
         type: String
     },
-    onePlayer: {
-        type: Number
+    concentracionAnswer: {
+        type: String
     },
-    twoPlayer: {
-        type: Number
+    artisticoAnswer: {
+        type: String
     },
-    threePlayer: {
-        type: Number
+    simpleAnswer: {
+        type: String
     },
-    fourPlayer: {
-        type: Number
+    onePlayerDifficult: {
+        type: String
     },
-    questions: {
-        type: [{
-            type: String
-        }]
+    twoPlayerDifficult: {
+        type: String
+    },
+    threePlayerDifficult: {
+        type: String
+    },
+    fourPlayerDifficult: {
+        type: String
+    },
+    improvements: {
+        type: String
     }
 });
 
