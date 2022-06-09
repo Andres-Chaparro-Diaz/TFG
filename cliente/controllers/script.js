@@ -3,25 +3,22 @@
 
 var loadGame = function() {
     let game;
-    console.log("fueradefuncion")
-    window.onload = function() {
-        console.log("windowonload")
-            // object containing configuration options
-        let gameConfig = {
+    // object containing configuration options
+    let gameConfig = {
 
-            type: Phaser.AUTO,
-            width: 1600, //800
-            height: 600, //600
-            scene: [preloadGame, playGame],
-            backgroundColor: 0x0c88c7,
-
-            physics: {
-                default: 'arcade'
-            }
+        type: Phaser.AUTO,
+        width: 1600, //800
+        height: 600, //600
+        scene: [preloadGame, playGame],
+        backgroundColor: 0x0c88c7,
+        parent: 'game',
+        physics: {
+            default: 'arcade'
         }
-        game = new Phaser.Game(gameConfig);
-        window.focus();
     }
+    game = new Phaser.Game(gameConfig);
+    window.focus();
+
 }
 
 

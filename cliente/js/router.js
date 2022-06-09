@@ -79,6 +79,7 @@ Router.prototype = {
                         app.abrirSurveyPostGame()
                         break;
                     case "main":
+                        app.abrirGame()
                         break;
                     case "ranking":
                         app.abrirRanking()
