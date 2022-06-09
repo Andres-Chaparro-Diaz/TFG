@@ -44,18 +44,51 @@ Router.prototype = {
                 }
             }
         }
+
+
     },
     goToRoute: function(htmlName) {
         (function(scope) {
-            var url = '/phaser/tutorial/TFG/cliente/views/' + htmlName,
-                xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    scope.rootElem.innerHTML = this.responseText;
+
+
+            new Promise(function(resolve, reject) {
+                var url = '/phaser/tutorial/TFG/cliente/views/' + htmlName,
+                    xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        scope.rootElem.innerHTML = this.responseText;
+                    }
+                };
+                xhttp.open('GET', url, false);
+                xhttp.send();
+                resolve();
+            }).then(function() {
+                switch (window.location.hash.substr(1)) {
+                    case "introduccion":
+                        break;
+                    case "login":
+                        app.abrirLogin()
+                        break
+                    case "register":
+                        app.abrirRegister()
+                        break
+                    case "cuestionario":
+                        app.abrirSurvey()
+                        break;
+                    case "postcuestionario":
+                        app.abrirSurveyPostGame()
+                        break;
+                    case "main":
+                        break;
+                    case "ranking":
+                        app.abrirRanking()
+                        break;
+                    case "about":
+                        break;
+
                 }
-            };
-            xhttp.open('GET', url, true);
-            xhttp.send();
+            });
+
         })(this);
     }
 };

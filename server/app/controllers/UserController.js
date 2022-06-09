@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const CryptoJS = require('crypto-js');
+const nodemailer = require('nodemailer');
 
 function register(req, res) {
     User.find({})
@@ -138,10 +139,61 @@ function addRecord(req, res) {
         });
 }
 
+
+function sendEmail(req, res) {
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'tucorreo@gmail.com',
+            pass: 'tucontraseña'
+        }
+    });
+    var random = function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    let codigo = random(10000, 99999);
+    var mensaje = "Se ha enviado una solicitud para recuperar su contraseña. Por favor, copie este código:/n" + codigo + ' /n. A continuación, visite la siguiente página y rellene los datos:/n <a href= "http://localhost:8080/?ojr=restorePassword">Recuperar contraseña</a>';
+
+
+    User.find({})
+        .then(users => {
+            let username = req.body.username;
+            var found = false;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    let user = users[i]
+
+                    var mailOptions = {
+                        from: 'tucorreo@gmail.com',
+                        to: user.email,
+                        subject: 'Recuperar Contraseña',
+                        text: mensaje
+                    };
+
+                    transporter.sendMail(mailOptions, function(error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Email enviado: ' + info.response);
+                            res.status(201).send({ msg: "email enviado", type: "sendEmail" })
+                        }
+                    });
+
+                }
+            }
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
+            }
+        });
+}
+
 module.exports = {
     login,
     addRecord,
     getRecords,
     getAllRecords,
     register,
+    sendEmail,
 }

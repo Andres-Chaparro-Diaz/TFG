@@ -1,14 +1,19 @@
-* {
-    font-size: 102%;
+.divRegister * {
+    font-size: 107%;
 }
 
-body {
+.divRegister h1 {
+    font-size: 160%;
+    margin-bottom: 5%;
+}
+
+.divRegister {
     padding: 0;
     margin: 0;
     background-color: lightgray;
 }
 
-#content {
+.divRegister #content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,59 +22,28 @@ body {
     height: 75vh;
 }
 
-#box-register {
+.divRegister #box-register {
     max-width: 250px;
 }
 
-input {
-    margin-bottom: 10px;
+.divRegister input {
+    margin-bottom: 5%;
+    margin-top: 5%;
 }
 
-#btnCrearCuenta {
+.divRegister #btnCrearCuenta {
     margin-top: 20px;
     float: right;
 }
 
-p,
-footer,
-header,
-h2 {
+.divRegister p,
+.divRegister footer,
+.divRegister header,
+.divRegister h2 {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-header nav {
-    background: #528fd5;
-    overflow: hidden;
-    width: 100%;
-    height: 63px;
-}
-
-nav ul {
-    list-style: none;
-    height: 100%;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-header {
-    position: fixed;
-    width: 100%;
-    z-index: 2;
-}
-
-header nav ul li a {
-    padding: 20px 30px;
-    display: block;
-    color: #fff;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-header nav ul li a:hover {
-    background: #75ACEC;
 }

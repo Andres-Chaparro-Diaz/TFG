@@ -1,23 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Single Page Application</title>
+<head>
+    <meta charset="UTF-8" />
+    <title>TFG</title>
+
     <link rel="shortcut icon" href="/phaser/tutorial/TFG/cliente/assets/logoAC.png">
+
     <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/stylesIntroduccion.css" type="text/css">
+    <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/stylesLogin.css" type="text/css">
+    <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/cuestionarioStyles.css" type="text/css">
+    <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/styles.css" type="text/css">
+    <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/stylesRanking.css" type="text/css">
+    <link rel="stylesheet" href="/phaser/tutorial/TFG/cliente/styles/stylesRegister.css" type="text/css">
+
+    <link rel="alternate" type="application/json+oembed" href="https://www.jotform.com/oembed/?format=json&amp;url=https%3A%2F%2Fform.jotform.com%2F40262748878972" title="oEmbed Form">
+    <link rel="alternate" type="text/xml+oembed" href="https://www.jotform.com/oembed/?format=xml&amp;url=https%3A%2F%2Fform.jotform.com%2F40262748878972" title="oEmbed Form">
+    <link rel="stylesheet" type="text/css" href="https://cdn01.jotfor.ms/css/styles/form.css?v3&amp;v=3.3.33213">
+    <link rel="stylesheet" type="text/css" href="https://cdn02.jotfor.ms/css/calendarview.css?v3&amp;v=3.3.33213">
+    <link type="text/css" rel="stylesheet" href="https://cdn03.jotfor.ms/css/styles/nova.css?3&amp;v=3.3.33213">
+    <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/themes/CSS/566a91c2977cdfcd478b4567.css?themeRevisionID=5f6c4c83346ec05354558fe8&amp;v=3.3.33213">
+    <link type="text/css" rel="stylesheet" href="https://cdn02.jotfor.ms/css/styles/payment/payment_feature.css?3&amp;v=3.3.33213">
+    <style type="text/css">
+        @media print {
+            .divSurvey .form-section {
+                display: inline!important
+            }
+            .divSurvey .form-pagebreak {
+                display: none!important
+            }
+            .divSurvey .form-section-closed {
+                height: auto!important
+            }
+            .divSurvey .page-section {
+                position: initial!important
+            }
+        }
+    </style>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
 </head>
 
-<body>
-    <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-    </ul>
+<body id="body">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <div id="gameDiv"></div>
     <header>
         <nav class="login">
             <ul>
@@ -41,16 +71,22 @@
             </ul>
         </nav>
     </header>
-    <div id="app">
+    <div id="app"></div>
 
-    </div>
-    <script src="/phaser/tutorial/TFG/cliente/controllers/route.js"></script>
-    <script src="/phaser/tutorial/TFG/cliente/controllers/router.js"></script>
-    <script src="/phaser/tutorial/TFG/cliente/controllers/index.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/loginController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/registerController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/rankingsController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/surveyController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/postGameSurveyController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/userController.js"></script>
+    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/controllers/script.js"></script>
 
-    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/js/userController.js"></script>
-    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/js/script.js"></script>
-    <script type="text/javascript" src="/phaser/tutorial/TFG/cliente/js/userController.js"></script>
+
+    <script src="/phaser/tutorial/TFG/cliente/index.js"></script>
+    <script src="/phaser/tutorial/TFG/cliente/js/route.js"></script>
+    <script src="/phaser/tutorial/TFG/cliente/js/router.js"></script>
+    <script src="/phaser/tutorial/TFG/cliente/js/indexRouting.js"></script>
+
 
 </body>
 

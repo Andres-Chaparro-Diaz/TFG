@@ -60,7 +60,7 @@ header nav ul li a:hover {
     background: #75ACEC;
 }
 
-canvas {
+.divGame canvas {
     margin: 80px 50px;
     height: 600px;
     width: 1600px;

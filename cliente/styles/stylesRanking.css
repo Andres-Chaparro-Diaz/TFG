@@ -1,46 +1,46 @@
-* {
+.divRanking * {
     font-size: 104%;
     margin: 0;
     padding: 0;
 }
 
-input {
+.divRanking input {
     margin-bottom: 10px;
 }
 
-.ranking {
+.divRanking .ranking {
     top: 63px;
     position: absolute;
     display: flex;
 }
 
-body {
+.divRanking {
     padding: 0;
     margin: 0;
     background-color: lightgray;
 }
 
-.pTabla {
+.divRanking .pTabla {
     background-color: #75ACEC;
     font-size: 30px;
 }
 
-li {
+.divRanking li {
     list-style: none;
 }
 
-.liDiv {
+.divRanking .liDiv {
     padding: 3%;
     border: solid 0.07cm;
     border-color: #75ACEC;
 }
 
-.pFila {
+.divRanking .pFila {
     margin: 10px 10px;
     text-align: center;
 }
 
-.rank {
+.divRanking .rank {
     border: solid;
     border-radius: 10px;
     border-color: #75ACEC;
@@ -48,60 +48,28 @@ li {
 }
 
 @media (max-width: 865px) {
-    .ranking {
+    .divRanking .ranking {
         display: block;
     }
 }
 
 @media (max-width: 783px) {
-    nav.horizontal {
+    .divRanking nav.horizontal {
         display: none;
     }
-    .hide {
+    .divRanking .hide {
         display: block;
     }
-    aside {
+    .divRanking aside {
         width: 15%;
         margin-left: 10px;
     }
 }
 
-p,
-footer,
-header,
-h2,
-h1 {
+.divRanking p,
+.divRanking footer,
+.divRanking header,
+.divRanking h2,
+.divRanking h1 {
     user-select: none;
-}
-
-header nav {
-    background: #528fd5;
-    overflow: hidden;
-    width: 100%;
-    height: 63px;
-}
-
-nav ul {
-    list-style: none;
-    height: 100%;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-header {
-    position: fixed;
-    width: 100%;
-    z-index: 2;
-}
-
-header nav ul li a {
-    padding: 20px 30px;
-    display: block;
-    color: #fff;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-header nav ul li a:hover {
-    background: #75ACEC;
 }

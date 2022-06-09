@@ -1,80 +1,42 @@
-html {
+.divSurvey {
+    height: 100%;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    background: #fff;
     -webkit-overflow-scrolling: touch;
     overflow: scroll;
 }
 
-body {
-    height: 100%;
-    overflow: scroll;
-    scroll-behavior: smooth;
-}
-
-body,
-html {
+.divSurvey,
+.divSurvey html {
     touch-action: auto
 }
 
-.jfCardForm .jfProgress {
+.divSurvey .jfCardForm .jfProgress {
     bottom: 20px !important;
 }
 
-.jfCardForm .jfForm-backgroundOverlay,
+.divSurvey .jfCardForm .jfForm-backgroundOverlay,
 .jfCardForm .jfForm-backgroundUnderlay {
     height: 100%;
 }
 
-header nav {
-    background: #528fd5;
-    overflow: hidden;
-    width: 100%;
-    height: 63px;
-}
-
-nav ul {
-    list-style: none;
-    height: 100%;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-header {
-    width: 100%;
-    z-index: 2;
-}
-
-header nav ul li a {
-    padding: 20px 30px;
-    display: block;
-    color: #fff;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-header nav ul li a:hover {
-    background: #75ACEC;
-}
-
-.form-label-left {
+.divSurvey .form-label-left {
     width: 150px;
 }
 
-.form-line {
+.divSurvey .form-line {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.form-label-right {
+.divSurvey .form-label-right {
     width: 150px;
 }
 
-body,
-html {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-}
-
-.form-all {
+.divSurvey .form-all {
     margin: 0px auto;
     padding-top: 0px;
     color: #555 !important;
@@ -84,21 +46,21 @@ html {
     width: 100%;
 }
 
-label {
+.divSurvey label {
     font-size: 20px;
 }
 
-.form-textbox {
+.divSurvey .form-textbox {
     margin-left: 2%;
     font-size: 20px;
 }
 
-select {
+.divSurvey select {
     margin-left: 5%;
     font-size: 20px;
 }
 
-.form-label-player {
+.divSurvey .form-label-player {
     min-width: 460px;
 }
 
@@ -108,126 +70,126 @@ select {
 
 /*PREFERENCES STYLE*/
 
-.form-all .qq-upload-button,
-.form-all .form-submit-button,
-.form-all .form-submit-reset,
-.form-all .form-submit-print {
+.divSurvey .form-all .qq-upload-button,
+.divSurvey .form-all .form-submit-button,
+.divSurvey .form-all .form-submit-reset,
+.divSurvey .form-all .form-submit-print {
     font-family: Verdana, sans-serif;
 }
 
-.form-all .form-pagebreak-back-container,
-.form-all .form-pagebreak-next-container {
+.divSurvey .form-all .form-pagebreak-back-container,
+.divSurvey .form-all .form-pagebreak-next-container {
     font-family: Verdana, sans-serif;
 }
 
-.form-header-group {
+.divSurvey .form-header-group {
     font-family: Verdana, sans-serif;
 }
 
-.form-label {
+.divSurvey .form-label {
     font-family: Verdana, sans-serif;
 }
 
-.form-label.form-label-auto {
+.divSurvey .form-label.form-label-auto {
     display: inline-block;
     float: left;
     text-align: left;
 }
 
-.form-line {
+.divSurvey.form-line {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.form-label.form-label-left,
-.form-label.form-label-right,
-.form-label.form-label-left.form-label-auto,
-.form-label.form-label-right.form-label-auto {
+.divSurvey .form-label.form-label-left,
+.divSurvey .form-label.form-label-right,
+.divSurvey .form-label.form-label-left.form-label-auto,
+.divSurvey .form-label.form-label-right.form-label-auto {
     width: 150px;
 }
 
-.form-all {
+.divSurvey .form-all {
     font-size: 12px
 }
 
-.form-all .qq-upload-button,
-.form-all .qq-upload-button,
-.form-all .form-submit-button,
-.form-all .form-submit-reset,
-.form-all .form-submit-print {
+.divSurvey .form-all .qq-upload-button,
+.divSurvey .form-all .qq-upload-button,
+.divSurvey .form-all .form-submit-button,
+.divSurvey .form-all .form-submit-reset,
+.divSurvey .form-all .form-submit-print {
     font-size: 12px
 }
 
-.form-all .form-pagebreak-back-container,
-.form-all .form-pagebreak-next-container {
+.divSurvey .form-all .form-pagebreak-back-container,
+.divSurvey .form-all .form-pagebreak-next-container {
     font-size: 12px
 }
 
-.supernova .form-all,
-.form-all {
+.divSurvey .supernova .form-all,
+.divSurvey .form-all {
     background-color: lightgray;
 }
 
-.form-all {
+.divSurvey .form-all {
     color: Black;
 }
 
-.form-header-group .form-header {
+.divSurvey .form-header-group .form-header {
     color: Black;
 }
 
-.form-header-group .form-subHeader {
+.divSurvey .form-header-group .form-subHeader {
     color: Black;
 }
 
-.form-label-top,
-.form-label-left,
-.form-label-right,
-.form-html,
-.form-checkbox-item label,
-.form-radio-item label {
+.divSurvey .form-label-top,
+.divSurvey .form-label-left,
+.divSurvey .form-label-right,
+.divSurvey .form-html,
+.divSurvey .form-checkbox-item label,
+.divSurvey .form-radio-item label {
     color: Black;
 }
 
-.form-sub-label {
+.divSurvey .form-sub-label {
     color: 1a1a25;
 }
 
-.supernova {
+.divSurvey .supernova {
     background-color: undefined;
 }
 
-.supernova body {
+.divSurvey .supernova body {
     background: transparent;
 }
 
-.form-textbox,
-.form-textarea,
-.form-dropdown,
-.form-radio-other-input,
-.form-checkbox-other-input,
-.form-captcha input,
-.form-spinner input {
+.divSurvey .form-textbox,
+.divSurvey .form-textarea,
+.divSurvey .form-dropdown,
+.divSurvey .form-radio-other-input,
+.divSurvey .form-checkbox-other-input,
+.divSurvey .form-captcha input,
+.divSurvey .form-spinner input {
     background-color: undefined;
 }
 
-.supernova {
+.divSurvey .supernova {
     background-image: none;
 }
 
-#stage {
+.divSurvey #stage {
     background-image: none;
 }
 
-.form-all {
+.divSurvey .form-all {
     background-image: none;
 }
 
-.ie-8 .form-all:before {
+.divSurvey .ie-8 .form-all:before {
     display: none;
 }
 
-.ie-8 {
+.divSurvey .ie-8 {
     margin-top: auto;
     margin-top: initial;
 }
