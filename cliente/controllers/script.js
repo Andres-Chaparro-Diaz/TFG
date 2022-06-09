@@ -115,7 +115,7 @@ class playGame extends Phaser.Scene {
 
         let config;
         $.ajax({
-            url: 'config.json',
+            url: '/controllers/config.json',
             async: false,
             dataType: 'json',
             success: function(response) {
