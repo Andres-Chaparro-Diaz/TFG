@@ -27,37 +27,37 @@ class preloadGame extends Phaser.Scene {
         super("PreloadGame");
     }
     preload() {
-        this.load.image('sky', '/phaser/tutorial/TFG/cliente/assets/sky.png');
-        this.load.image('background', '/phaser/tutorial/TFG/cliente/assets/BGFixed.png')
-        this.load.image('ground', '/phaser/tutorial/TFG/cliente/assets/ground.png');
+        this.load.image('sky', '/assets/sky.png');
+        this.load.image('background', '/assets/BGFixed.png')
+        this.load.image('ground', '/assets/ground.png');
 
-        this.load.image('InvBody', '/phaser/tutorial/TFG/cliente/assets/StoneInv.png');
-        this.load.image('skyInv', '/phaser/tutorial/TFG/cliente/assets/skyInv.png');
-
-
-        this.load.image('tree', '/phaser/tutorial/TFG/cliente/assets/Tree_2.png');
-        this.load.image('stone', '/phaser/tutorial/TFG/cliente/assets/Stone.png');
-        this.load.image('treeSmall', '/phaser/tutorial/TFG/cliente/assets/Tree_1.png');
-        this.load.image('snowMan', '/phaser/tutorial/TFG/cliente/assets/SnowMan.png');
-
-        this.load.image('crystalBlue', '/phaser/tutorial/TFG/cliente/assets/Crystal.png');
-        this.load.image('crystalRed', '/phaser/tutorial/TFG/cliente/assets/crystalRed.png');
-        this.load.image('crystalGreen', '/phaser/tutorial/TFG/cliente/assets/crystalGreen.png');
+        this.load.image('InvBody', '/assets/StoneInv.png');
+        this.load.image('skyInv', '/assets/skyInv.png');
 
 
-        this.load.spritesheet('dude', '/phaser/tutorial/TFG/cliente/assets/dude.png', {
+        this.load.image('tree', '/assets/Tree_2.png');
+        this.load.image('stone', '/assets/Stone.png');
+        this.load.image('treeSmall', '/assets/Tree_1.png');
+        this.load.image('snowMan', '/assets/SnowMan.png');
+
+        this.load.image('crystalBlue', '/assets/Crystal.png');
+        this.load.image('crystalRed', '/assets/crystalRed.png');
+        this.load.image('crystalGreen', '/assets/crystalGreen.png');
+
+
+        this.load.spritesheet('dude', '/assets/dude.png', {
             frameWidth: 32,
             frameHeight: 48
         });
-        this.load.spritesheet('dudeGreen', '/phaser/tutorial/TFG/cliente/assets/dudeGreen.png', {
+        this.load.spritesheet('dudeGreen', '/assets/dudeGreen.png', {
             frameWidth: 32,
             frameHeight: 48
         });
-        this.load.spritesheet('dudeBlue', '/phaser/tutorial/TFG/cliente/assets/dudeBlue.png', {
+        this.load.spritesheet('dudeBlue', '/assets/dudeBlue.png', {
             frameWidth: 32,
             frameHeight: 48
         });
-        this.load.spritesheet('dudeRed', '/phaser/tutorial/TFG/cliente/assets/dudeRed.png', {
+        this.load.spritesheet('dudeRed', '/assets/dudeRed.png', {
             frameWidth: 32,
             frameHeight: 48
         });
@@ -115,7 +115,7 @@ class playGame extends Phaser.Scene {
 
         let config;
         $.ajax({
-            url: '/phaser/tutorial/TFG/cliente/controllers/config.json',
+            url: 'config.json',
             async: false,
             dataType: 'json',
             success: function(response) {

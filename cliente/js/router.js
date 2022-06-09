@@ -52,7 +52,7 @@ Router.prototype = {
 
 
             new Promise(function(resolve, reject) {
-                var url = '/phaser/tutorial/TFG/cliente/views/' + htmlName,
+                var url = '/views/' + htmlName,
                     xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState === 4 && this.status === 200) {
