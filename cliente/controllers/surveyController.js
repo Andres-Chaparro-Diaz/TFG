@@ -11,7 +11,7 @@ class SurveyController {
     submitEvent() {
         let error = document.getElementById("error");
 
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
         if (username == undefined || username == "") {
             error.textContent = "Debe iniciar sesión";
             return
@@ -26,7 +26,7 @@ class SurveyController {
     newSurvey() {
         let error = document.getElementById("error");
 
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
         let edad = document.getElementById("input_5").value;
         let cuantoJuegasList = document.getElementsByName("preguntas[0]");
         let nivelJugandoList = document.getElementsByName("preguntas[1]")
@@ -96,7 +96,7 @@ class SurveyController {
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log("erro register", jqXHR, textStatus, errorThrown);
+                console.log("error server not found", jqXHR, textStatus, errorThrown);
                 //reject()
             }
         });
@@ -107,7 +107,7 @@ class SurveyController {
         let type = res.type;
         switch (type) {
             case "create":
-                window.location.href = 'introduccion.html';
+                window.location.href = 'index.html#introduccion';
                 break;
         }
         if (message != undefined) {

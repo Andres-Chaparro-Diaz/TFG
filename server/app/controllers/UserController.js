@@ -139,6 +139,25 @@ function addRecord(req, res) {
         });
 }
 
+function checkUser(req, res) {
+    User.find({})
+        .then(users => {
+            let username = req.body.username;
+            var found = false;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado", type: "checkUser" })
+            } else {
+                res.status(201).send({ username: username, msg: "Usuario encontrado", type: "checkUser" })
+            }
+        });
+}
+
 
 function sendEmail(req, res) {
     var transporter = nodemailer.createTransport({
@@ -196,4 +215,5 @@ module.exports = {
     getAllRecords,
     register,
     sendEmail,
+    checkUser
 }

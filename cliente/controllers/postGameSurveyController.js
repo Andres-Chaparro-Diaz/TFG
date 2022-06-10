@@ -11,7 +11,7 @@ class PostGameSurveyController {
     submitEvent() {
         let error = document.getElementById("error");
 
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
         if (username == undefined || username == "") {
             error.textContent = "Debe iniciar sesión";
             return
@@ -26,7 +26,7 @@ class PostGameSurveyController {
     newSurvey() {
         let error = document.getElementById("error");
 
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
 
         let gustadoList = document.getElementsByName("preguntas[0]");
         let jugarHabitualList = document.getElementsByName("preguntas[1]");
@@ -129,7 +129,7 @@ class PostGameSurveyController {
         let type = res.type;
         switch (type) {
             case "create":
-                window.location.href = 'introduccion.html';
+                window.location.href = 'index.html#introduccion';
                 break;
         }
         if (message != undefined) {

@@ -28,19 +28,8 @@ class RankingController {
         let message = document.getElementById("message");
         let type = res.type;
         switch (type) {
-            case "login":
-                if (res.msg != undefined) {
-                    sessionStorage.setItem("username", res.username)
-                    window.location.href = 'introduccion.html';
-                }
-                break;
             case "newRecord":
-                window.location.href = 'ranking.html';
-                break;
-            case "register":
-                if (res.msg != undefined) {
-                    window.location.href = 'login.html';
-                }
+                window.location.href = 'index.html#ranking';
                 break;
             case "getRecords":
                 if (res.personalRank != undefined) {
@@ -66,7 +55,7 @@ class RankingController {
     }
 
     loadPersonalRank() {
-        let userLogged = sessionStorage.getItem("username");
+        let userLogged = localStorage.getItem("username");
         if (userLogged != "" || userLogged != null) {
             let userJSON = { 'username': userLogged };
             this.buildRequest('post', 'http://localhost:3000/user/getRecords', userJSON);
@@ -93,7 +82,7 @@ class RankingController {
     }
 
     loadGlobalRank() {
-        let userLogged = sessionStorage.getItem("username");
+        let userLogged = localStorage.getItem("username");
         if (userLogged != "" || userLogged != null) {
             let userJSON = { 'username': userLogged };
             this.buildRequest('post', 'http://localhost:3000/user/getGlobalRecords', userJSON);

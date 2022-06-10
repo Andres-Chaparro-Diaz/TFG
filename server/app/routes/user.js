@@ -7,6 +7,7 @@ router.post('/login/', UserController.login)
 router.post('/register/', UserController.register)
 router.post('/addRecord/', UserController.addRecord)
 router.post('/getRecords/', UserController.getRecords)
+router.post('/checkUser/', UserController.checkUser)
 router.post('/getGlobalRecords/', UserController.getAllRecords)
 
 

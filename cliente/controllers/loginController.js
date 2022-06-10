@@ -53,26 +53,9 @@ class LoginController {
         switch (type) {
             case "login":
                 if (res.msg != undefined) {
-                    sessionStorage.setItem("username", res.username)
-                    window.location.href = 'introduccion.html';
-                }
-                break;
-            case "newRecord":
-                window.location.href = 'ranking.html';
-                break;
-            case "register":
-                if (res.msg != undefined) {
-                    window.location.href = 'login.html';
-                }
-                break;
-            case "getRecords":
-                if (res.personalRank != undefined) {
-                    this.showPersonalRank(res.personalRank);
-                }
-                break;
-            case "getGlobalRecords":
-                if (res.globalRank != undefined) {
-                    this.showGlobalRank(res.globalRank);
+                    localStorage.setItem("username", res.username)
+                    window.location.href = 'index.html#introduccion';
+                    userController.checkUserLogged();
                 }
                 break;
         }
