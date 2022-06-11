@@ -295,8 +295,9 @@ class playGame extends Phaser.Scene {
         this.cameraBot = this.cameras.add(0, 300, 800, 600);
         this.cameraTopR = this.cameras.add(800, 0, 800, 600);
         this.cameraBotR = this.cameras.add(800, 300, 800, 600);
-
-
+        this.cameraBot.visible = false;
+        this.cameraTopR.visible = false;
+        this.cameraBotR.visible = false;
         this.addPlatformFloor(800, 268);
 
         this.playerTop = this.physics.add.sprite(90, 150, 'dudeBlue');
@@ -432,7 +433,7 @@ class playGame extends Phaser.Scene {
         this.playerBot.body.setGravityY(300);
         this.playerBot.setCollideWorldBounds(true);
         this.playerBotJumps = 0;
-
+        this.cameraBot.visible = true;
         this.cameraTop.ignore([this.playerBot]);
         this.cameraTopR.ignore([this.playerBot]);
         this.cameraBotR.ignore([this.playerBot]);
@@ -478,7 +479,7 @@ class playGame extends Phaser.Scene {
         this.playerTopR.body.setGravityY(300);
         this.playerTopR.setCollideWorldBounds(true);
         this.playerTopRJumps = 0;
-
+        this.cameraTopR.visible = true;
 
         this.cameraBot.ignore([this.playerTopR]);
         this.cameraTop.ignore([this.playerTopR]);
@@ -527,6 +528,7 @@ class playGame extends Phaser.Scene {
         this.playerBotR.body.setGravityY(300);
         this.playerBotR.setCollideWorldBounds(true);
         this.playerBotRJumps = 0;
+        this.cameraBotR.visible = true;
 
         this.cameraBot.ignore([this.playerBotR]);
         this.cameraTop.ignore([this.playerBotR]);
