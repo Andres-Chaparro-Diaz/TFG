@@ -10,11 +10,23 @@ function listall(req, res) {
 
 function create(req, res) {
     let survey = new Survey(req.body);
-    survey.save()
-        .then(survey =>
-            res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
-        ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }))
-
+    Survey.find({})
+        .then(surveys => {
+            let username = req.body.username;
+            var found = false;
+            for (var i = 0; i < surveys.length; i++) {
+                if (surveys[i].username.toLowerCase() == username.toLowerCase()) {
+                    found = true;
+                    res.status(201).send({ error: "Cuestionario ya hecho.", type: "create" })
+                }
+            }
+            if (!found) {
+                survey.save()
+                    .then(
+                        res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
+                    ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }))
+            }
+        });
 }
 
 function show(req, res) {

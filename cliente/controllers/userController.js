@@ -68,6 +68,7 @@ class UserController {
     changeNavMenuLogged() {
         let navLogin = document.getElementById("login")
         let navLogged = document.getElementById("logged")
+        document.getElementById("liUsername").textContent = localStorage.getItem("username");
         navLogin.style.display = "none"
         navLogin.style.overflow = "auto!important"
         navLogged.style.overflow = "hidden"
@@ -80,7 +81,11 @@ class UserController {
         let type = res.type;
         switch (type) {
             case "newRecord":
-                window.location.href = 'index.html#ranking';
+                if (res.done) {
+                    window.location.href = 'index.html#ranking';
+                } else {
+                    window.location.href = 'index.html#postcuestionario';
+                }
                 break;
             case "checkUser":
                 if (res.msg != undefined && res.msg != "") {

@@ -34,10 +34,6 @@ class RegisterController {
         }
     }
 
-    sendMail() {
-
-    }
-
     buildRequest(rType, url, body) {
         let thisController = this;
         $.ajax({
@@ -69,7 +65,7 @@ class RegisterController {
             case "register":
                 if (res.msg != undefined) {
                     localStorage.setItem("username", res.username)
-                    window.location.href = 'index.html#introduccion';
+                    window.location.href = 'index.html#cuestionario';
                     userController.checkUserLogged();
                 }
                 break;

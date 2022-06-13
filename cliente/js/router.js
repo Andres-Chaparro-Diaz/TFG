@@ -84,6 +84,9 @@ Router.prototype = {
                     case "ranking":
                         app.abrirRanking()
                         break;
+                    case "changePassword":
+                        app.abrirChangePassword()
+                        break;
                     case "about":
                         break;
 

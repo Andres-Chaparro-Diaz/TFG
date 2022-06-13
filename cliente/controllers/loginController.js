@@ -17,10 +17,23 @@ class LoginController {
         //btnLogin.dispatchEvent(event);
     }
 
+    createEventsChangePassword() {
+        let btnChangePassword = document.getElementById("btnCambiarPass");
+
+        let thisController = this;
+        btnChangePassword.addEventListener('click', function(e) { thisController.changePassword() }, false);
+    }
+
 
     sendMail() {
+        let error = document.getElementById("error");
+        let username = document.getElementById("tbUsuario").value;
+        if (username == undefined || username == "") {
+            error.textContent = "Debe escribir su nombre de usuario primero";
+            return;
+        }
         let userJSON = { 'username': username };
-        this.buildRequest('post', 'http://localhost:3000/user/changePassword', userJSON);
+        this.buildRequest('post', 'http://localhost:3000/user/sendEmail', userJSON);
     }
 
     buildRequest(rType, url, body) {
@@ -46,6 +59,7 @@ class LoginController {
             }
         });
     }
+
     checkResponse(res) {
         let error = document.getElementById("error");
         let message = document.getElementById("message");
@@ -69,6 +83,30 @@ class LoginController {
             }
         }
 
+    }
+
+    changePassword() {
+        let error = document.getElementById("error");
+        let message = document.getElementById("message");
+
+        let username = document.getElementById("tbUsuario").value;
+        let pwd = document.getElementById("tbPwd").value;
+        let pwd2 = document.getElementById("tbPwd2").value;
+        let codigo = document.getElementById("tbCodigo").value;
+
+        if (username == "" || pwd == "" || pwd2 == "" || codigo == "") {
+            error.textContent = "Rellene todos los campos";
+            return;
+        }
+        if (pwd == pwd2) {
+            pwd = CryptoJS.AES.encrypt(pwd, 'public_key').toString();
+            let userJSON = { "username": username, "password": pwd, "codigo": codigo };
+            this.buildRequest('post', 'http://localhost:3000/user/changePassword', userJSON);
+
+        } else {
+            message.textContent = "";
+            error.textContent = "Las contraseñas no coinciden";
+        }
     }
 
     login() {

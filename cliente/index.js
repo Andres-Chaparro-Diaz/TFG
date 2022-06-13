@@ -22,5 +22,10 @@ var app = {
     },
     abrirGame: function() {
         loadGame();
+    },
+    abrirChangePassword: function() {
+        var v = new LoginController();
+        v.createEventsChangePassword();
     }
+
 }

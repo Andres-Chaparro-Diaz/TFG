@@ -10,6 +10,9 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String
     },
+    codigo: {
+        type: Number
+    },
     records: {
         type: [{
             type: Number

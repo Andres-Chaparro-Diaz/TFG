@@ -10,6 +10,7 @@
             new Route('ranking', 'ranking.html'),
 
             new Route('about', 'about.html'),
+            new Route('changePassword', 'changePassword.html'),
 
             new Route('cuestionario', 'cuestionario.html'),
             new Route('postcuestionario', 'postcuestionario.html')

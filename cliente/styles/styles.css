@@ -65,3 +65,19 @@ header nav ul li a:hover {
     height: 600px;
     width: 1600px;
 }
+
+#liLogout {
+    margin-right: 20%;
+}
+
+@media (max-width: 1120px) {
+    #liLogout {
+        margin-right: 10%;
+    }
+}
+
+@media (max-width: 1000px) {
+    #liLogout {
+        margin-right: 0%;
+    }
+}

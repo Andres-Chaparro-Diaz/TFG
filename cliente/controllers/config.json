@@ -4,7 +4,7 @@
     "hittableObstacles": true,
     "scoreToCreateBot": 1000,
     "scoreToCreateTopR": 1500,
-    "scoreToCreateBotR": 1500,
+    "scoreToCreateBotR": 2000,
     "frecuencytoAddCrystal": 200,
     "frecuencytoAddObstacle": 200,
     "frecuencytoAddPlatform": 136,

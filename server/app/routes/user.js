@@ -8,6 +8,8 @@ router.post('/register/', UserController.register)
 router.post('/addRecord/', UserController.addRecord)
 router.post('/getRecords/', UserController.getRecords)
 router.post('/checkUser/', UserController.checkUser)
+router.post('/sendEmail/', UserController.sendEmail)
+router.post('/changePassword/', UserController.changePassword)
 router.post('/getGlobalRecords/', UserController.getAllRecords)
 
 
