@@ -1,9 +1,9 @@
 //const userController = require("controller")
 
 let control = new UserController();
-
+let game;
 var loadGame = function() {
-    let game;
+
     // object containing configuration options
     let gameConfig = {
 
@@ -15,6 +15,9 @@ var loadGame = function() {
         parent: 'game',
         physics: {
             default: 'arcade'
+        },
+        audio: {
+            disableWebAudio: true
         }
     }
     game = new Phaser.Game(gameConfig);
@@ -45,6 +48,9 @@ class preloadGame extends Phaser.Scene {
         this.load.image('crystalRed', '/assets/crystalRed.png');
         this.load.image('crystalGreen', '/assets/crystalGreen.png');
 
+        this.load.audio('campana', '/assets/audio/campana.m4a');
+        this.load.audio('hielo', '/assets/audio/hielo.m4a');
+        this.load.audio('tapon', '/assets/audio/taponbotella.m4a');
 
         this.load.spritesheet('dude', '/assets/dude.png', {
             frameWidth: 32,
@@ -145,6 +151,9 @@ class playGame extends Phaser.Scene {
 
         this.add.image(400, 100, 'background'); //background
 
+        this.campana = this.sound.add("campana");
+        this.hielo = this.sound.add("hielo");
+        this.tapon = this.sound.add("tapon");
 
         this.nPlatformsBot = 0;
         this.nPlatformsTop = 0;
@@ -305,6 +314,7 @@ class playGame extends Phaser.Scene {
         this.playerTop.setCollideWorldBounds(true);
         this.playerTopJumps = 0;
 
+
         this.keyE = this.input.keyboard.addKey('Q');
         this.keyA = this.input.keyboard.addKey('S');
         this.keyT = this.input.keyboard.addKey('P');
@@ -330,9 +340,6 @@ class playGame extends Phaser.Scene {
         this.platformObstacleColliderBotInv = this.physics.add.collider(this.obstacleGroupBotInv, this.platformGroupTop, function() {}, null, this);
         this.platformObstacleColliderBotRInv = this.physics.add.collider(this.obstacleGroupBotRInv, this.platformGroupTop, function() {}, null, this);
 
-        //this.physics.add.overlap(this.playerBot, this.obstacleGroupBot, this.collectStar(), null, this);
-        //this.physics.add.overlap(this.playerTop, stars, collectStar, null, this);
-
         this.physics.add.overlap(this.playerTop, this.crystalGroup, collectCrystal, null, this);
         this.physics.add.overlap(this.playerTop, this.obstacleGroupTopInv, hit, null, this);
 
@@ -344,6 +351,7 @@ class playGame extends Phaser.Scene {
         function collectCrystal(player, crystal) {
             if (crystal.visible) {
                 this.score += this.valueOfCrystal;
+                this.hielo.play();
             }
             crystal.setVisible(false);
         }
@@ -354,6 +362,7 @@ class playGame extends Phaser.Scene {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
+                        this.tapon.play();
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -363,6 +372,7 @@ class playGame extends Phaser.Scene {
                 obstacle.setVisible(false);
             }
         }
+        this.campana.play();
 
     }
     removeLife() {
@@ -392,8 +402,9 @@ class playGame extends Phaser.Scene {
 
         if (!this.createdBot) {
             if (this.score >= this.scoreTocreateBot) {
-                this.createdBot = true
-                this.createPJBot()
+                this.createdBot = true;
+                this.createPJBot();
+
             }
         } else {
             this.jumpPlayerBot();
@@ -450,9 +461,12 @@ class playGame extends Phaser.Scene {
         this.physics.add.overlap(this.playerBot, this.crystalGroup, collectCrystal, null, this);
         this.physics.add.overlap(this.playerBot, this.obstacleGroupBotInv, hit, null, this);
 
+        this.campana.play();
+
         function collectCrystal(player, crystal) {
             if (crystal.visible) {
                 this.score += this.valueOfCrystal;
+                this.hielo.play();
             }
             crystal.setVisible(false);
         }
@@ -463,6 +477,7 @@ class playGame extends Phaser.Scene {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
+                        this.tapon.play();
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -498,9 +513,13 @@ class playGame extends Phaser.Scene {
         this.physics.add.overlap(this.playerTopR, this.crystalGroup, collectCrystal, null, this);
         this.physics.add.overlap(this.playerTopR, this.obstacleGroupTopRInv, hit, null, this);
 
+        this.campana.play();
+
         function collectCrystal(player, crystal) {
             if (crystal.visible) {
                 this.score += this.valueOfCrystal;
+                this.hielo.play();
+
             }
             crystal.setVisible(false);
         }
@@ -511,6 +530,8 @@ class playGame extends Phaser.Scene {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
+                        this.tapon.play();
+
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -546,9 +567,12 @@ class playGame extends Phaser.Scene {
         this.physics.add.overlap(this.playerBotR, this.crystalGroup, collectCrystal, null, this);
         this.physics.add.overlap(this.playerBotR, this.obstacleGroupBotRInv, hit, null, this);
 
+        this.campana.play();
+
         function collectCrystal(player, crystal) {
             if (crystal.visible) {
                 this.score += this.valueOfCrystal;
+                this.hielo.play();
             }
             crystal.setVisible(false);
         }
@@ -559,6 +583,7 @@ class playGame extends Phaser.Scene {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
+                        this.tapon.play();
                     } else {
                         control.sendPoints();
                         this.removeLife();
