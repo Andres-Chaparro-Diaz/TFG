@@ -81,9 +81,9 @@ class UserController {
         let type = res.type;
         switch (type) {
             case "newRecord":
-                if (res.done) {
-                    window.location.href = 'index.html#ranking';
-                } else {
+                if (res.done && res.participa) {
+                    window.location.href = 'index.html#cuestionarioemocional'
+                } else if (!res.done) {
                     window.location.href = 'index.html#postcuestionario';
                 }
                 break;

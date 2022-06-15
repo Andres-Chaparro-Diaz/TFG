@@ -129,7 +129,7 @@ class PostGameSurveyController {
         let type = res.type;
         switch (type) {
             case "create":
-                window.location.href = 'index.html#introduccion';
+                window.location.href = 'index.html#ranking';
                 break;
         }
         if (message != undefined) {

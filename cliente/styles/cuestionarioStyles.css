@@ -4,9 +4,9 @@
     scroll-behavior: smooth;
     margin: 0;
     padding: 0;
-    background: #fff;
     -webkit-overflow-scrolling: touch;
-    overflow: scroll;
+    overflow: hidden;
+    margin-top: 5%;
 }
 
 .divSurvey,

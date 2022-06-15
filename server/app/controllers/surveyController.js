@@ -1,4 +1,5 @@
 const Survey = require('../models/Survey');
+const User = require('../models/User');
 
 function listall(req, res) {
     Survey.find({})
@@ -10,6 +11,7 @@ function listall(req, res) {
 
 function create(req, res) {
     let survey = new Survey(req.body);
+
     Survey.find({})
         .then(surveys => {
             let username = req.body.username;
@@ -21,10 +23,16 @@ function create(req, res) {
                 }
             }
             if (!found) {
-                survey.save()
-                    .then(
-                        res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
-                    ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }))
+                User.findOne({ username: username }).then(user => {
+                    console.log(user);
+                    user.participa = req.body.participa;
+                    user.save().then(
+                        survey.save()
+                        .then(
+                            res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
+                        ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }))
+                    );
+                });
             }
         });
 }

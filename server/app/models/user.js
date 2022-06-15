@@ -13,6 +13,9 @@ const UserSchema = new mongoose.Schema({
     codigo: {
         type: Number
     },
+    participa: {
+        type: Boolean
+    },
     records: {
         type: [{
             type: Number

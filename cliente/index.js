@@ -20,6 +20,10 @@ var app = {
         var v = new PostGameSurveyController();
         v.createEventListener();
     },
+    abrirSurveyEmocional: function() {
+        var v = new EmotionalSurveyController();
+        v.createEventListener();
+    },
     abrirGame: function() {
         loadGame();
     },

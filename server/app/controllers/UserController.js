@@ -93,17 +93,6 @@ function login(req, res) {
         });
 }
 
-function checkPostGameSurvey(username) {
-    PostGameSurvey.find({}).then(surveys => {
-        for (var i = 0; i < surveys.length; i++) {
-            if (surveys[i].username.toLowerCase() == username.toLowerCase()) {
-                return true;
-            }
-        }
-        return false;
-    });
-}
-
 function getAllRecords(req, res) {
     User.find({})
         .then(users => {
@@ -128,7 +117,7 @@ function getRecords(req, res) {
                     if (users[i].username.toLowerCase() == username.toLowerCase()) {
                         found = true;
                         let user = users[i]
-                        res.status(201).send({ personalRank: user.records, msg: "Usuario registrado", type: "getRecords" })
+                        res.status(201).send({ personalRank: user.records, msg: "records obtenidos", type: "getRecords" })
 
                     }
                 }
@@ -170,20 +159,38 @@ function addRecord(req, res) {
             } else {
                 result = "No has ningun record anterior";
             }
-            thisclass.checkPostGameSurvey(user.username).then(done => {
-                recordList.sort(function(a, b) { return b - a });
-                user.records = recordList;
-                user.save()
-                    .then(userUpdated =>
-                        res.status(201).send({ username: userUpdated.username, msg: result, done: done, type: "newRecord" })
-                    ).catch(err => res.status(500).send({ err }))
 
-                if (!found) {
-                    res.status(201).send({ error: "Usuario no encontrado", type: "newRecord" })
-                }
-            });
+            var done = checkPostGameSurvey(user.username);
+
+            recordList.sort(function(a, b) { return b - a });
+            user.records = recordList;
+            user.save()
+                .then(userUpdated => {
+                    if (user.participa) {
+                        res.status(201).send({ username: userUpdated.username, msg: result, done: done, type: "newRecord", participa: user.participa })
+                    } else {
+                        res.status(201).send({ username: userUpdated.username, msg: result, done: true, type: "newRecord", participa: false })
+                    }
+                }).catch(err => res.status(500).send({ err }))
+
+            if (!found) {
+                res.status(201).send({ error: "Usuario no encontrado", type: "newRecord" })
+            }
 
         });
+}
+
+var checkPostGameSurvey = function checkPostGameSurvey(username) {
+    var done;
+    PostGameSurvey.find({}).then(surveys => {
+        for (var i = 0; i < surveys.length; i++) {
+            if (surveys[i].username.toLowerCase() == username.toLowerCase()) {
+                done = true;
+            }
+        }
+        done = false;
+    });
+    return done;
 }
 
 function checkUser(req, res) {
@@ -200,7 +207,7 @@ function checkUser(req, res) {
             if (!found) {
                 res.status(201).send({ error: "Usuario no encontrado", type: "checkUser" })
             } else {
-                res.status(201).send({ username: username, msg: "Usuario encontrado", type: "checkUser" })
+                res.status(201).send({ username: username, msg: "  ", type: "checkUser" })
             }
         });
 }

@@ -87,6 +87,9 @@ Router.prototype = {
                     case "changePassword":
                         app.abrirChangePassword()
                         break;
+                    case "cuestionarioemocional":
+                        app.abrirSurveyEmocional()
+                        break;
                     case "about":
                         break;
 
