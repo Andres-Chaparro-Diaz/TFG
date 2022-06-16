@@ -5,12 +5,19 @@ class EmotionalSurveyController {
 
         let thisController = this;
         btnSend.addEventListener('click', function(e) { thisController.submitEvent() }, false);
-        //btnRegister.dispatchEvent(event);
+
+        this.splide = new Splide('.splide', {
+            type: 'loop',
+            perpage: '3'
+
+        });
+
+        this.splide.mount();
+        return this.splide;
     }
 
     submitEvent() {
         let error = document.getElementById("error");
-
         let username = localStorage.getItem("username");
         if (username == undefined || username == "") {
             error.textContent = "Debe iniciar sesión";
@@ -21,6 +28,33 @@ class EmotionalSurveyController {
         this.newSurvey();
     }
 
+    getEmocion(indexEmocion) {
+        let emocion;
+        switch (indexEmocion) {
+            case 0:
+                emocion = "enfermo";
+                break;
+            case 1:
+                emocion = "triste";
+                break;
+            case 2:
+                emocion = "asustado";
+                break;
+            case 3:
+                emocion = "enfadado";
+                break;
+            case 4:
+                emocion = "normal";
+                break;
+            case 5:
+                emocion = "sorprendido";
+                break;
+            case 6:
+                emocion = "feliz";
+                break;
+        }
+        return emocion;
+    }
 
 
     newSurvey() {
@@ -28,12 +62,8 @@ class EmotionalSurveyController {
 
         let username = localStorage.getItem("username");
         let motivado = document.getElementById("motivado").value;
-
-
-        if (gustadoAnswer == "empty" || jugarHabitualAnswer == "empty" || concentracionAnswer == "empty" || artisticoAnswer == "empty" || simpleAnswer == "empty") {
-            error.textContent = "Responda todas las preguntas";
-            return;
-        }
+        let indexEmocion = splide.Components.Controller.getIndex();
+        let emocion = this.getEmocion(indexEmocion)
 
         let emotionalSurveyJSON = {
             "username": username,
@@ -119,5 +149,5 @@ class EmotionalSurveyController {
 }
 var loadEmotionalSurveyController = function() {
     let emotionalSurveyController = new EmotionalSurveyController();
-    emotionalSurveyController.createEventListener();
+    return emotionalSurveyController.createEventListener();
 }

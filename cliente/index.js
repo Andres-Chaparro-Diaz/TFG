@@ -1,3 +1,4 @@
+var splide;
 var app = {
     abrirLogin: function() {
         var v = new LoginController();
@@ -22,7 +23,7 @@ var app = {
     },
     abrirSurveyEmocional: function() {
         var v = new EmotionalSurveyController();
-        v.createEventListener();
+        splide = v.createEventListener();
     },
     abrirGame: function() {
         loadGame();

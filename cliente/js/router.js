@@ -90,6 +90,8 @@ Router.prototype = {
                     case "cuestionarioemocional":
                         app.abrirSurveyEmocional()
                         break;
+                    case "privacidad":
+                        break;
                     case "about":
                         break;
 
