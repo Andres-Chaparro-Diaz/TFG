@@ -1,5 +1,7 @@
 .divLogin * {
     font-size: 107%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .divLogin h1 {
@@ -14,11 +16,6 @@
     margin-top: auto;
     margin-bottom: auto;
     height: 75vh;
-}
-
-.divLogin input {
-    margin-bottom: 5%;
-    margin-top: 5%;
 }
 
 .divLogin {
@@ -37,4 +34,49 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.divLogin input {
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.divLogin .borderLogin {
+    padding: 10%;
+    border-radius: 20%;
+    margin-top: 5%;
+    border: solid;
+    border-color: darkslategray;
+    background: linear-gradient(221deg, rgba(90, 87, 145, 1) 0%, rgba(44, 44, 154, 1) 35%, rgba(0, 155, 255, 1) 100%);
+}
+
+.divLogin .divInput {
+    padding: 1%;
+    display: flex;
+    border-radius: 15px 50px;
+    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    margin-bottom: 3%;
+    min-width: 102%;
+}
+
+.divLogin input:hover {
+    background-color: dodgerblue;
+}
+
+.divLogin span {
+    align-self: center;
+}
+
+.divLogin button {
+    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    padding: 2%;
+    border-radius: 5%;
+}
+
+.divLogin button:hover {
+    background: dodgerblue;
+}
+
+.divLogin a:hover {
+    color: darkorchid;
 }

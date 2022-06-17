@@ -1,16 +1,28 @@
 <div class="divRegister" style="position: absolute; left: 40%;">
     <div id="content" role="main">
-        <div id="box-register">
+        <div class="borderRegister" id="box-register">
             <h1>Creación de cuenta</h1>
             <div>
-                <span>Usuario:</span><br>
-                <input id="tbUsuario" type="text" placeholder="Nombre de usuario" data-bind="value : userName"><br>
-                <span>Correo electrónico:</span><br>
-                <input id="tbEmail" type="email" placeholder="Correo electrónico" data-bind="value : email"><br>
-                <span>Contraseña:</span><br>
-                <input id="tbPwd" type="password" placeholder="Contraseña"> <br>
-                <span>Repita la contraseña:</span><br>
-                <input id="tbPwd2" type="password" placeholder="Repita contraseña"><br>
+                <div class="divInput">
+                    <span>Usuario:</span><br>
+                    <input id="tbUsuario" type="text" placeholder="Nombre de usuario" data-bind="value : userName"><br>
+                </div>
+                <div class="divInput">
+                    <span>Correo electrónico:</span><br>
+                    <input id="tbEmail" type="email" placeholder="Correo electrónico" data-bind="value : email"><br>
+                </div>
+                <div class="divInput">
+                    <span>Contraseña:</span><br>
+                    <input id="tbPwd" type="password" placeholder="Contraseña"> <br>
+                </div>
+                <div class="divInput">
+
+                    <span>Repita la contraseña:</span><br>
+                    <input id="tbPwd2" type="password" placeholder="Repita contraseña"><br>
+                </div>
+
+
+
 
                 <button id="btnCrearCuenta">Crear cuenta</button>
                 <br><br><br>

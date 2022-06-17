@@ -1,5 +1,7 @@
 .divRegister * {
     font-size: 107%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .divRegister h1 {
@@ -22,10 +24,6 @@
     height: 75vh;
 }
 
-.divRegister #box-register {
-    max-width: 250px;
-}
-
 .divRegister input {
     margin-bottom: 5%;
     margin-top: 5%;
@@ -46,4 +44,44 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.divRegister .borderRegister {
+    padding: 10%;
+    margin-top: 20%;
+    border-radius: 20%;
+    border: solid;
+    border-color: darkslategray;
+    background: linear-gradient(221deg, rgba(90, 87, 145, 1) 0%, rgba(44, 44, 154, 1) 35%, rgba(0, 155, 255, 1) 100%);
+}
+
+.divRegister .divInput {
+    padding: 3%;
+    display: flex;
+    border-radius: 15px 50px;
+    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    margin-bottom: 3%;
+    min-width: 102%;
+}
+
+.divRegister input:hover {
+    background-color: dodgerblue;
+}
+
+.divRegister span {
+    align-self: center;
+}
+
+.divRegister button {
+    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    padding: 2%;
+    border-radius: 5%;
+}
+
+.divRegister button:hover {
+    background: dodgerblue;
+}
+
+.divRegister a:hover {
+    color: darkorchid;
 }
