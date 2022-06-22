@@ -5,10 +5,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.divIntro input {
-    margin-bottom: 10px;
-}
-
 .divIntro #Introduccion {
     top: 63px;
     position: absolute;
@@ -43,4 +39,11 @@
 
 .divIntro h2 {
     font-size: 30px;
+}
+
+.divBox {
+    margin-top: 2%;
+    margin-bottom: 1%;
+    padding: 5%;
+    background: whitesmoke
 }

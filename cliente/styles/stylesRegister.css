@@ -27,6 +27,7 @@
 .divRegister input {
     margin-bottom: 5%;
     margin-top: 5%;
+    color: black;
 }
 
 .divRegister #btnCrearCuenta {
@@ -70,6 +71,8 @@
 
 .divRegister span {
     align-self: center;
+    min-width: 130.25px;
+    max-width: 130.25px;
 }
 
 .divRegister button {

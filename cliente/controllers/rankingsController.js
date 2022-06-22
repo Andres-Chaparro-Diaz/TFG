@@ -105,22 +105,18 @@ class RankingController {
         }
 
         globalListPoints.sort(function(a, b) { return b - a });
-        for (var i = 0; i < globalListPoints.length; i++) {
+        for (var k = 0; k < globalListPoints.length; k++) {
             let li = document.createElement("li");
             let div = document.createElement("div");
             let div1 = document.createElement("div");
             let p = document.createElement("p");
-            p.value = globalListPoints[i];
+            p.value = globalListPoints[k];
             p.className = "pFila"
-            p.textContent = globalListPoints[i];
+            p.textContent = globalListPoints[k];
             div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
-            div1.appendChild(p);
-            div.appendChild(div1);
-            li.appendChild(div)
-            ulGP.appendChild(li);
             for (var j = 0; j < globalListUsers.length; j++) {
                 if (globalListUsers[j].points != 0) {
-                    if (globalListPoints[i] == globalListUsers[j].points) {
+                    if (globalListPoints[k] == globalListUsers[j].points) {
                         let liU = document.createElement("li");
                         let divU = document.createElement("div");
                         let divU1 = document.createElement("div");
@@ -138,6 +134,10 @@ class RankingController {
                     }
                 }
             }
+            div1.appendChild(p);
+            div.appendChild(div1);
+            li.appendChild(div)
+            ulGP.appendChild(li);
         }
 
     }

@@ -39,6 +39,7 @@
 .divLogin input {
     margin-bottom: 5%;
     margin-top: 5%;
+    color: black;
 }
 
 .divLogin .borderLogin {
@@ -65,6 +66,8 @@
 
 .divLogin span {
     align-self: center;
+    min-width: 130.81px;
+    max-width: 130.81px;
 }
 
 .divLogin button {
