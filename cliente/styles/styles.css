@@ -2,7 +2,7 @@ body {
     position: absolute;
     width: 100%;
     min-height: 1000px;
-    background-color: lightgray;
+    background-color: #182840;
 }
 
 * {
@@ -32,7 +32,7 @@ img {
 }
 
 header nav {
-    background: #528fd5;
+    background: #38547a;
     overflow: hidden;
     width: 100%;
     height: 63px;
@@ -58,7 +58,7 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-    background: #75ACEC;
+    background: #3e659e;
 }
 
 .divGame canvas {

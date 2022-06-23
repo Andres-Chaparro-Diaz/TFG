@@ -141,7 +141,15 @@ class playGame extends Phaser.Scene {
         this.valueOfCrystal = config.valueOfCrystal;
         this.frecuencytoAddObstacle = config.frecuencytoAddObstacle;
         this.frecuencytoAddPlatform = config.frecuencytoAddPlatform;
+        this.reqPointsToAppearObstacles = config.reqPointsToAppearObstacles;
+        this.runnersSpeed = config.runnersSpeed;
+        this.runnersGravity = config.runnersGravity;
+        this.platformSpeed = config.platformSpeed;
+        this.runnersJumpX = config.runnersJumpX;
+        this.runnersJumpY = config.runnersJumpY;
+        this.inmuneTime = config.inmuneTime;
         this.puntuacion = document.getElementById("spPuntuacion");
+        this.currentInmuneTime = 0;
 
 
     }
@@ -310,22 +318,22 @@ class playGame extends Phaser.Scene {
         this.addPlatformFloor(800, 268);
 
         this.playerTop = this.physics.add.sprite(90, 150, 'dudeBlue');
-        this.playerTop.body.setGravityY(300);
+        this.playerTop.body.setGravityY(this.runnersGravity);
         this.playerTop.setCollideWorldBounds(true);
         this.playerTopJumps = 0;
 
 
-        this.keyE = this.input.keyboard.addKey('Q');
-        this.keyA = this.input.keyboard.addKey('S');
-        this.keyT = this.input.keyboard.addKey('P');
-        this.keyH = this.input.keyboard.addKey('L');
+        this.keyQ = this.input.keyboard.addKey('Q');
+        this.keyS = this.input.keyboard.addKey('S');
+        this.keyP = this.input.keyboard.addKey('P');
+        this.keyL = this.input.keyboard.addKey('L');
 
         this.platformPlayerColliderTop = this.physics.add.collider(this.playerTop, this.platformGroupTop, function() {
 
             // play "run" animation if the player is on a platform
             if (!this.playerTop.anims.isPlaying) {
                 this.playerTop.anims.play("runBlue");
-                this.playerTop.body.setVelocityX(100);
+                this.playerTop.body.setVelocityX(this.runnersSpeed);
                 this.playerTopJumps = 0;
             }
         }, null, this);
@@ -357,12 +365,14 @@ class playGame extends Phaser.Scene {
         }
 
         function hit(player, obstacle) {
-            if (this.hittable) {
+            if (this.hittable && this.currentInmuneTime <= 0) {
                 if (obstacle.visible) {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
                         this.tapon.play();
+                        this.currentInmuneTime = this.inmuneTime;
+
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -372,7 +382,6 @@ class playGame extends Phaser.Scene {
                 obstacle.setVisible(false);
             }
         }
-        this.campana.play();
 
     }
     removeLife() {
@@ -394,11 +403,13 @@ class playGame extends Phaser.Scene {
 
         this.puntuacion.textContent = this.score;
         this.addPlatformFloor();
-        if (this.score > 10) {
+        if (this.score > this.reqPointsToAppearObstacles) {
             this.addObstacle();
         }
 
-
+        if (this.currentInmuneTime > 0) {
+            this.currentInmuneTime--;
+        }
 
         if (!this.createdBot) {
             if (this.score >= this.scoreTocreateBot) {
@@ -408,6 +419,7 @@ class playGame extends Phaser.Scene {
             }
         } else {
             this.jumpPlayerBot();
+            this.frecuencytoAddObstacle = 180;
         }
 
         if (!this.createdTopR) {
@@ -417,6 +429,7 @@ class playGame extends Phaser.Scene {
             }
         } else {
             this.jumpPlayerTopR();
+            this.frecuencytoAddObstacle = 160;
         }
 
 
@@ -427,6 +440,7 @@ class playGame extends Phaser.Scene {
             }
         } else {
             this.jumpPlayerBotR();
+            this.frecuencytoAddObstacle = 140;
         }
 
 
@@ -441,7 +455,7 @@ class playGame extends Phaser.Scene {
 
     createPJBot() {
         this.playerBot = this.physics.add.sprite(90, 150, 'dude');
-        this.playerBot.body.setGravityY(300);
+        this.playerBot.body.setGravityY(this.runnersGravity);
         this.playerBot.setCollideWorldBounds(true);
         this.playerBotJumps = 0;
         this.cameraBot.visible = true;
@@ -454,7 +468,7 @@ class playGame extends Phaser.Scene {
             // play "run" animation if the player is on a platform
             if (!this.playerBot.anims.isPlaying) {
                 this.playerBot.anims.play("run");
-                this.playerBot.body.setVelocityX(100);
+                this.playerBot.body.setVelocityX(this.runnersSpeed);
                 this.playerBotJumps = 0;
             }
         }, null, this);
@@ -472,12 +486,13 @@ class playGame extends Phaser.Scene {
         }
 
         function hit(player, obstacle) {
-            if (this.hittable) {
+            if (this.hittable && this.currentInmuneTime <= 0) {
                 if (obstacle.visible) {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
                         this.tapon.play();
+                        this.currentInmuneTime = this.inmuneTime;
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -491,7 +506,7 @@ class playGame extends Phaser.Scene {
 
     createPJTopR() {
         this.playerTopR = this.physics.add.sprite(90, 150, 'dudeRed');
-        this.playerTopR.body.setGravityY(300);
+        this.playerTopR.body.setGravityY(this.runnersGravity);
         this.playerTopR.setCollideWorldBounds(true);
         this.playerTopRJumps = 0;
         this.cameraTopR.visible = true;
@@ -505,7 +520,7 @@ class playGame extends Phaser.Scene {
             // play "run" animation if the player is on a platform
             if (!this.playerTopR.anims.isPlaying) {
                 this.playerTopR.anims.play("runRed");
-                this.playerTopR.body.setVelocityX(100);
+                this.playerTopR.body.setVelocityX(this.runnersSpeed);
                 this.playerTopRJumps = 0;
             }
         }, null, this);
@@ -525,13 +540,13 @@ class playGame extends Phaser.Scene {
         }
 
         function hit(player, obstacle) {
-            if (this.hittable) {
+            if (this.hittable && this.currentInmuneTime <= 0) {
                 if (obstacle.visible) {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
                         this.tapon.play();
-
+                        this.currentInmuneTime = this.inmuneTime;
                     } else {
                         control.sendPoints();
                         this.removeLife();
@@ -546,7 +561,7 @@ class playGame extends Phaser.Scene {
 
     createPJBotR() {
         this.playerBotR = this.physics.add.sprite(90, 150, 'dudeGreen');
-        this.playerBotR.body.setGravityY(300);
+        this.playerBotR.body.setGravityY(this.runnersGravity);
         this.playerBotR.setCollideWorldBounds(true);
         this.playerBotRJumps = 0;
         this.cameraBotR.visible = true;
@@ -560,7 +575,7 @@ class playGame extends Phaser.Scene {
             // play "run" animation if the player is on a platform
             if (!this.playerBotR.anims.isPlaying) {
                 this.playerBotR.anims.play("runGreen");
-                this.playerBotR.body.setVelocityX(100);
+                this.playerBotR.body.setVelocityX(this.runnersSpeed);
                 this.playerBotRJumps = 0;
             }
         }, null, this);
@@ -578,15 +593,17 @@ class playGame extends Phaser.Scene {
         }
 
         function hit(player, obstacle) {
-            if (this.hittable) {
+            if (this.hittable && this.currentInmuneTime <= 0) {
                 if (obstacle.visible) {
                     if (this.lives > 1) {
                         this.removeLife();
                         this.lives--;
                         this.tapon.play();
+                        this.currentInmuneTime = this.inmuneTime;
                     } else {
                         control.sendPoints();
                         this.removeLife();
+                        this.destroyKeys();
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -627,12 +644,11 @@ class playGame extends Phaser.Scene {
                 }
                 this.physics.add.existing(platform1);
                 platform1.body.setImmovable(true);
-                platform1.body.setVelocityX(-100);
+                platform1.body.setVelocityX(this.platformSpeed);
                 platform1.active = true;
                 platform1.visible = true;
                 this.platformGroupTop.add(platform1);
             }
-            this.nextPlatformDistance = 800;
         }
     }
 
@@ -651,7 +667,7 @@ class playGame extends Phaser.Scene {
             crystal1 = this.add.tileSprite(2400, random, 37, 30, "crystalBlue");
             this.physics.add.existing(crystal1);
             crystal1.body.setImmovable(true);
-            crystal1.body.setVelocityX(-100);
+            crystal1.body.setVelocityX(this.platformSpeed);
             crystal1.setVisible(true);
             crystal1.active = true;
             crystal1.visible = true;
@@ -689,52 +705,48 @@ class playGame extends Phaser.Scene {
             if (posX == undefined && posY == undefined) {
                 switch (random) {
                     case 1:
-                        obstacleInv = this.add.tileSprite(998, 180, 55, 110, "InvBody");
+                        obstacleInv = this.add.tileSprite(998, 180, 40, 110, "skyInv"); //InvBody
                         obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
                         break;
                     case 2:
-                        obstacleInv = this.add.tileSprite(900, 200, 90, 50, "InvBody");
+                        obstacleInv = this.add.tileSprite(900, 200, 85, 50, "skyInv");
                         obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
 
                         break;
                     case 3:
-                        obstacleInv = this.add.tileSprite(993, 185, 60, 95, "InvBody");
+                        obstacleInv = this.add.tileSprite(993, 185, 55, 95, "skyInv");
                         obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
                         break;
                     case 4:
-                        obstacleInv = this.add.tileSprite(900, 200, 75, 60, "InvBody");
+                        obstacleInv = this.add.tileSprite(900, 200, 65, 60, "skyInv");
                         obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
                         break;
                 }
             }
             this.physics.add.existing(obstacle1);
             obstacle1.body.setImmovable(true);
-            obstacle1.body.setVelocityX(-100);
+            obstacle1.body.setVelocityX(this.platformSpeed);
             obstacle1.active = true;
             obstacle1.visible = true;
 
             this.physics.add.existing(obstacleInv);
             obstacleInv.body.setImmovable(true);
-            obstacleInv.body.setVelocityX(-100);
+            obstacleInv.body.setVelocityX(this.platformSpeed);
             obstacleInv.active = true;
             obstacleInv.visible = true;
 
             this.addObstacleToGroup(obstacle1, obstacleInv)
         }
-        this.nextPlatformDistance = 800;
     }
     addObstacleToGroup(obstacle1, obstacleInv) {
         var range = 1;
         if (this.createdBot) {
-            range++;
+            range = 2;
         }
         if (this.createdBotR) {
-            range++
+            range = 3;
         }
         if (this.createdTopR) {
-            range++;
-        }
-        if (range > 4) {
             range = 4;
         }
         var random = this.randomIntFromInterval(1, range);
@@ -774,51 +786,51 @@ class playGame extends Phaser.Scene {
     jumpPlayerTop() {
         //this.cursors.up.isDown
 
-        if (this.keyE.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
+        if (this.keyQ.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
             this.playerTopJumps++;
 
             this.playerTop.anims.stop()
-            this.playerTop.setVelocityY(-200);
-            this.playerTop.setVelocityX(0);
+            this.playerTop.setVelocityY(this.runnersJumpY);
+            this.playerTop.setVelocityX(this.runnersJumpX);
         }
         if (!this.playerTop.body.touching.down) { //velocidad durante salto
-            this.playerTop.setVelocityX(0);
+            this.playerTop.setVelocityX(this.runnersJumpX);
         }
     }
 
     jumpPlayerBot() {
-        if (this.keyA.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
+        if (this.keyS.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
             this.playerBotJumps++;
-            this.playerBot.setVelocityY(-200);
-            this.playerBot.setVelocityX(0);
+            this.playerBot.setVelocityY(this.runnersJumpY);
+            this.playerBot.setVelocityX(this.runnersJumpX);
             this.playerBot.anims.stop()
         }
         if (!this.playerBot.body.touching.down) {
-            this.playerBot.setVelocityX(0);
+            this.playerBot.setVelocityX(this.runnersJumpX);
         }
     }
 
     jumpPlayerTopR() {
-        if (this.keyT.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
+        if (this.keyP.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
             this.playerTopRJumps++;
             this.playerTopR.anims.stop();
-            this.playerTopR.setVelocityY(-200);
-            this.playerTopR.setVelocityX(0);
+            this.playerTopR.setVelocityY(this.runnersJumpY);
+            this.playerTopR.setVelocityX(this.runnersJumpX);
         }
         if (!this.playerTopR.body.touching.down) { //velocidad durante salto
-            this.playerTopR.setVelocityX(0);
+            this.playerTopR.setVelocityX(this.runnersJumpX);
         }
     }
 
     jumpPlayerBotR() {
-        if (this.keyH.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
+        if (this.keyL.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
             this.playerBotRJumps++;
-            this.playerBotR.setVelocityY(-200);
-            this.playerBotR.setVelocityX(0);
+            this.playerBotR.setVelocityY(this.runnersJumpY);
+            this.playerBotR.setVelocityX(this.runnersJumpX);
             this.playerBotR.anims.stop()
         }
         if (!this.playerBotR.body.touching.down) {
-            this.playerBotR.setVelocityX(0);
+            this.playerBotR.setVelocityX(this.runnersJumpX);
         }
     }
 }

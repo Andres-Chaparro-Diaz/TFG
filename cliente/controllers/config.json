@@ -1,12 +1,19 @@
 {
     "startPoints": 0,
     "lives": 3,
-    "hittableObstacles": true,
+    "hittableObstacles": false,
     "scoreToCreateBot": 1000,
     "scoreToCreateTopR": 1500,
     "scoreToCreateBotR": 2000,
     "frecuencytoAddCrystal": 200,
     "frecuencytoAddObstacle": 200,
     "frecuencytoAddPlatform": 136,
-    "valueOfCrystal": 300
+    "valueOfCrystal": 300,
+    "reqPointsToAppearObstacles": 10,
+    "runnersSpeed": 100,
+    "runnersGravity": 300,
+    "platformSpeed": -100,
+    "runnersJumpY": -200,
+    "runnersJumpX": 0,
+    "inmuneTime": 500
 }

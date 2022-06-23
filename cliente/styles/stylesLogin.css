@@ -21,7 +21,7 @@
 .divLogin {
     padding: 0;
     margin: 0;
-    background-color: lightgray;
+    background-color: #182840;
 }
 
 .divLogin p,
@@ -47,8 +47,9 @@
     border-radius: 20%;
     margin-top: 5%;
     border: solid;
-    border-color: darkslategray;
-    background: linear-gradient(221deg, rgba(90, 87, 145, 1) 0%, rgba(44, 44, 154, 1) 35%, rgba(0, 155, 255, 1) 100%);
+    background: #1e3554;
+    border-color: #1e3554;
+    /*background: linear-gradient(221deg, rgba(90, 87, 145, 1) 0%, rgba(44, 44, 154, 1) 35%, rgba(0, 155, 255, 1) 100%);*/
 }
 
 .divLogin .divInput {

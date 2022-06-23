@@ -65,6 +65,7 @@ Router.prototype = {
             }).then(function() {
                 switch (window.location.hash.substr(1)) {
                     case "introduccion":
+                        app.abrirIntroduccion()
                         break;
                     case "login":
                         app.abrirLogin()
@@ -91,8 +92,10 @@ Router.prototype = {
                         app.abrirSurveyEmocional()
                         break;
                     case "privacidad":
+                        app.abrirPrivacidad()
                         break;
                     case "about":
+                        app.abrirAcercaDe()
                         break;
 
                 }
