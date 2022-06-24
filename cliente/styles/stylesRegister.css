@@ -13,6 +13,7 @@
     padding: 0;
     margin: 0;
     background-color: #182840;
+    margin-top: 10%;
 }
 
 .divRegister #content {
@@ -21,7 +22,7 @@
     align-items: center;
     margin-top: auto;
     margin-bottom: auto;
-    height: 75vh;
+    /*height: 75vh;*/
 }
 
 .divRegister input {
@@ -49,11 +50,11 @@
 
 .divRegister .borderRegister {
     padding: 10%;
-    margin-top: 20%;
     border-radius: 20%;
     border: solid;
     background: #1e3554;
     border-color: #1e3554;
+    max-width: 602px;
     /*background: linear-gradient(221deg, rgba(90, 87, 145, 1) 0%, rgba(44, 44, 154, 1) 35%, rgba(0, 155, 255, 1) 100%);*/
 }
 
@@ -63,7 +64,8 @@
     border-radius: 15px 50px;
     background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
     margin-bottom: 3%;
-    min-width: 102%;
+    min-width: 470px;
+    max-width: 500px;
 }
 
 .divRegister input:hover {
