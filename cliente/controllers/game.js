@@ -150,7 +150,10 @@ class playGame extends Phaser.Scene {
         this.inmuneTime = config.inmuneTime;
         this.puntuacion = document.getElementById("spPuntuacion");
         this.currentInmuneTime = 0;
-
+        this.addedTop = 0;
+        this.addedBot = 0;
+        this.addedTopR = 0;
+        this.addedBotR = 0;
 
     }
 
@@ -398,28 +401,26 @@ class playGame extends Phaser.Scene {
         }
     }
     update() {
-        this.jumpPlayerTop();
         this.score++;
-
-        this.puntuacion.textContent = this.score;
-        this.addPlatformFloor();
-        if (this.score > this.reqPointsToAppearObstacles) {
-            this.addObstacle();
-        }
-
         if (this.currentInmuneTime > 0) {
             this.currentInmuneTime--;
         }
+        this.puntuacion.textContent = this.score;
+        this.addPlatformFloor();
 
+        var range = 1;
+        this.addedTop--;
+
+        this.jumpPlayerTop();
         if (!this.createdBot) {
             if (this.score >= this.scoreTocreateBot) {
                 this.createdBot = true;
                 this.createPJBot();
-
             }
         } else {
             this.jumpPlayerBot();
-            this.frecuencytoAddObstacle = 180;
+            range = 2;
+            this.addedBot--;
         }
 
         if (!this.createdTopR) {
@@ -429,9 +430,9 @@ class playGame extends Phaser.Scene {
             }
         } else {
             this.jumpPlayerTopR();
-            this.frecuencytoAddObstacle = 160;
+            range = 3;
+            this.addedTopR--;
         }
-
 
         if (!this.createdBotR) {
             if (this.score >= this.scoreTocreateBotR) {
@@ -440,12 +441,63 @@ class playGame extends Phaser.Scene {
             }
         } else {
             this.jumpPlayerBotR();
-            this.frecuencytoAddObstacle = 140;
+            range = 4;
+            this.addedBotR--;
+
         }
 
 
+        var location = this.randomIntFromInterval(1, range);
+
+
+        if (this.score > this.reqPointsToAppearObstacles && (this.score % this.frecuencytoAddObstacle == 0 || this.score < 10)) {
+            this.checkLocationNewObstacle(location);
+            location = this.randomIntFromInterval(1, range);
+            this.checkLocationNewObstacle(location);
+            location = this.randomIntFromInterval(1, range);
+            this.checkLocationNewObstacle(location);
+        }
+
         if (this.score % this.frecuencyToAddCrystal == 0) {
             this.addCrystal();
+        }
+
+    }
+
+    checkLocationNewObstacle(location) {
+        switch (location) {
+            case 1:
+                if (this.addedTop <= 0) {
+                    this.addedTop = 100;
+                    this.addObstacle(location);
+                } else if (this.createdBot && this.addedBot <= 0) {
+                    this.addObstacle(location + 1);
+                }
+                break;
+            case 2:
+                if (this.addedBot <= 0) {
+                    this.addedBot = 100;
+                    this.addObstacle(location);
+                } else if (this.createdTopR && this.addedTopR <= 0) {
+                    this.addObstacle(location + 1);
+                }
+                break;
+            case 3:
+                if (this.addedTopR <= 0) {
+                    this.addedTopR = 100;
+                    this.addObstacle(location);
+                } else if (this.createdBotR && this.addedBotR <= 0) {
+                    this.addObstacle(location + 1);
+                }
+                break;
+            case 4:
+                if (this.addedBotR <= 0) {
+                    this.addedBotR = 100;
+                    this.addObstacle(location);
+                } else if (this.addedTop <= 0) {
+                    this.addObstacle(1);
+                }
+                break;
         }
     }
 
@@ -613,12 +665,6 @@ class playGame extends Phaser.Scene {
 
     }
 
-    addObstacle() {
-        if (this.score % this.frecuencytoAddObstacle == 0 || this.score < 10) {
-            this.addObstacleTop();
-        }
-    }
-
     addPlatformFloor(posX, posY) {
         this.nPlatformsTop++;
         let platform1;
@@ -652,45 +698,16 @@ class playGame extends Phaser.Scene {
         }
     }
 
-    addCrystal() {
-        let crystal1;
-        if (this.crystalPool.getLength()) {
-            crystal1 = this.crystalPool.getFirst();
-            crystal1.x = 2400;
-            crystal1.y = 100;
-            crystal1.active = true;
-            crystal1.visible = true;
-            this.crystalPool.remove(crystal1);
-            crystal1.displayWidth = platformWidth;
-        } else {
-            var random = this.randomIntFromInterval(50, 210)
-            crystal1 = this.add.tileSprite(2400, random, 37, 30, "crystalBlue");
-            this.physics.add.existing(crystal1);
-            crystal1.body.setImmovable(true);
-            crystal1.body.setVelocityX(this.platformSpeed);
-            crystal1.setVisible(true);
-            crystal1.active = true;
-            crystal1.visible = true;
-            this.crystalGroup.add(crystal1);
-        }
-    }
-    addObstacleTop(posX, posY) {
+    addObstacle(location) {
         let obstacle1;
         let obstacleInv;
         if (this.obstaclePoolTop.getLength()) {
             obstacle1 = this.obstaclePoolTop.getFirst();
             obstacleInv = this.obstaclePoolTopInv.getFirst();
-            if (posX == undefined && posY == undefined) {
-                obstacle1.x = 900;
-                obstacle1.y = 480;
-                obstacleInv.x = 900;
-                obstacleInv.y = 480;
-            } else {
-                obstacle1.x = posX;
-                obstacle1.y = posY;
-                obstacleInv.x = posX;
-                obstacleInv.y = posY;
-            }
+            obstacle1.x = 900;
+            obstacle1.y = 480;
+            obstacleInv.x = 900;
+            obstacleInv.y = 480;
             obstacle1.active = true;
             obstacle1.visible = true;
             this.obstaclePoolTop.remove(obstacle1);
@@ -702,27 +719,27 @@ class playGame extends Phaser.Scene {
             obstacleInv.displayWidth = platformWidth;
         } else {
             var random = this.randomIntFromInterval(1, 4);
-            if (posX == undefined && posY == undefined) {
-                switch (random) {
-                    case 1:
-                        obstacleInv = this.add.tileSprite(998, 180, 40, 110, "skyInv"); //InvBody
-                        obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
-                        break;
-                    case 2:
-                        obstacleInv = this.add.tileSprite(900, 200, 85, 50, "skyInv");
-                        obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
 
-                        break;
-                    case 3:
-                        obstacleInv = this.add.tileSprite(993, 185, 55, 95, "skyInv");
-                        obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
-                        break;
-                    case 4:
-                        obstacleInv = this.add.tileSprite(900, 200, 65, 60, "skyInv");
-                        obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
-                        break;
-                }
+            switch (random) {
+                case 1:
+                    obstacleInv = this.add.tileSprite(998, 180, 38, 110, "skyInv"); //InvBody
+                    obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
+                    break;
+                case 2:
+                    obstacleInv = this.add.tileSprite(900, 200, 80, 50, "skyInv");
+                    obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
+
+                    break;
+                case 3:
+                    obstacleInv = this.add.tileSprite(993, 185, 55, 95, "skyInv");
+                    obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
+                    break;
+                case 4:
+                    obstacleInv = this.add.tileSprite(900, 200, 60, 60, "skyInv");
+                    obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
+                    break;
             }
+
             this.physics.add.existing(obstacle1);
             obstacle1.body.setImmovable(true);
             obstacle1.body.setVelocityX(this.platformSpeed);
@@ -735,23 +752,12 @@ class playGame extends Phaser.Scene {
             obstacleInv.active = true;
             obstacleInv.visible = true;
 
-            this.addObstacleToGroup(obstacle1, obstacleInv)
+            this.addObstacleToGroup(obstacle1, obstacleInv, location)
         }
     }
-    addObstacleToGroup(obstacle1, obstacleInv) {
-        var range = 1;
-        if (this.createdBot) {
-            range = 2;
-        }
-        if (this.createdBotR) {
-            range = 3;
-        }
-        if (this.createdTopR) {
-            range = 4;
-        }
-        var random = this.randomIntFromInterval(1, range);
+    addObstacleToGroup(obstacle1, obstacleInv, location) {
 
-        switch (random) {
+        switch (location) {
             case 1:
                 this.obstacleGroupTop.add(obstacle1);
                 this.obstacleGroupTopInv.add(obstacleInv);
@@ -782,6 +788,31 @@ class playGame extends Phaser.Scene {
                 break;
         }
     }
+
+
+    addCrystal() {
+        let crystal1;
+        if (this.crystalPool.getLength()) {
+            crystal1 = this.crystalPool.getFirst();
+            crystal1.x = 2400;
+            crystal1.y = 100;
+            crystal1.active = true;
+            crystal1.visible = true;
+            this.crystalPool.remove(crystal1);
+            crystal1.displayWidth = platformWidth;
+        } else {
+            var random = this.randomIntFromInterval(50, 210)
+            crystal1 = this.add.tileSprite(2400, random, 37, 30, "crystalBlue");
+            this.physics.add.existing(crystal1);
+            crystal1.body.setImmovable(true);
+            crystal1.body.setVelocityX(this.platformSpeed);
+            crystal1.setVisible(true);
+            crystal1.active = true;
+            crystal1.visible = true;
+            this.crystalGroup.add(crystal1);
+        }
+    }
+
 
     jumpPlayerTop() {
         //this.cursors.up.isDown

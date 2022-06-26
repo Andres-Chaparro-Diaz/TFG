@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .divRanking input {
@@ -18,11 +19,11 @@
 .divRanking {
     padding: 0;
     margin: 0;
-    background-color: #182840;
+    background-color: #305c94;
 }
 
 .divRanking .pTabla {
-    background-color: #75ACEC;
+    background-color: #305c94;
     font-size: 30px;
     min-width: 170px;
 }
@@ -34,7 +35,7 @@
 .divRanking .liDiv {
     padding: 3%;
     border: solid 0.07cm;
-    border-color: #75ACEC;
+    border-color: #1e3554;
 }
 
 .divRanking .pFila {
@@ -46,7 +47,7 @@
 .divRanking .rank {
     border: solid;
     border-radius: 0px 0px 10px 10px;
-    border-color: #75ACEC;
+    border-color: #1e3554;
     width: 100%;
 }
 
@@ -94,9 +95,9 @@
 .divRanking h2 {
     border: solid;
     border-radius: 10px 10px 0px 0px;
-    border-color: #75ACEC;
+    border-color: #1e3554;
     font-size: 40px;
     text-align: center;
-    background-color: #75ACEC;
+    background-color: #305c94;
     width: 100%;
 }

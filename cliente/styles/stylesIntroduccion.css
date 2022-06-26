@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .divIntro #Introduccion {
@@ -45,5 +46,6 @@
     margin-top: 2%;
     margin-bottom: 1%;
     padding: 5%;
-    background: whitesmoke
+    border-radius: 24px;
+    background: #305c94;
 }
