@@ -454,8 +454,8 @@ class playGame extends Phaser.Scene {
             this.checkLocationNewObstacle(location);
             location = this.randomIntFromInterval(1, range);
             this.checkLocationNewObstacle(location);
-            location = this.randomIntFromInterval(1, range);
-            this.checkLocationNewObstacle(location);
+            //location = this.randomIntFromInterval(1, range);
+            //this.checkLocationNewObstacle(location);
         }
 
         if (this.score % this.frecuencyToAddCrystal == 0) {
@@ -655,7 +655,7 @@ class playGame extends Phaser.Scene {
                     } else {
                         control.sendPoints();
                         this.removeLife();
-                        this.destroyKeys();
+
                         this.scene.stop("PlayGame");
                     }
                 }

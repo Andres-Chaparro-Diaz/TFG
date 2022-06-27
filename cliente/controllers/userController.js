@@ -81,12 +81,13 @@ class UserController {
         let type = res.type;
         switch (type) {
             case "newRecord":
-                if (res.done && res.participa) {
-                    window.location.href = 'index.html#cuestionarioemocional'
-                } else if (!res.done) {
-                    window.location.href = 'index.html#postcuestionario';
+                if (res.participa) {
+                    if (res.done) {
+                        window.location.href = 'index.html#cuestionarioemocional'
+                    } else {
+                        window.location.href = 'index.html#postcuestionario';
+                    }
                 }
-                break;
             case "checkUser":
                 if (res.msg != undefined && res.msg != "") {
                     this.changeNavMenuLogged();

@@ -1,7 +1,7 @@
 {
     "startPoints": 0,
     "lives": 3,
-    "hittableObstacles": false,
+    "hittableObstacles": true,
     "scoreToCreateBot": 1000,
     "scoreToCreateTopR": 1500,
     "scoreToCreateBotR": 2000,
@@ -15,5 +15,5 @@
     "platformSpeed": -100,
     "runnersJumpY": -200,
     "runnersJumpX": 0,
-    "inmuneTime": 500
+    "inmuneTime": 250
 }

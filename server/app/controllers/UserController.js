@@ -160,37 +160,32 @@ function addRecord(req, res) {
                 result = "No has ningun record anterior";
             }
 
-            var done = checkPostGameSurvey(user.username);
+            if (found) {
+                recordList.sort(function(a, b) { return b - a });
+                user.records = recordList;
+                user.save()
+                    .then(userUpdated => {
+                        PostGameSurvey.find({}).then(surveys => {
+                            let done = false;
+                            for (var j = 0; j < surveys.length; j++) {
+                                if (surveys[j].username.toLowerCase() == userUpdated.username.toLowerCase()) {
+                                    done = true;
+                                }
+                            }
+                            if (userUpdated.participa) {
+                                res.status(201).send({ username: userUpdated.username, msg: result, done: done, type: "newRecord", participa: userUpdated.participa })
+                            } else {
+                                res.status(201).send({ username: userUpdated.username, msg: result, done: true, type: "newRecord", participa: false })
+                            }
+                        });
 
-            recordList.sort(function(a, b) { return b - a });
-            user.records = recordList;
-            user.save()
-                .then(userUpdated => {
-                    if (user.participa) {
-                        res.status(201).send({ username: userUpdated.username, msg: result, done: done, type: "newRecord", participa: user.participa })
-                    } else {
-                        res.status(201).send({ username: userUpdated.username, msg: result, done: true, type: "newRecord", participa: false })
-                    }
-                }).catch(err => res.status(500).send({ err }))
-
-            if (!found) {
+                    }).catch(err => res.status(500).send({ err }))
+            } else {
                 res.status(201).send({ error: "Usuario no encontrado", type: "newRecord" })
+
             }
 
         });
-}
-
-var checkPostGameSurvey = function checkPostGameSurvey(username) {
-    var done;
-    PostGameSurvey.find({}).then(surveys => {
-        for (var i = 0; i < surveys.length; i++) {
-            if (surveys[i].username.toLowerCase() == username.toLowerCase()) {
-                done = true;
-            }
-        }
-        done = false;
-    });
-    return done;
 }
 
 function checkUser(req, res) {
@@ -252,10 +247,10 @@ function sendEmail(req, res) {
                         .then(userUpdated =>
                             transporter.sendMail(mailOptions, function(error, info) {
                                 if (error) {
-                                    console.log('Email error: ' + error);
+                                    console.log('Email error:' + error);
                                     res.status(201).send({ error: "Ha habido un error enviando el correo", type: "sendEmail" })
                                 } else {
-                                    console.log('Email enviado: ' + info.response);
+                                    console.log('Email enviado');
                                     console.log('usuario guardado: ' + userUpdated);
                                     res.status(201).send({ msg: "Email enviado al correo: " + user.email + ". Muchas veces el email llega como spam.", type: "sendEmail" })
                                 }
