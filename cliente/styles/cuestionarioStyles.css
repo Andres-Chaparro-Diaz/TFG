@@ -8,6 +8,7 @@
     overflow: hidden;
     margin-top: 9%;
     font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 .divSurvey,
@@ -43,7 +44,7 @@
     color: #555 !important;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 40px;
-    max-width: 950px;
+    max-width: 1100px;
     width: 100%;
 }
 
@@ -54,6 +55,14 @@
 .divSurvey .form-textbox {
     margin-left: 2%;
     font-size: 20px;
+    border-radius: 12px;
+    border: none;
+    background: #284770;
+    color: white !important;
+}
+
+.divSurvey .form-textbox:hover {
+    background-color: #3e659e;
 }
 
 .divSurvey select {
@@ -110,7 +119,8 @@
 }
 
 .divSurvey .form-all {
-    font-size: 12px
+    font-size: 12px;
+    color: white;
 }
 
 .divSurvey .form-all .qq-upload-button,
@@ -128,19 +138,27 @@
 
 .divSurvey .supernova .form-all,
 .divSurvey .form-all {
-    background-color: #5a5791;
+    background-color: #305c94;
 }
 
 .divSurvey .form-all {
-    color: Black;
+    color: white !important;
+}
+
+.form-matrix-headers {
+    background: #38547a !important;
 }
 
 .divSurvey .form-header-group .form-header {
-    color: Black;
+    color: white;
 }
 
 .divSurvey .form-header-group .form-subHeader {
-    color: Black;
+    color: white;
+}
+
+.form-matrix-values {
+    background: #3e659e !important;
 }
 
 .divSurvey .form-label-top,
@@ -149,11 +167,11 @@
 .divSurvey .form-html,
 .divSurvey .form-checkbox-item label,
 .divSurvey .form-radio-item label {
-    color: Black;
+    color: white;
 }
 
 .divSurvey .form-sub-label {
-    color: 1a1a25;
+    color: white;
 }
 
 .divSurvey .supernova {
@@ -195,11 +213,6 @@
     margin-top: initial;
 }
 
-
-/*PREFERENCES STYLE*/
-
-
-/*__INSPECT_SEPERATOR__*/
-
-
-/* Injected CSS Code */
+.divSurvey .chbxParticipa:checked~.checkmark {
+    background-color: #2196F3;
+}

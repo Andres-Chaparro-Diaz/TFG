@@ -3,30 +3,25 @@
         <div class="ranking" id="GlobalRank" style="margin: 0% 15%; margin-top: 20%;">
             <h2>Ranking Global</h2>
             <div class="rank" style="display: flex;justify-content: space-between;">
-                <div style="flex: 1;">
-                    <p class="pTabla">Usuario</p>
-                    <ul class="ulGlobal" id="ulGlobalUsers">
-
-                    </ul>
-                </div>
-
-                <div style="flex: 1;">
-                    <p class="pTabla">Puntuación</p>
-                    <ul class="ulGlobal" id="ulGlobalPoints">
-
-                    </ul>
-                </div>
+                <table id="globalRankTable" class="tableRank">
+                    <tr>
+                        <th>Puntuación</th>
+                        <th>Usuario</th>
+                    </tr>
+                </table>
             </div>
 
         </div>
         <div class="ranking" id="PersonalRank" style="margin-top: 20%;">
             <h2>Ranking Personal</h2>
             <div class="rank" style="flex: 1;">
-                <p class="pTabla">Puntuación</p>
-                <ul class="ulPersonal" id="ulPersonalPoints">
-
-                </ul>
+                <table id="personalRankTable" class="tableRank">
+                    <tr>
+                        <th>Puntuación</th>
+                    </tr>
+                </table>
             </div>
+
         </div>
     </div>
 </div>

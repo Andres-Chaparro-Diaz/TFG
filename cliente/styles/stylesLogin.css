@@ -25,9 +25,7 @@
     margin-top: 10%;
 }
 
-.divLogin p,
-.divLogin footer,
-.divLogin header,
+.divLogin label,
 .divLogin h2 {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -68,10 +66,10 @@
 }
 
 .divLogin input:hover {
-    background-color: dodgerblue;
+    background-color: #3e659e;
 }
 
-.divLogin span {
+.divLogin label {
     align-self: center;
     min-width: 130.81px;
     max-width: 130.81px;
@@ -84,7 +82,7 @@
 }
 
 .divLogin button:hover {
-    background: dodgerblue;
+    background: #3e659e;
 }
 
 .divLogin a:hover {

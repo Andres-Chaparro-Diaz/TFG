@@ -865,7 +865,3 @@ class playGame extends Phaser.Scene {
         }
     }
 }
-
-
-
-//<a href="https://www.flaticon.com/free-icons/hearth" title="hearth icons">Hearth icons created by Andrean Prabowo - Flaticon</a>

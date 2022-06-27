@@ -63,21 +63,15 @@ class RankingController {
     }
 
     showPersonalRank(records) {
-        let ulPP = document.getElementById("ulPersonalPoints");
+        let tablePersonal = document.getElementById("personalRankTable");
         records.sort(function(a, b) { return b - a });
         for (var j = 0; j < records.length; j++) {
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            let div1 = document.createElement("div");
-            let p = document.createElement("p");
-            p.value = records[j];
-            p.textContent = records[j];
-            p.className = "pFila"
-            div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
-            div1.appendChild(p);
-            div.appendChild(div1);
-            li.appendChild(div)
-            ulPP.appendChild(li);
+            let tr = document.createElement("tr");
+            let td = document.createElement("td");
+            td.value = records[j];
+            td.textContent = records[j];
+            tr.appendChild(td)
+            tablePersonal.appendChild(tr);
         }
     }
 
@@ -91,53 +85,31 @@ class RankingController {
     }
 
     showGlobalRank(globalRank) {
-        let ulGP = document.getElementById("ulGlobalPoints");
-        let ulGU = document.getElementById("ulGlobalUsers");
-        let globalListPoints = [];
+        let tableGlobal = document.getElementById("globalRankTable");
         let globalListUsers = [];
         for (var i in globalRank) {
             var key = i;
             let personalList = globalRank[i];
             personalList.sort(function(a, b) { return b - a });
-            globalListPoints.push(personalList[0]);
             let user = { "username": key, "points": personalList[0] };
             globalListUsers.push(user);
         }
-
-        globalListPoints.sort(function(a, b) { return b - a });
-        for (var k = 0; k < globalListPoints.length; k++) {
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            let div1 = document.createElement("div");
-            let p = document.createElement("p");
-            p.value = globalListPoints[k];
-            p.className = "pFila"
-            p.textContent = globalListPoints[k];
-            div.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
-            for (var j = 0; j < globalListUsers.length; j++) {
-                if (globalListUsers[j].points != 0) {
-                    if (globalListPoints[k] == globalListUsers[j].points) {
-                        let liU = document.createElement("li");
-                        let divU = document.createElement("div");
-                        let divU1 = document.createElement("div");
-                        let pU = document.createElement("p");
-                        pU.value = globalListUsers[j].username;
-                        pU.textContent = globalListUsers[j].username;
-                        pU.className = "pFila"
-                        globalListUsers[j].username = "";
-                        globalListUsers[j].points = 0;
-                        divU.className = "liDiv"; //esto falta utilizarlo y ponerle los estilos
-                        divU1.appendChild(pU);
-                        divU.appendChild(divU1);
-                        liU.appendChild(divU)
-                        ulGU.appendChild(liU);
-                    }
-                }
-            }
-            div1.appendChild(p);
-            div.appendChild(div1);
-            li.appendChild(div)
-            ulGP.appendChild(li);
+        globalListUsers.sort(function(a, b) {
+            if (a.points == undefined) a.points = 0;
+            if (b.points == undefined) b.points = 0;
+            return b.points - a.points
+        });
+        for (var k = 0; k < globalListUsers.length; k++) {
+            let tr = document.createElement("tr");
+            let td = document.createElement("td");
+            let tdU = document.createElement("td");
+            td.value = globalListUsers[k].points;
+            td.textContent = globalListUsers[k].points;
+            tdU.value = globalListUsers[k].username;
+            tdU.textContent = globalListUsers[k].username;
+            tr.appendChild(td);
+            tr.appendChild(tdU);
+            tableGlobal.appendChild(tr);
         }
 
     }

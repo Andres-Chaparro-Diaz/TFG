@@ -6,10 +6,6 @@
     color: white;
 }
 
-.divRanking input {
-    margin-bottom: 10px;
-}
-
 .divRanking .rankings {
     top: 63px;
     position: absolute;
@@ -22,33 +18,31 @@
     background-color: #305c94;
 }
 
-.divRanking .pTabla {
-    background-color: #305c94;
-    font-size: 30px;
-    min-width: 170px;
-}
-
-.divRanking li {
-    list-style: none;
-}
-
-.divRanking .liDiv {
-    padding: 3%;
-    border: solid 0.07cm;
-    border-color: #1e3554;
-}
-
-.divRanking .pFila {
-    text-align: center;
-    min-height: 47px;
-    max-height: 47px;
-}
-
-.divRanking .rank {
-    border: solid;
-    border-radius: 0px 0px 10px 10px;
-    border-color: #1e3554;
+.tableRank {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
     width: 100%;
+}
+
+.tableRank td,
+.tableRank th {
+    padding: 8px;
+}
+
+.tableRank tr:nth-child(even) {
+    background-color: #1e3554;
+}
+
+.tableRank tr:hover {
+    background-color: #3e659e;
+}
+
+.tableRank th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #305c94;
+    color: white;
 }
 
 @media (max-width: 865px) {
@@ -78,22 +72,7 @@
     user-select: none;
 }
 
-.divRanking p {
-    padding: 5%;
-    text-align: center;
-    line-height: 50px;
-}
-
-#PersonalRank {
-    min-width: 200px;
-}
-
-#GlobalRank {
-    min-width: 400px;
-}
-
 .divRanking h2 {
-    border: solid;
     border-radius: 10px 10px 0px 0px;
     border-color: #1e3554;
     font-size: 40px;

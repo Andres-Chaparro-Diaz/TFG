@@ -39,10 +39,8 @@
     float: right;
 }
 
-.divRegister p,
-.divRegister footer,
-.divRegister header,
-.divRegister h2 {
+.divRegister h2,
+.divRegister label {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -72,10 +70,10 @@
 }
 
 .divRegister input:hover {
-    background-color: dodgerblue;
+    background-color: #3e659e;
 }
 
-.divRegister span {
+.divRegister label {
     align-self: center;
     min-width: 130.25px;
     max-width: 130.25px;
@@ -88,7 +86,7 @@
 }
 
 .divRegister button:hover {
-    background: dodgerblue;
+    background: #3e659e;
 }
 
 .divRegister a:hover {

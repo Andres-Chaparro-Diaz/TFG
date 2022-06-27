@@ -33,6 +33,11 @@
     font-size: 40px;
 }
 
+.divIntro li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
 .divIntro p {
     margin-top: 20px;
     margin-bottom: 20px;
