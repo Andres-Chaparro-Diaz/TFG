@@ -84,7 +84,7 @@ function login(req, res) {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
             res.header('Access-Control-Allow-Credentials', 'true');
-
+            res.__setitem__("Access-Control-Allow-Origin", "*")
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
