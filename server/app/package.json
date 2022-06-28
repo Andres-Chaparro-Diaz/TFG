@@ -2,9 +2,9 @@
     "name": "apiusers",
     "version": "0.0.1",
     "scripts": {
-        "start": "node app",
-        "dev": "nodemon server.js",
-        "prod": "nodemon server.js"
+        "start": "nodemon server.js",
+        "prod": "nodemon server.js",
+        "dev": "node app"
     },
     "dependencies": {
         "body-parser": "^1.19.0",
