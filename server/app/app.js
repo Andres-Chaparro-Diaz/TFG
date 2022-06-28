@@ -9,10 +9,10 @@ require('dotenv').config();
 
 const app = express();
 
-
-var corsOptions = {
-        origin: 'http://localhost:80/',
-        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+const corsOptions = {
+        origin: '*',
+        credentials: true,
+        optionSuccessStatus: 200,
     }
     // view engine setup
 app.set('views', path.join(__dirname, 'views'));
