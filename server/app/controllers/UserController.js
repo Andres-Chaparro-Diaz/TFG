@@ -80,12 +80,11 @@ function login(req, res) {
             let username = req.body.username;
             var found = false;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            res.set({
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-                'Access-Control-Allow-Credentials': 'true',
-            })
+            res.header('Access-Control-Allow-Headers', '*');
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+            res.header('Access-Control-Allow-Credentials', 'true');
+
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
