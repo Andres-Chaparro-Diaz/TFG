@@ -13,7 +13,13 @@ function register(req, res) {
             //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
             pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             var exist = false;
-
+            res.set({
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                    'Access-Control-Allow-Credentials': 'true',
+                })
+                //console.log(res);
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     exist = true;
@@ -74,7 +80,12 @@ function login(req, res) {
             let username = req.body.username;
             var found = false;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-
+            res.set({
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                'Access-Control-Allow-Credentials': 'true',
+            })
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
