@@ -13,6 +13,7 @@ function register(req, res) {
             //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
             pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             var exist = false;
+            console.log(req);
             res.set({
                     'Access-Control-Allow-Headers': '*',
                     'Access-Control-Allow-Origin': '*',
@@ -80,11 +81,14 @@ function login(req, res) {
             let username = req.body.username;
             var found = false;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            res.header('Access-Control-Allow-Headers', '*');
-            res.header('Access-Control-Allow-Origin', '*');
+                //res.header('Access-Control-Allow-Headers', '*');
+                //res.header('Access-Control-Allow-Origin', '*');
+            console.log("hola que tal");
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
             res.header('Access-Control-Allow-Credentials', 'true');
-            res.__setitem__("Access-Control-Allow-Origin", "*")
+
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     found = true;
