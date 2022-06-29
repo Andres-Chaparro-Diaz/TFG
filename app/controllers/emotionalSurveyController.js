@@ -1,4 +1,4 @@
-const EmotionalSurvey = require('../models/EmotionalSurvey');
+const EmotionalSurvey = require('./models/EmotionalSurvey');
 
 function listall(req, res) {
     EmotionalSurvey.find({})
