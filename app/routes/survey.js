@@ -1,5 +1,5 @@
 const express = require('express');
-const SurveyController = require('../controllers/SurveyController');
+const SurveyController = require('../controllers/surveyController');
 
 const router = express.Router();
 

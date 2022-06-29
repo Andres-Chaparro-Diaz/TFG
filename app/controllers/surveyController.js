@@ -1,5 +1,5 @@
-const Survey = require('../models/Survey');
-const User = require('../models/User');
+const Survey = require('../models/survey');
+const User = require('../models/user');
 
 function listall(req, res) {
     Survey.find({})

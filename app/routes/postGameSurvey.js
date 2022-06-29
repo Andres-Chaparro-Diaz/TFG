@@ -1,5 +1,5 @@
 const express = require('express');
-const PostGameSurvey = require('../controllers/PostGameSurveyController');
+const PostGameSurvey = require('../controllers/postGameSurveyController');
 
 const router = express.Router();
 

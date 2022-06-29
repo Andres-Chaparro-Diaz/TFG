@@ -1,5 +1,5 @@
 const express = require('express');
-const EmotionalSurvey = require('../controllers/EmotionalSurveyController');
+const EmotionalSurvey = require('../controllers/emotionalSurveyController');
 
 const router = express.Router();
 
