@@ -70,7 +70,7 @@ class EmotionalSurveyController {
             "emocion": emocion,
             "motivado": motivado
         };
-        this.buildRequest('post', 'http://localhost:3000/emotionalSurvey/create', emotionalSurveyJSON);
+        this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/emotionalSurvey/create', emotionalSurveyJSON);
 
     }
 

@@ -1,0 +1,8 @@
+{
+    "method": "POST",
+    "header": "x-requested-with",
+    "origin": "*",
+    "originH": "Access-Control-Allow-Origin",
+    "headerH": "Access-Control-Request-Headers",
+    "methodH": "Access-Control-Request-Method"
+}

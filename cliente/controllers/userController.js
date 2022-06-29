@@ -27,7 +27,7 @@ class UserController {
             let spPoints = document.getElementById("spPuntuacion");
             let points = spPoints.textContent;
             let userJSON = { "username": username, "points": points };
-            this.buildRequest('post', 'http://localhost:3000/user/addRecord', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/addRecord', userJSON);
         }
 
     }
@@ -60,7 +60,7 @@ class UserController {
         let username = localStorage.getItem("username");
         if (username != undefined && username != "") {
             let userJSON = { "username": username };
-            this.buildRequest('post', 'http://localhost:3000/user/checkUser', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/checkUser', userJSON);
 
         }
     }

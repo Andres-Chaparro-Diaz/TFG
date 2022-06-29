@@ -66,7 +66,7 @@ class PostGameSurveyController {
             "fourPlayerDifficult": fourPlayerDifficult,
             "improvements": improvements,
         };
-        this.buildRequest('post', 'http://localhost:3000/postGameSurvey/create', postGameSurveyJSON);
+        this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/postGameSurvey/create', postGameSurveyJSON);
 
     }
 

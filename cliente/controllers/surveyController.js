@@ -44,7 +44,7 @@ class SurveyController {
         }
 
         let surveyJSON = { "username": username, "edad": edad, "cuantoJuegasAnswer": cuantoJuegasAnswer, "nivelJugandoAnswer": nivelJugandoAnswer, "variasCosasALaVezAnswer": variasCosasALaVezAnswer, "participa": participa };
-        this.buildRequest('post', 'http://localhost:3000/survey/create', surveyJSON);
+        this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/survey/create', surveyJSON);
 
     }
 

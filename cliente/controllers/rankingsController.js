@@ -58,7 +58,7 @@ class RankingController {
         let userLogged = localStorage.getItem("username");
         if (userLogged != "" || userLogged != null) {
             let userJSON = { 'username': userLogged };
-            this.buildRequest('post', 'http://localhost:3000/user/getRecords', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/getRecords', userJSON);
         }
     }
 
@@ -79,7 +79,7 @@ class RankingController {
         let userLogged = localStorage.getItem("username");
         if (userLogged != "" || userLogged != null) {
             let userJSON = { 'username': userLogged };
-            this.buildRequest('post', 'http://localhost:3000/user/getGlobalRecords', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/getGlobalRecords', userJSON);
 
         }
     }

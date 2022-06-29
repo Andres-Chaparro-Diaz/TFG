@@ -26,7 +26,7 @@ class RegisterController {
             pwd = CryptoJS.AES.encrypt(pwd, 'public_key').toString();
             pwd2 = null;
             let userJSON = { "username": username, "password": pwd, "topPosiciones": [], "email": email };
-            this.buildRequest('post', 'http://localhost:3000/user/register', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/register', userJSON);
 
         } else {
             message.textContent = "";
@@ -36,16 +36,33 @@ class RegisterController {
 
     buildRequest(rType, url, body) {
         let thisController = this;
+        let config;
+        $.ajax({
+            url: '/controllers/configRequest.json',
+            async: false,
+            dataType: 'json',
+            success: function(response) {
+                config = response;
+            }
+        });
+
         $.ajax({
             type: rType,
             url: url,
+            crossDomain: true,
+            crossorigin: "anonymous",
+            beforeSend: function(xhrObj) {
+                xhrObj.setRequestHeader(config.originH, config.origin);
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+                xhrObj.setRequestHeader("Accept", "application/json");
+                xhrObj.setRequestHeader("crossorigin", "anonymous");
+            },
+            xhrFields: {
+                crossorigin: "anonymous"
+            },
             dataType: "JSON",
             data: JSON.stringify(body),
             cache: false,
-            beforeSend: function(xhrObj) {
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-                xhrObj.setRequestHeader("Accept", "application/json");
-            },
             success: function(result) {
                 thisController.checkResponse(result);
                 return result;

@@ -33,21 +33,41 @@ class LoginController {
             return;
         }
         let userJSON = { 'username': username };
-        this.buildRequest('post', 'http://localhost:3000/user/sendEmail', userJSON);
+        this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/sendEmail', userJSON);
     }
 
     buildRequest(rType, url, body) {
         let thisController = this;
+
+        let config;
+        $.ajax({
+            url: '/controllers/configRequest.json',
+            async: false,
+            dataType: 'json',
+            success: function(response) {
+                config = response;
+            }
+        });
+
         $.ajax({
             type: rType,
             url: url,
+            crossDomain: true,
+            crossorigin: "anonymous",
+            "Access-Control-Allow-Origin": config.origin,
+            beforeSend: function(xhrObj) {
+                xhrObj.setRequestHeader(config.originH, config.origin);
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+                xhrObj.setRequestHeader("Accept", "application/json");
+                xhrObj.setRequestHeader("crossorigin", "anonymous");
+            },
+            xhrFields: {
+                "Access-Control-Allow-Origin": config.origin,
+                crossorigin: "anonymous"
+            },
             dataType: "JSON",
             data: JSON.stringify(body),
             cache: false,
-            beforeSend: function(xhrObj) {
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-                xhrObj.setRequestHeader("Accept", "application/json");
-            },
             success: function(result) {
                 thisController.checkResponse(result);
                 return result;
@@ -101,7 +121,7 @@ class LoginController {
         if (pwd == pwd2) {
             pwd = CryptoJS.AES.encrypt(pwd, 'public_key').toString();
             let userJSON = { "username": username, "password": pwd, "codigo": codigo };
-            this.buildRequest('post', 'http://localhost:3000/user/changePassword', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/changePassword', userJSON);
 
         } else {
             message.textContent = "";
@@ -123,23 +143,10 @@ class LoginController {
         } else {
             password = CryptoJS.AES.encrypt(password, 'public_key').toString();
             let userJSON = { 'username': username, 'password': password };
-            this.buildRequest('post', 'http://localhost:3000/user/login', userJSON);
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/user/login', userJSON);
 
         }
     }
-
-    /*changePassword(password, newPassword, userName) {
-        let users = this.readJSON();
-        if ("existe el usuario en la bbdd" == userName) {
-
-            userJSON = { "id143": { "username": userName, "password": newPassword, "topPosiciones": [] } };
-            users.push(userJSON);
-            this.writeJSON(users)
-        } else {
-            let error = document.getElementById("error");
-            error.textContent = "El usuario no existe";
-        }
-    }*/
 
 }
 var loadLoginController = function() {
