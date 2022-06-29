@@ -2,7 +2,7 @@
     "name": "apiusers",
     "version": "0.0.1",
     "scripts": {
-        "start": "nodemon server.js",
+        "start": "node server.js",
         "prod": "nodemon server.js",
         "dev": "node app"
     },
@@ -22,10 +22,9 @@
         "mongoose": "^5.12.3",
         "morgan": "~1.9.1",
         "nodemailer": "^6.7.5",
-        "pug": "^3.0.2",
-        "nodemon": "^1.3.3"
+        "pug": "^3.0.2"
     },
     "devDependencies": {
-        "nodemon": "^1.3.3"
+        "nodemon": "^1.19.4"
     }
 }
