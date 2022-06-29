@@ -1,4 +1,4 @@
-const PostGameSurvey = require('./models/PostGameSurvey');
+const PostGameSurvey = require('../models/PostGameSurvey');
 
 function listall(req, res) {
     PostGameSurvey.find({})
