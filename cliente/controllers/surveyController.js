@@ -38,11 +38,15 @@ class SurveyController {
         let variasCosasALaVezAnswer = this.checkAnswerOnSurvey(variasCosasALaVezList);
 
 
-        if (edad == "" || cuantoJuegasAnswer == "empty" || nivelJugandoAnswer == "empty" || variasCosasALaVezAnswer == "empty") {
+        if ((edad == "") || cuantoJuegasAnswer == "empty" || nivelJugandoAnswer == "empty" || variasCosasALaVezAnswer == "empty") {
             error.textContent = "Responda todas las preguntas";
             return;
         }
 
+        if (isNaN(edad)) {
+            error.textContent = "Escriba una valor válido";
+            return;
+        }
         let surveyJSON = { "username": username, "edad": edad, "cuantoJuegasAnswer": cuantoJuegasAnswer, "nivelJugandoAnswer": nivelJugandoAnswer, "variasCosasALaVezAnswer": variasCosasALaVezAnswer, "participa": participa };
         this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/survey/create', surveyJSON);
 

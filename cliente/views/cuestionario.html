@@ -14,7 +14,8 @@
                         if(sessionStorage.getItem("username") != null && sessionStorage.getItem("username") != ""){
                             document.getElementById("label_3").textContent = sessionStorage.getItem("username");
                         }else{
-                            document.getElementById("label_3").textContent  = "LINEA 72 HTML REVISAR IF";
+                            window.location.href = 'index.html#login';
+                            return;
                         }
                     </script>    
                 </label>
@@ -66,7 +67,7 @@
                 </div>
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17">
-                <label class="form-label form-label-top form-label-auto" id="label_17" for="input_17"> ¿Te interesa participar en un estudio? Solo debe jugar al menos 2 partidas al dia, una por la mañana y otra por la tarde, después se mostrará un cuestionario muy breve al que agradecería que respondiese.</label>
+                <label class="form-label form-label-top form-label-auto" id="label_17" for="input_17"> ¿Te interesa participar en un estudio? Solo debe jugar al menos 2 partidas al dia, en diferentes horarios durante 7 días, después se mostrará un cuestionario muy breve al que agradecería que respondiese.</label>
                 <div id="cid_17" class="form-input-wide">
                     <label>
                         <input type="checkbox" class="chbxParticipa" name= "participa" id="cbox1" value="true"> Participar

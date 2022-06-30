@@ -7,9 +7,10 @@ class EmotionalSurveyController {
         btnSend.addEventListener('click', function(e) { thisController.submitEvent() }, false);
 
         this.splide = new Splide('.splide', {
-            type: 'loop',
-            perpage: '3'
-
+            direction: 'ttb',
+            height: '10rem',
+            pagination: false,
+            wheel: true,
         });
 
         this.splide.mount();
@@ -28,43 +29,84 @@ class EmotionalSurveyController {
         this.newSurvey();
     }
 
-    getEmocion(indexEmocion) {
-        let emocion;
-        switch (indexEmocion) {
+    getMotivado(indexMotivado) {
+        let motivado;
+        switch (indexMotivado) {
             case 0:
-                emocion = "enfermo";
+                motivado = 10;
                 break;
             case 1:
-                emocion = "triste";
+                motivado = 9;
                 break;
             case 2:
-                emocion = "asustado";
+                motivado = 8;
                 break;
             case 3:
-                emocion = "enfadado";
+                motivado = 7;
                 break;
             case 4:
-                emocion = "normal";
+                motivado = 6;
                 break;
             case 5:
-                emocion = "sorprendido";
+                motivado = 5;
                 break;
             case 6:
-                emocion = "feliz";
+                motivado = 4;
                 break;
+            case 7:
+                motivado = 3;
+                break;
+            case 8:
+                motivado = 2;
+                break;
+            case 9:
+                motivado = 1;
+                break;
+        }
+        return motivado;
+    }
+    getEmotion() {
+        let emocion = false;
+        let list = document.getElementsByName("emotion");
+        for (let i = 0; i <= 6; i++) {
+            if (list[i].checked) {
+                emocion = this.checkEmotion(i);
+                return emocion;
+            }
         }
         return emocion;
     }
-
+    checkEmotion(i) {
+        switch (i) {
+            case 0:
+                return "enfermo";
+            case 1:
+                return "triste";
+            case 2:
+                return "asustado";
+            case 3:
+                return "enfadado";
+            case 4:
+                return "normal";
+            case 5:
+                return "sorprendido";
+            case 6:
+                return "feliz";
+        }
+    }
 
     newSurvey() {
         let error = document.getElementById("error");
-
         let username = localStorage.getItem("username");
-        let motivado = document.getElementById("motivado").value;
-        let indexEmocion = splide.Components.Controller.getIndex();
-        let emocion = this.getEmocion(indexEmocion)
-
+        let emocion = this.getEmotion();
+        let indexMotivado = splide.Components.Controller.getIndex();
+        let motivado = this.getMotivado(indexMotivado)
+        if (emocion == false) {
+            error.textContent = "Selecciona una emoción";
+            return
+        } else {
+            error.textContent = "";
+        }
         let emotionalSurveyJSON = {
             "username": username,
             "emocion": emocion,

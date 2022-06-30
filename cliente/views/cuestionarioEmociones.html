@@ -15,7 +15,8 @@
                         if(sessionStorage.getItem("username") != null && sessionStorage.getItem("username") != ""){
                             document.getElementById("label_3").textContent = sessionStorage.getItem("username");
                         }else{
-                            document.getElementById("label_3").textContent  = "LINEA 72 HTML REVISAR IF";
+                            window.location.href = 'index.html#login';
+                            return;
                         }
                     </script>    
                 </label>
@@ -23,35 +24,57 @@
 
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_18"> Estas motivado para jugar  </label>
                 <div id="cid_17" class="form-input-wide">
-                    <select id="motivado">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5" selected>5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8" >8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                </select>
+                    <section class="splide" aria-label="Splide Basic HTML Example">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <li class="splide__slide" style="align-items:center ;">10</li>
+                                <li class="splide__slide" style="align-items:center ;">9</li>
+                                <li class="splide__slide" style="align-items:center ;">8</li>
+                                <li class="splide__slide" style="align-items:center ;">7</li>
+                                <li class="splide__slide" style="align-items:center ;">6</li>
+                                <li class="splide__slide" style="align-items:center ;">5</li>
+                                <li class="splide__slide" style="align-items:center ;">4</li>
+                                <li class="splide__slide" style="align-items:center ;">3</li>
+                                <li class="splide__slide" style="align-items:center ;">2</li>
+                                <li class="splide__slide" style="align-items:center ;">1</li>
+
+                            </ul>
+                        </div>
+                    </section>
                 </div>
             </li>
-            <li class="form-line" data-type="control_textarea" id="id_14"><label class="form-label form-label-top form-label-auto form-label-player">Estado emocional:</li>
-            <section class="splide" aria-label="Splide Basic HTML Example">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/enfermo.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/triste.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/asustado.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/enfadado.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/normal.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/sorprendido.png" alt="" style="width: 150px; height:150px ;"></li>
-                        <li class="splide__slide" style="align-items:center ;"><img src="/assets/feliz.png" alt="" style="width: 150px; height:150px ;"></li>
-
-                    </ul>
+            <li class="form-line" data-type="control_textarea" id="id_14"><label class="form-label form-label-top form-label-auto form-label-player">Estado emocional:</label>
+                <div id="cid_14" class="form-input-wide" style="    margin-top: 50px;">
+                    <label for="enfermo" style="margin-left: 100px;">  
+                            <input class="emotionalRadio" type="radio" id="enfermo" name="emotion" value="enfermo"></input>
+                            <img src="/assets/enfermo.png" alt="" style="width: 75px; height:75px;margin-right: 5px;">
+                        </label>
+                    <label for="triste">
+                                    <input class="emotionalRadio" type="radio" id="triste" name="emotion" value="triste"></input>
+                                    <img src="/assets/triste.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
+                    <label for="asustado">
+                                    <input class="emotionalRadio" type="radio" id="asustado" name="emotion" value="asustado"></input>
+                                    <img  src="/assets/asustado.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
+                    <label for="enfadado">
+                                    <input class="emotionalRadio"  type="radio" id="enfadado" name="emotion" value="enfadado"></input>
+                                    <img src="/assets/enfadado.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
+                    <label for="normal">
+                                    <input class="emotionalRadio" type="radio" id="normal" name="emotion" value="normal" selected></input>
+                                    <img src="/assets/normal.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
+                    <label for="sorprendido">
+                                    <input class="emotionalRadio" type="radio" id="sorprendido" name="emotion" value="sorprendido"></input>
+                                    <img src="/assets/sorprendido.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
+                    <label for="feliz">
+                                    <input class="emotionalRadio" type="radio" id="feliz" name="emotion" value="feliz"></input>
+                                    <img src="/assets/feliz.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
+                                </label>
                 </div>
-            </section>
+            </li>
             <li class="form-line" data-type="control_button" id="id_2">
 
                 <div style="margin-left:156px" class="form-buttons-wrapper form-buttons-auto jsTest-button-wrapperField">

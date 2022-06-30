@@ -14,7 +14,8 @@
                         if(sessionStorage.getItem("username") != null && sessionStorage.getItem("username") != ""){
                             document.getElementById("label_3").textContent = sessionStorage.getItem("username");
                         }else{
-                            document.getElementById("label_3").textContent  = "LINEA 72 HTML REVISAR IF";
+                            window.location.href = 'index.html#login';
+                            return;                        
                         }
                     </script>    
                 </label>
@@ -79,7 +80,7 @@
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_18"> Jugando con 1 personaje simultáneo  </label>
                 <div id="cid_17" class="form-input-wide">
-                    <select id="OnePlayerDifficult">
+                    <select class="selectPlayer" id="OnePlayerDifficult">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -95,7 +96,7 @@
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_19"> Jugando con 2 personajes simultáneos   </label>
                 <div id="cid_17" class="form-input-wide">
-                    <select id="TwoPlayerDifficult">
+                    <select class="selectPlayer" id="TwoPlayerDifficult">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -111,7 +112,7 @@
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_20"> Jugando con 3 personajes simultáneos   </label>
                 <div id="cid_17" class="form-input-wide">
-                    <select id="ThreePlayerDifficult">
+                    <select class="selectPlayer" id="ThreePlayerDifficult">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -127,7 +128,7 @@
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_21"> Jugando con 4 personajes simultáneos  </label>
                 <div id="cid_17" class="form-input-wide">
-                    <select id="FourPlayerDifficult">
+                    <select class="selectPlayer" id="FourPlayerDifficult">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -142,7 +143,7 @@
                 </div>
             </li>
             <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto" id="label_17" for="input_17"> ¿Cómo mejorarías el juego?  </label>
-                <div id="cid_17" class="form-input-wide"><textarea id="input_improvements" class="form-textarea" name="q17_tieneAlguna" cols="40" rows="6" data-component="textarea" aria-labelledby="label_17"></textarea></div>
+                <div id="cid_17" class="form-input-wide"><textarea id="input_improvements" class="form-textarea" name="q17_tieneAlguna" cols="40" rows="6" data-component="textarea" aria-labelledby="label_17" style="    margin-left: 200px;"></textarea></div>
             </li>
             <li class="form-line" data-type="control_button" id="id_2">
                 <div id="cid_2" class="form-input-wide">
