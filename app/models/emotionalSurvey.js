@@ -7,8 +7,8 @@ const EmotionalSurveySchema = new mongoose.Schema({
     motivado: {
         type: Number
     },
-    animo: {
-        type: Number
+    emocion: {
+        type: String
     }
 });
 
