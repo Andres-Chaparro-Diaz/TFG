@@ -45,8 +45,6 @@ class preloadGame extends Phaser.Scene {
         this.load.image('snowMan', '/assets/SnowMan.png');
 
         this.load.image('crystalBlue', '/assets/Crystal.png');
-        this.load.image('crystalRed', '/assets/crystalRed.png');
-        this.load.image('crystalGreen', '/assets/crystalGreen.png');
 
         this.load.audio('campana', '/assets/audio/campana.m4a');
         this.load.audio('hielo', '/assets/audio/hielo.m4a');

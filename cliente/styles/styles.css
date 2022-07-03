@@ -95,6 +95,13 @@ header nav ul li a:hover {
     color: black;
 }
 
+.divGame .controlInGame {
+    position: absolute;
+    top: 700px;
+    color: white;
+    margin-left: 20px;
+}
+
 @media (max-width: 1120px) {
     #liLogout {
         margin-right: 10%;
@@ -127,6 +134,9 @@ header nav ul li a:hover {
         top: calc(380px/1.15);
         width: calc(1600px/1.2);
     }
+    .divGame .controlInGame {
+        top: 600px;
+    }
 }
 
 @media (max-width: 1390px) {
@@ -143,6 +153,9 @@ header nav ul li a:hover {
         top: calc(380px/1.292);
         width: calc(1600px/1.4);
     }
+    .divGame .controlInGame {
+        top: 550px;
+    }
 }
 
 @media (max-width: 1190px) {
@@ -158,5 +171,8 @@ header nav ul li a:hover {
     .divGame .horizontal {
         top: calc(380px/1.43);
         width: calc(1600px/1.6);
+    }
+    .divGame .controlInGame {
+        top: 470px;
     }
 }
