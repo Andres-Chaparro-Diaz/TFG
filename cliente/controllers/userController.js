@@ -22,7 +22,9 @@ class UserController {
     sendPoints() {
         let username = localStorage.getItem("username");
         if (username == undefined || username == "") {
+            let agradecimiento = document.getElementById("agradecimiento");
             window.location.href = 'index.html#register';
+            agradecimiento.textContent = "Gracias por jugar, te estaría eternamente agradecido si te registras y participas en el estudio. Tu puntuación ha sido: " + puntuacionFinal;
         } else {
             let spPoints = document.getElementById("spPuntuacion");
             let points = spPoints.textContent;

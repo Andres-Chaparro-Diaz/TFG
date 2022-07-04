@@ -378,9 +378,9 @@ class playGame extends Phaser.Scene {
                         this.currentInmuneTime = this.inmuneTime;
 
                     } else {
+                        puntuacionFinal = this.puntuacion.textContent;
                         control.sendPoints();
                         this.removeLife();
-                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -549,9 +549,9 @@ class playGame extends Phaser.Scene {
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
                     } else {
+                        puntuacionFinal = this.puntuacion.textContent;
                         control.sendPoints();
                         this.removeLife();
-                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -604,9 +604,9 @@ class playGame extends Phaser.Scene {
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
                     } else {
+                        puntuacionFinal = this.puntuacion.textContent;
                         control.sendPoints();
                         this.removeLife();
-                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -658,9 +658,9 @@ class playGame extends Phaser.Scene {
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
                     } else {
+                        puntuacionFinal = this.puntuacion.textContent;
                         control.sendPoints();
                         this.removeLife();
-                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
