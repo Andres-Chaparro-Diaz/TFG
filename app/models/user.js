@@ -21,8 +21,11 @@ const UserSchema = new mongoose.Schema({
             type: Number
         }],
         validate: [arrayLimit, '{PATH} exceeds the limit of 5']
+    },
+    gamesPlayed: {
+        type: Number
     }
-});
+}, { timestamps: true });
 
 function arrayLimit(val) {
     return val.length <= 5;

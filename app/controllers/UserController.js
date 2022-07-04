@@ -9,18 +9,18 @@ function register(req, res) {
     User.find({})
         .then(users => {
             let username = req.body.username;
-            let pwd = req.body.password;
+
             //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
-            pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
+            let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             var exist = false;
-            console.log(req);
+            /*console.log(req);
             res.set({
                     'Access-Control-Allow-Headers': '*',
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
                     'Access-Control-Allow-Credentials': 'true',
                 })
-                //console.log(res);
+                //console.log(res);*/
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     exist = true;
@@ -32,8 +32,8 @@ function register(req, res) {
                 let user = new User(req.body);
                 user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
                 user.save()
-                    .then(user =>
-                        res.status(201).send({ username: user.username, msg: "Usuario registrado correctamente", type: "register" })
+                    .then(userUpdated =>
+                        res.status(201).send({ username: userUpdated.username, msg: "Usuario registrado correctamente", type: "register" })
                     ).catch(err => res.status(500).send({ err }))
 
             } else {
@@ -62,8 +62,8 @@ function changePassword(req, res) {
                     user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
                     user.codigo = "";
                     user.save()
-                        .then(user =>
-                            res.status(201).send({ username: user.username, msg: "Contraseña cambiada correctamente", type: "changePassword" })
+                        .then(userUpdated =>
+                            res.status(201).send({ username: userUpdated.username, msg: "Contraseña cambiada correctamente", type: "changePassword" })
                         ).catch(err => res.status(500).send({ err }))
 
                 } else {
@@ -83,11 +83,11 @@ function login(req, res) {
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
                 //res.header('Access-Control-Allow-Headers', '*');
                 //res.header('Access-Control-Allow-Origin', '*');
-            console.log("hola que tal");
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-            res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-            res.header('Access-Control-Allow-Credentials', 'true');
+                //console.log("hola que tal");
+                // res.header("Access-Control-Allow-Origin", "*");
+                //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                //res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+                //res.header('Access-Control-Allow-Credentials', 'true');
 
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
@@ -159,9 +159,9 @@ function addRecord(req, res) {
             }
             let recordList = user.records;
             let result;
-            for (var i = 0; i <= 4; i++) {
-                if (recordList[i] == null || recordList[i] == undefined) {
-                    recordList[i] = 0;
+            for (var j = 0; j <= 4; j++) {
+                if (recordList[j] == null || recordList[j] == undefined) {
+                    recordList[j] = 0;
                 }
             }
 
@@ -177,25 +177,35 @@ function addRecord(req, res) {
             if (found) {
                 recordList.sort(function(a, b) { return b - a });
                 user.records = recordList;
+                if (user.gamesPlayed != null && user.gamesPlayed != undefined) {
+                    user.gamesPlayed++;
+                } else {
+                    user.gamesPlayed = 1;
+                }
                 user.save()
                     .then(userUpdated => {
                         PostGameSurvey.find({}).then(surveys => {
                             let done = false;
-                            for (var j = 0; j < surveys.length; j++) {
-                                if (surveys[j].username.toLowerCase() == userUpdated.username.toLowerCase()) {
+                            let todo = false;
+                            for (var k = 0; k < surveys.length; k++) {
+                                if (surveys[k].username.toLowerCase() == userUpdated.username.toLowerCase()) {
                                     done = true;
                                 }
                             }
+
+                            if (userUpdated.gamesPlayed >= 5) {
+                                todo = true;
+                            }
                             if (userUpdated.participa) {
-                                res.status(201).send({ username: userUpdated.username, msg: result, done: done, type: "newRecord", participa: userUpdated.participa })
+                                res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
                             } else {
-                                res.status(201).send({ username: userUpdated.username, msg: result, done: true, type: "newRecord", participa: false })
+                                res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: true, type: "newRecord", participa: false })
                             }
                         });
 
                     }).catch(err => res.status(500).send({ err }))
             } else {
-                res.status(201).send({ error: "Usuario no encontrado", type: "newRecord" })
+                res.status(201).send({ error: "Gracias por jugar, te animamos a que te registres y participes en el estudio. Tu puntuacion fue: " + points, type: "newRecord" })
 
             }
 

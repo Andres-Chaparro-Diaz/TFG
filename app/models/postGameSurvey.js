@@ -34,7 +34,7 @@ const postGameSurveySchema = new mongoose.Schema({
     improvements: {
         type: String
     }
-});
+}, { timestamps: true });
 
 const postGameSurvey = mongoose.model('postGameSurvey', postGameSurveySchema);
 

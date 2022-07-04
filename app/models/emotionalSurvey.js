@@ -9,8 +9,11 @@ const EmotionalSurveySchema = new mongoose.Schema({
     },
     emocion: {
         type: String
+    },
+    puntuacion: {
+        type: Number
     }
-});
+}, { timestamps: true });
 
 const EmotionalSurvey = mongoose.model('EmotionalSurvey', EmotionalSurveySchema);
 
