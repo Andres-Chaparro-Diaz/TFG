@@ -14,7 +14,7 @@
             new Route('changePassword', 'changePassword.html'),
 
             new Route('cuestionario', 'cuestionario.html'),
-            new Route('postcuestionario', 'postcuestionario.html'),
+            new Route('postcuestionario', 'postCuestionario.html'),
             new Route('cuestionarioemocional', 'cuestionarioEmociones.html')
 
         ]);
