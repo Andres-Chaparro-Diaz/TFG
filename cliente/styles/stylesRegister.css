@@ -63,7 +63,7 @@
     padding: 3%;
     display: flex;
     border-radius: 15px 50px;
-    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    background: #182840;
     margin-bottom: 3%;
     min-width: 470px;
     max-width: 500px;
@@ -80,7 +80,7 @@
 }
 
 .divRegister button {
-    background: linear-gradient(221deg, rgba(45, 61, 130, 1) 0%, rgba(79, 26, 135, 0.87718837535014) 35%, rgba(6, 40, 139, 1) 100%);
+    background: #182840;
     padding: 2%;
     border-radius: 16px;
 }
