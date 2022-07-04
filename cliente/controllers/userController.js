@@ -87,8 +87,12 @@ class UserController {
                     } else {
                         if (res.todo) {
                             window.location.href = 'index.html#postcuestionario';
+                        } else {
+                            window.location.href = 'index.html#ranking'
                         }
                     }
+                } else {
+                    window.location.href = 'index.html#ranking'
                 }
                 break;
             case "checkUser":
