@@ -110,7 +110,8 @@ class EmotionalSurveyController {
         let emotionalSurveyJSON = {
             "username": username,
             "emocion": emocion,
-            "motivado": motivado
+            "motivado": motivado,
+            "puntuacion": puntuacionFinal
         };
         this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/emotionalSurvey/create', emotionalSurveyJSON);
 

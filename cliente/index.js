@@ -1,7 +1,7 @@
 var splide;
 var app = {
     abrirLogin: function() {
-        this.destroyGame()
+        this.destroyGame();
         var v = new LoginController();
         v.createEventsLogin();
     },
@@ -11,43 +11,62 @@ var app = {
         v.createEventsRegister();
     },
     abrirRanking: function() {
-        this.destroyGame()
+        this.destroyGame();
         var v = new RankingController();
         v.loadGlobalRank();
         v.loadPersonalRank();
     },
     abrirSurvey: function() {
-        this.destroyGame()
+        this.destroyGame();
+        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
+            document.getElementById("label_3").textContent = localStorage.getItem("username");
+        } else {
+            window.location.href = 'index.html#login';
+            return;
+        }
         var v = new SurveyController();
         v.createEventListener();
     },
     abrirSurveyPostGame: function() {
-        this.destroyGame()
+        this.destroyGame();
+        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
+            document.getElementById("label_3").textContent = localStorage.getItem("username");
+        } else {
+            window.location.href = 'index.html#login';
+            return;
+        }
         var v = new PostGameSurveyController();
         v.createEventListener();
+
     },
     abrirSurveyEmocional: function() {
-        this.destroyGame()
+        this.destroyGame();
+        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
+            document.getElementById("label_3").textContent = localStorage.getItem("username");
+        } else {
+            window.location.href = 'index.html#login';
+            return;
+        }
         var v = new EmotionalSurveyController();
         splide = v.createEventListener();
     },
     abrirGame: function() {
-        this.destroyGame()
+        this.destroyGame();
         loadGame();
     },
     abrirChangePassword: function() {
-        this.destroyGame()
+        this.destroyGame();
         var v = new LoginController();
         v.createEventsChangePassword();
     },
     abrirIntroduccion: function() {
-        this.destroyGame()
+        this.destroyGame();
     },
     abrirPrivacidad: function() {
-        this.destroyGame()
+        this.destroyGame();
     },
     abrirAcercaDe: function() {
-        this.destroyGame()
+        this.destroyGame();
     },
     destroyGame: function() {
         if (game != null && game != undefined) {

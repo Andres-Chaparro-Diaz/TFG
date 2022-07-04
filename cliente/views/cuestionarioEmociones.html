@@ -12,8 +12,8 @@
             <li class="form-line" data-type="control_textbox" id="id_3">
                 <label class="form-label form-label-top form-label-auto" id="label_3" for="input_3"> 
                     <script>
-                        if(sessionStorage.getItem("username") != null && sessionStorage.getItem("username") != ""){
-                            document.getElementById("label_3").textContent = sessionStorage.getItem("username");
+                        if(localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined){
+                            document.getElementById("label_3").textContent = localStorage.getItem("username");
                         }else{
                             window.location.href = 'index.html#login';
                             return;

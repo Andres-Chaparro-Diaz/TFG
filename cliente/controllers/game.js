@@ -2,6 +2,7 @@
 
 let control = new UserController();
 let game;
+let puntuacionFinal = 0;
 var loadGame = function() {
 
     // object containing configuration options
@@ -148,6 +149,8 @@ class playGame extends Phaser.Scene {
         this.inmuneTime = config.inmuneTime;
         this.puntuacion = document.getElementById("spPuntuacion");
         this.currentInmuneTime = 0;
+        puntuacionFinal = 0;
+        //Contadores para saber cuanto tiempo hace que se ha añadido un obstaculo en un personaje
         this.addedTop = 0;
         this.addedBot = 0;
         this.addedTopR = 0;
@@ -377,6 +380,7 @@ class playGame extends Phaser.Scene {
                     } else {
                         control.sendPoints();
                         this.removeLife();
+                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -398,8 +402,9 @@ class playGame extends Phaser.Scene {
                 break;
         }
     }
-    update() {
+    update(time, delta) {
         this.score++;
+        //this.score += delta/100 
         if (this.currentInmuneTime > 0) {
             this.currentInmuneTime--;
         }
@@ -546,6 +551,7 @@ class playGame extends Phaser.Scene {
                     } else {
                         control.sendPoints();
                         this.removeLife();
+                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -600,6 +606,7 @@ class playGame extends Phaser.Scene {
                     } else {
                         control.sendPoints();
                         this.removeLife();
+                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
@@ -653,7 +660,7 @@ class playGame extends Phaser.Scene {
                     } else {
                         control.sendPoints();
                         this.removeLife();
-
+                        puntuacionFinal = this.puntuacion.textContent;
                         this.scene.stop("PlayGame");
                     }
                 }
