@@ -85,13 +85,17 @@ class UserController {
                     if (res.done) {
                         window.location.href = 'index.html#cuestionarioemocional'
                     } else {
-                        window.location.href = 'index.html#postcuestionario';
+                        if (res.todo) {
+                            window.location.href = 'index.html#postcuestionario';
+                        }
                     }
                 }
+                break;
             case "checkUser":
                 if (res.msg != undefined && res.msg != "") {
                     this.changeNavMenuLogged();
                 }
+                break;
         }
         if (message != undefined) {
             if (res.msg != undefined) {
