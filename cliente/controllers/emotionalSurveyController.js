@@ -6,9 +6,8 @@ class EmotionalSurveyController {
         let thisController = this;
         btnSend.addEventListener('click', function(e) { thisController.submitEvent() }, false);
 
-        this.splide = new Splide('.splide', {
-            direction: 'ttb',
-            height: '10rem',
+        this.splide = new Splide('#emotionalsplide', {
+            perPage: 1,
             pagination: false,
             wheel: true,
         });

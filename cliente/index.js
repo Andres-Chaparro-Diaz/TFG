@@ -1,4 +1,5 @@
 var splide;
+var splides;
 var app = {
     abrirLogin: function() {
         let agradecimiento = document.getElementById("agradecimiento");
@@ -44,7 +45,7 @@ var app = {
             return;
         }
         var v = new PostGameSurveyController();
-        v.createEventListener();
+        splides = v.createEventListener();
 
     },
     abrirSurveyEmocional: function() {

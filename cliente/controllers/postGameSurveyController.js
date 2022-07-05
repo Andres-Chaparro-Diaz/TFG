@@ -6,6 +6,36 @@ class PostGameSurveyController {
         let thisController = this;
         btnSend.addEventListener('click', function(e) { thisController.submitEvent() }, false);
         //btnRegister.dispatchEvent(event);
+        this.splide1 = new Splide('#OnePlayerDifficult', {
+            perPage: 1,
+            pagination: false,
+            wheel: true,
+        });
+        this.splide2 = new Splide('#TwoPlayerDifficult', {
+            perPage: 1,
+            pagination: false,
+            wheel: true,
+        });
+        this.splide3 = new Splide('#ThreePlayerDifficult', {
+            perPage: 1,
+            pagination: false,
+            wheel: true,
+        });
+        this.splide4 = new Splide('#FourPlayerDifficult', {
+            perPage: 1,
+            pagination: false,
+            wheel: true,
+        });
+        this.splide1.mount();
+        this.splide2.mount();
+        this.splide3.mount();
+        this.splide4.mount();
+        var splides = [];
+        splides.push(this.splide1)
+        splides.push(this.splide2)
+        splides.push(this.splide3)
+        splides.push(this.splide4)
+        return splides;
     }
 
     submitEvent() {
@@ -22,6 +52,43 @@ class PostGameSurveyController {
     }
 
 
+    checkSplide(indexSplide) {
+        let value;
+        switch (indexSplide) {
+            case 0:
+                value = 10;
+                break;
+            case 1:
+                value = 9;
+                break;
+            case 2:
+                value = 8;
+                break;
+            case 3:
+                value = 7;
+                break;
+            case 4:
+                value = 6;
+                break;
+            case 5:
+                value = 5;
+                break;
+            case 6:
+                value = 4;
+                break;
+            case 7:
+                value = 3;
+                break;
+            case 8:
+                value = 2;
+                break;
+            case 9:
+                value = 1;
+                break;
+        }
+        return value;
+    }
+
 
     newSurvey() {
         let error = document.getElementById("error");
@@ -33,11 +100,10 @@ class PostGameSurveyController {
         let concentracionList = document.getElementsByName("preguntas[2]");
         let artisticoList = document.getElementsByName("preguntas[3]");
         let simpleList = document.getElementsByName("preguntas[4]");
-
-        let onePlayerDifficult = document.getElementById("OnePlayerDifficult").value;
-        let twoPlayerDifficult = document.getElementById("TwoPlayerDifficult").value;
-        let threePlayerDifficult = document.getElementById("ThreePlayerDifficult").value;
-        let fourPlayerDifficult = document.getElementById("FourPlayerDifficult").value;
+        let onePlayerDifficult = this.checkSplide(splides[0].Components.Controller.getIndex());
+        let twoPlayerDifficult = this.checkSplide(splides[1].Components.Controller.getIndex());;
+        let threePlayerDifficult = this.checkSplide(splides[2].Components.Controller.getIndex());;
+        let fourPlayerDifficult = this.checkSplide(splides[3].Components.Controller.getIndex());;
 
         let improvements = document.getElementById("input_improvements").value
 
@@ -79,19 +145,19 @@ class PostGameSurveyController {
         }
         switch (i) {
             case 0:
-                answer = "muy malo-muy poco";
+                answer = "Totalmente desacuerdo";
                 break;
             case 1:
-                answer = "malo-poco";
+                answer = "Desacuerdo";
                 break;
             case 2:
-                answer = "regular";
+                answer = "Ni de acuerdo ni desacuerdo";
                 break;
             case 3:
-                answer = "bueno-mucho";
+                answer = "De acuerdo";
                 break;
             case 4:
-                answer = "muy bueno-muchisimo";
+                answer = "Totalmente de acuerdo";
                 break;
             default:
                 answer = "empty"
@@ -146,5 +212,5 @@ class PostGameSurveyController {
 }
 var loadPostGameSurveyController = function() {
     let posGamesurveycontrol = new PostGameSurveyController();
-    posGamesurveycontrol.createEventListener();
+    return posGamesurveycontrol.createEventListener();
 }

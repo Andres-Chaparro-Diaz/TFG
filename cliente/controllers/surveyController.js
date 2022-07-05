@@ -61,19 +61,19 @@ class SurveyController {
         }
         switch (i) {
             case 0:
-                answer = "muy malo-muy poco";
+                answer = "Totalmente desacuerdo";
                 break;
             case 1:
-                answer = "malo-poco";
+                answer = "Desacuerdo";
                 break;
             case 2:
-                answer = "regular";
+                answer = "Ni de acuerdo ni desacuerdo";
                 break;
             case 3:
-                answer = "bueno-mucho";
+                answer = "De acuerdo";
                 break;
             case 4:
-                answer = "muy bueno-muchisimo";
+                answer = "Totalmente de acuerdo";
                 break;
             default:
                 answer = "empty"

@@ -403,8 +403,9 @@ class playGame extends Phaser.Scene {
         }
     }
     update(time, delta) {
-        this.score++;
-        //this.score += delta/100 
+        //this.score++;
+        console.log(delta | 1);
+        this.score += (delta / 10000) | 1;
         if (this.currentInmuneTime > 0) {
             this.currentInmuneTime--;
         }
