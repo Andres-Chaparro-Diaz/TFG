@@ -24,7 +24,6 @@ function create(req, res) {
             }
             if (!found) {
                 User.findOne({ username: username }).then(user => {
-                    console.log(user);
                     user.participa = req.body.participa;
                     user.save().then(
                         survey.save()

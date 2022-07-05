@@ -10,17 +10,8 @@ function register(req, res) {
         .then(users => {
             let username = req.body.username;
 
-            //CryptoJS.AES.encrypt(req.body.pwd, 'secret key 123').toString();
             let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             var exist = false;
-            /*console.log(req);
-            res.set({
-                    'Access-Control-Allow-Headers': '*',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-                    'Access-Control-Allow-Credentials': 'true',
-                })
-                //console.log(res);*/
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
                     exist = true;
@@ -81,13 +72,6 @@ function login(req, res) {
             let username = req.body.username;
             var found = false;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-                //res.header('Access-Control-Allow-Headers', '*');
-                //res.header('Access-Control-Allow-Origin', '*');
-                //console.log("hola que tal");
-                // res.header("Access-Control-Allow-Origin", "*");
-                //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                //res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-                //res.header('Access-Control-Allow-Credentials', 'true');
 
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username.toLowerCase() == username.toLowerCase()) {
@@ -275,8 +259,7 @@ function sendEmail(req, res) {
                                     res.status(201).send({ error: "Ha habido un error enviando el correo", type: "sendEmail" })
                                 } else {
                                     console.log('Email enviado');
-                                    console.log('usuario guardado: ' + userUpdated);
-                                    res.status(201).send({ msg: "Email enviado al correo: " + user.email + ". Muchas veces el email llega como spam.", type: "sendEmail" })
+                                    res.status(201).send({ msg: "Email enviado al correo: " + userUpdated.email + ". Muchas veces el email llega como spam.", type: "sendEmail" })
                                 }
                             })
                         ).catch(err => res.status(500).send({ err }))
