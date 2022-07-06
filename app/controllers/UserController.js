@@ -64,9 +64,9 @@ function login(req, res) {
             let username = req.body.username;
             var found = true;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-
             let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
-            if (passwordDB == password && username == user.username) {
+
+            if (passwordDB == password) {
                 res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
             } else {
                 res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
