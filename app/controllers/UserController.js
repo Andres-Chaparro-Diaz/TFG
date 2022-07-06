@@ -71,6 +71,8 @@ function login(req, res) {
             } else {
                 res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
             }
+        }).catch(function(err) {
+            res.status(201).send({ error: "Usuario no encontrado", type: "login" });
         });
 }
 
