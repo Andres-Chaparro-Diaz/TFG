@@ -736,19 +736,19 @@ class playGame extends Phaser.Scene {
 
             switch (random) {
                 case 1:
-                    obstacleInv = this.add.tileSprite(998, 180, 38, 110, "skyInv"); //InvBody
+                    obstacleInv = this.add.tileSprite(998, 180, 34, 110, "InvBody"); //InvBody
                     obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
                     break;
                 case 2:
-                    obstacleInv = this.add.tileSprite(900, 200, 80, 50, "skyInv");
+                    obstacleInv = this.add.tileSprite(900, 200, 73, 50, "InvBody");
                     obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
                     break;
                 case 3:
-                    obstacleInv = this.add.tileSprite(993, 185, 55, 95, "skyInv");
+                    obstacleInv = this.add.tileSprite(993, 185, 55, 95, "InvBody");
                     obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
                     break;
                 case 4:
-                    obstacleInv = this.add.tileSprite(900, 200, 60, 60, "skyInv");
+                    obstacleInv = this.add.tileSprite(900, 200, 60, 50, "InvBody");
                     obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
                     break;
             }
