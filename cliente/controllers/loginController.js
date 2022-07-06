@@ -39,31 +39,13 @@ class LoginController {
     buildRequest(rType, url, body) {
         let thisController = this;
 
-        let config;
-        $.ajax({
-            url: '/controllers/configRequest.json',
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                config = response;
-            }
-        });
 
         $.ajax({
             type: rType,
             url: url,
-            crossDomain: true,
-            crossorigin: "anonymous",
-            "Access-Control-Allow-Origin": config.origin,
             beforeSend: function(xhrObj) {
-                xhrObj.setRequestHeader(config.originH, config.origin);
                 xhrObj.setRequestHeader("Content-Type", "application/json");
                 xhrObj.setRequestHeader("Accept", "application/json");
-                xhrObj.setRequestHeader("crossorigin", "anonymous");
-            },
-            xhrFields: {
-                "Access-Control-Allow-Origin": config.origin,
-                crossorigin: "anonymous"
             },
             dataType: "JSON",
             data: JSON.stringify(body),
