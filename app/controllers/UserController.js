@@ -35,19 +35,11 @@ function register(req, res) {
 
 function changePassword(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
+        .then(user => {
             let username = req.body.username;
             let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            var exist = false;
+            var exist = true;
             let codigo = req.body.codigo;
-            let user;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    exist = true;
-                    user = users[i];
-                    break;
-                }
-            }
             if (exist) {
                 if (user.codigo == codigo) {
                     user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
@@ -68,25 +60,16 @@ function changePassword(req, res) {
 
 function login(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
+        .then(user => {
             let username = req.body.username;
-            var found = false;
+            var found = true;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            console.log(users)
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    let user = users[i]
-                    let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
-                    if (passwordDB == password) {
-                        res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
-                    } else {
-                        res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
-                    }
-                }
-            }
-            if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado", type: "login" })
+
+            let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
+            if (passwordDB == password && username == user.username) {
+                res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
+            } else {
+                res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
             }
         });
 }
@@ -107,18 +90,11 @@ function getAllRecords(req, res) {
 
 function getRecords(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
+        .then(user => {
             let username = req.body.username;
-            var found = false;
+            var found = true;
             if (username != undefined) {
-                for (var i = 0; i < users.length; i++) {
-                    if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                        found = true;
-                        let user = users[i]
-                        res.status(201).send({ personalRank: user.records, msg: "records obtenidos", type: "getRecords" })
-
-                    }
-                }
+                res.status(201).send({ personalRank: user.records, msg: "records obtenidos", type: "getRecords" })
                 if (!found) {
                     res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
                 }
@@ -129,18 +105,10 @@ function getRecords(req, res) {
 
 function addRecord(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
+        .then(user => {
             let points = req.body.points;
             let username = req.body.username;
-            var found = false;
-            let user;
-
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    user = users[i]
-                }
-            }
+            var found = true;
             let recordList = user.records;
             let result;
             for (var j = 0; j <= 4; j++) {
@@ -198,16 +166,9 @@ function addRecord(req, res) {
 
 function checkUser(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
-            console.log(users);
+        .then(user => {
             let username = req.body.username;
-            var found = false;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    break;
-                }
-            }
+            var found = true;
             if (!found) {
                 res.status(201).send({ error: "Usuario no encontrado", type: "checkUser" })
             } else {
@@ -236,39 +197,31 @@ function sendEmail(req, res) {
 
 
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(users => {
+        .then(user => {
             let username = req.body.username;
-            var found = false;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username.toLowerCase() == username.toLowerCase()) {
-                    found = true;
-                    let user = users[i]
-
-                    var mailOptions = {
-                        from: 'tfgjuegomultitask@gmail.com',
-                        to: user.email,
-                        subject: 'Recuperar Contraseña',
-                        text: mensaje,
-                        html: "Se ha enviado una solicitud para recuperar su contraseña. Por favor, copie este código: " + codigo + '<br></br> A continuación, visite la siguiente página y rellene los datos: <a href= "https://gameandreschaparro.vercel.app/#changePassword">Recuperar contraseña</a>'
-                    };
-                    user.codigo = codigo;
-                    user.save()
-                        .then(userUpdated =>
-                            transporter.sendMail(mailOptions, function(error, info) {
-                                if (error) {
-                                    console.log('Email error:' + error);
-                                    res.status(201).send({ error: "Ha habido un error enviando el correo", type: "sendEmail" })
-                                } else {
-                                    console.log('Email enviado');
-                                    res.status(201).send({ msg: "Email enviado al correo: " + userUpdated.email + ". Muchas veces el email llega como spam.", type: "sendEmail" })
-                                }
-                            })
-                        ).catch(err => res.status(500).send({ err }))
+            var found = true;
 
 
-
-                }
-            }
+            var mailOptions = {
+                from: 'tfgjuegomultitask@gmail.com',
+                to: user.email,
+                subject: 'Recuperar Contraseña',
+                text: mensaje,
+                html: "Se ha enviado una solicitud para recuperar su contraseña. Por favor, copie este código: " + codigo + '<br></br> A continuación, visite la siguiente página y rellene los datos: <a href= "https://gameandreschaparro.vercel.app/#changePassword">Recuperar contraseña</a>'
+            };
+            user.codigo = codigo;
+            user.save()
+                .then(userUpdated =>
+                    transporter.sendMail(mailOptions, function(error, info) {
+                        if (error) {
+                            console.log('Email error:' + error);
+                            res.status(201).send({ error: "Ha habido un error enviando el correo", type: "sendEmail" })
+                        } else {
+                            console.log('Email enviado');
+                            res.status(201).send({ msg: "Email enviado al correo: " + userUpdated.email + ". Muchas veces el email llega como spam.", type: "sendEmail" })
+                        }
+                    })
+                ).catch(err => res.status(500).send({ err }))
             if (!found) {
                 res.status(201).send({ error: "Usuario no encontrado", type: "sendEmail" })
             }
