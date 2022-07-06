@@ -86,10 +86,12 @@ class EmotionalSurveyController {
             case 3:
                 return "enfadado";
             case 4:
-                return "normal";
+                return "aburrido/cansado";
             case 5:
-                return "sorprendido";
+                return "normal";
             case 6:
+                return "sorprendido";
+            case 7:
                 return "feliz";
         }
     }

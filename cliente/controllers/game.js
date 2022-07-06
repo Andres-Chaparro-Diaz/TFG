@@ -155,7 +155,10 @@ class playGame extends Phaser.Scene {
         this.addedBot = 0;
         this.addedTopR = 0;
         this.addedBotR = 0;
-
+        this.frameTime = 0;
+        this.createdBot = false;
+        this.createdTopR = false;
+        this.createdBotR = false;
     }
 
     create() {
@@ -403,9 +406,14 @@ class playGame extends Phaser.Scene {
         }
     }
     update(time, delta) {
-        //this.score++;
-        console.log(delta | 1);
-        this.score += (delta / 10000) | 1;
+
+        this.frameTime += delta
+
+        if (this.frameTime > 16.5) {
+            this.frameTime = 0;
+            this.score++;
+            // Code that relies on a consistent 60hz update
+        }
         if (this.currentInmuneTime > 0) {
             this.currentInmuneTime--;
         }
@@ -734,7 +742,6 @@ class playGame extends Phaser.Scene {
                 case 2:
                     obstacleInv = this.add.tileSprite(900, 200, 80, 50, "skyInv");
                     obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
-
                     break;
                 case 3:
                     obstacleInv = this.add.tileSprite(993, 185, 55, 95, "skyInv");
@@ -779,16 +786,16 @@ class playGame extends Phaser.Scene {
                 this.cameraTop.ignore([obstacle1, obstacleInv]);
                 break;
             case 3:
-                this.obstacleGroupBotR.add(obstacle1);
-                this.obstacleGroupBotRInv.add(obstacleInv);
+                this.obstacleGroupTopR.add(obstacle1);
+                this.obstacleGroupTopRInv.add(obstacleInv);
                 this.cameraBot.ignore([obstacle1, obstacleInv]);
-                this.cameraTopR.ignore([obstacle1, obstacleInv]);
+                this.cameraBotR.ignore([obstacle1, obstacleInv]);
                 this.cameraTop.ignore([obstacle1, obstacleInv]);
                 break;
             case 4:
-                this.obstacleGroupTopR.add(obstacle1);
-                this.obstacleGroupTopRInv.add(obstacleInv);
-                this.cameraBotR.ignore([obstacle1, obstacleInv]);
+                this.obstacleGroupBotR.add(obstacle1);
+                this.obstacleGroupBotRInv.add(obstacleInv);
+                this.cameraTopR.ignore([obstacle1, obstacleInv]);
                 this.cameraBot.ignore([obstacle1, obstacleInv]);
                 this.cameraTop.ignore([obstacle1, obstacleInv]);
                 break;
