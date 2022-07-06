@@ -36,7 +36,6 @@ function register(req, res) {
 function changePassword(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(user => {
-            let username = req.body.username;
             let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             var exist = true;
             let codigo = req.body.codigo;
@@ -61,11 +60,8 @@ function changePassword(req, res) {
 function login(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(user => {
-            let username = req.body.username;
-            var found = true;
             let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
             let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
-
             if (passwordDB == password) {
                 res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
             } else {
@@ -84,9 +80,7 @@ function getAllRecords(req, res) {
                 let username = users[i].username;
                 globalRecords[username] = users[i].records;
             }
-            res.status(201).send({ globalRank: globalRecords, msg: "Ranking global", type: "getGlobalRecords" })
-
-
+            res.status(201).send({ globalRank: globalRecords, msg: "Ranking global", type: "getGlobalRecords" });
         });
 }
 
@@ -94,14 +88,12 @@ function getRecords(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(user => {
             let username = req.body.username;
-            var found = true;
             if (username != undefined) {
                 res.status(201).send({ personalRank: user.records, msg: "records obtenidos", type: "getRecords" })
-                if (!found) {
-                    res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
-                }
             }
 
+        }).catch(function(err) {
+            res.status(201).send({ error: "Usuario no encontrado", type: "getRecords" })
         });
 }
 
@@ -109,8 +101,6 @@ function addRecord(req, res) {
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(user => {
             let points = req.body.points;
-            let username = req.body.username;
-            var found = true;
             let recordList = user.records;
             let result;
             for (var j = 0; j <= 4; j++) {
@@ -127,42 +117,37 @@ function addRecord(req, res) {
             } else {
                 result = "No has ningun record anterior";
             }
-
-            if (found) {
-                recordList.sort(function(a, b) { return b - a });
-                user.records = recordList;
-                if (user.gamesPlayed != null && user.gamesPlayed != undefined) {
-                    user.gamesPlayed++;
-                } else {
-                    user.gamesPlayed = 1;
-                }
-                user.save()
-                    .then(userUpdated => {
-                        PostGameSurvey.find({}).then(surveys => {
-                            let done = false;
-                            let todo = false;
-                            for (var k = 0; k < surveys.length; k++) {
-                                if (surveys[k].username.toLowerCase() == userUpdated.username.toLowerCase()) {
-                                    done = true;
-                                }
-                            }
-
-                            if (userUpdated.gamesPlayed >= 5) {
-                                todo = true;
-                            }
-                            if (userUpdated.participa) {
-                                res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
-                            } else {
-                                res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: true, type: "newRecord", participa: false })
-                            }
-                        });
-
-                    }).catch(err => res.status(500).send({ err }))
+            recordList.sort(function(a, b) { return b - a });
+            user.records = recordList;
+            if (user.gamesPlayed != null && user.gamesPlayed != undefined) {
+                user.gamesPlayed++;
             } else {
-                res.status(201).send({ error: "Gracias por jugar, te animamos a que te registres y participes en el estudio. Tu puntuacion fue: " + points, type: "newRecord" })
-
+                user.gamesPlayed = 1;
             }
+            user.save()
+                .then(userUpdated => {
+                    PostGameSurvey.find({}).then(surveys => {
+                        let done = false;
+                        let todo = false;
+                        for (var k = 0; k < surveys.length; k++) {
+                            if (surveys[k].username.toLowerCase() == userUpdated.username.toLowerCase()) {
+                                done = true;
+                            }
+                        }
 
+                        if (userUpdated.gamesPlayed >= 5) {
+                            todo = true;
+                        }
+                        if (userUpdated.participa) {
+                            res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+                        } else {
+                            res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: true, type: "newRecord", participa: false })
+                        }
+                    });
+
+                }).catch(err => res.status(500).send({ err }))
+        }).catch(function(err) {
+            res.status(201).send({ error: "Gracias por jugar, te animamos a que te registres y participes en el estudio. Tu puntuacion fue: " + points, type: "newRecord" })
         });
 }
 
@@ -174,8 +159,10 @@ function checkUser(req, res) {
             if (!found) {
                 res.status(201).send({ error: "Usuario no encontrado", type: "checkUser" })
             } else {
-                res.status(201).send({ username: username, msg: "  ", type: "checkUser" })
+                res.status(201).send({ username: user.username, msg: "  ", type: "checkUser" })
             }
+        }).catch(function(err) {
+            res.status(201).send({ error: "Usuario no encontrado", type: "checkUser" })
         });
 }
 
@@ -200,10 +187,6 @@ function sendEmail(req, res) {
 
     User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(user => {
-            let username = req.body.username;
-            var found = true;
-
-
             var mailOptions = {
                 from: 'tfgjuegomultitask@gmail.com',
                 to: user.email,
@@ -224,9 +207,8 @@ function sendEmail(req, res) {
                         }
                     })
                 ).catch(err => res.status(500).send({ err }))
-            if (!found) {
-                res.status(201).send({ error: "Usuario no encontrado", type: "sendEmail" })
-            }
+        }).catch(function(err) {
+            res.status(201).send({ error: "Usuario no encontrado", type: "sendEmail" })
         });
 }
 
