@@ -34,7 +34,7 @@ function register(req, res) {
 }
 
 function changePassword(req, res) {
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             let username = req.body.username;
             let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
@@ -67,7 +67,7 @@ function changePassword(req, res) {
 }
 
 function login(req, res) {
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             let username = req.body.username;
             var found = false;
@@ -106,7 +106,7 @@ function getAllRecords(req, res) {
 }
 
 function getRecords(req, res) {
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             let username = req.body.username;
             var found = false;
@@ -128,7 +128,7 @@ function getRecords(req, res) {
 }
 
 function addRecord(req, res) {
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             let points = req.body.points;
             let username = req.body.username;
@@ -197,7 +197,7 @@ function addRecord(req, res) {
 }
 
 function checkUser(req, res) {
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             console.log(users);
             let username = req.body.username;
@@ -235,7 +235,7 @@ function sendEmail(req, res) {
     var mensaje = "Se ha enviado una solicitud para recuperar su contraseña. Por favor, copie este código: " + codigo + '';
 
 
-    User.findOne({ username: "/^" + req.body.username + "$/i" })
+    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
         .then(users => {
             let username = req.body.username;
             var found = false;
