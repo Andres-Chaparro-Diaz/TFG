@@ -84,7 +84,7 @@ class UserController {
         switch (type) {
             case "newRecord":
                 if (res.participa) {
-                    if (res.done) {
+                    if (res.done && res.emotional) {
                         window.location.href = 'index.html#cuestionarioemocional'
                     } else {
                         if (res.todo) {
