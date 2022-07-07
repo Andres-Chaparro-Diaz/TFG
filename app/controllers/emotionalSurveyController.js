@@ -11,39 +11,12 @@ function listall(req, res) {
 
 
 function create(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } }).then(user => {
-        EmotionalSurvey.find({ username: { $regex: new RegExp(req.body.username, "i") } }).then(surveys => {
-            let lastSurvey = undefined;
-            for (var i = 0; i < surveys.length; i++) {
-                let survey = surveys[i];
-                if (lastSurvey == undefined) {
-                    lastSurvey = survey;
-                } else {
-                    let dateLast = lastSurvey.createdAt instanceof Date;
-                    let date = survey.createdAt instanceof Date;
-                    if (date > dateLast) {
-                        lastSurvey = survey;
-                    }
-                }
-            }
-            let now = new Date.now();
-            let lastDate = lastSurvey.createdAt instanceof Date;
-            var hours = Math.abs(now - lastDate) / 36e5;
-            console.log(hours);
-            if (hours >= 3) {
-                console.log(hours);
-                let emotionalSurvey = new EmotionalSurvey(req.body);
-                emotionalSurvey.save()
-                    .then(newSurvey => {
-                        user.gamesToEmotional = 3;
-                        user.save().then(
-                            res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
-                        ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }));
-                    }).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }));
-            } else {
+    User.findOne({ username: req.body.username }).then(user => {
+        let emotionalSurvey = new EmotionalSurvey(req.body);
+        emotionalSurvey.save()
+            .then(newSurvey => {
                 res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
-            }
-        })
+            }).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }));
 
     }).catch(function(err) {
         res.status(201).send({ error: "Usuario no encontrado", type: "create" });

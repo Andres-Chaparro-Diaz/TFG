@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Survey = require('../models/survey');
 const PostGameSurvey = require('../models/postGameSurvey');
+const EmotionalSurvey = require('../models/emotionalSurvey');
 const CryptoJS = require('crypto-js');
 const nodemailer = require('nodemailer');
 const thisclass = this;
@@ -34,12 +35,19 @@ function register(req, res) {
 }
 
 function changePassword(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(user => {
+    User.find({})
+        .then(users => {
+            let user;
+            let found = false;
+            for (var i = 0; i < users.length; i++) {
+                if (req.body.username.toLowerCase() == users[i].username.toLowerCase()) {
+                    found = true;
+                    user = users[i];
+                }
+            }
             let pwd = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            var exist = true;
             let codigo = req.body.codigo;
-            if (exist) {
+            if (found) {
                 if (user.codigo == codigo) {
                     user.password = CryptoJS.AES.encrypt(pwd, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString();
                     user.codigo = "";
@@ -58,14 +66,26 @@ function changePassword(req, res) {
 }
 
 function login(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
-        .then(user => {
-            let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
-            let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
-            if (passwordDB == password) {
-                res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
+    User.find({})
+        .then(users => {
+            let user;
+            let found = false;
+            for (var i = 0; i < users.length; i++) {
+                if (req.body.username.toLowerCase() == users[i].username.toLowerCase()) {
+                    found = true;
+                    user = users[i];
+                }
+            }
+            if (found) {
+                let password = CryptoJS.AES.decrypt(req.body.password, 'public_key').toString(CryptoJS.enc.Utf8)
+                let passwordDB = CryptoJS.AES.decrypt(user.password, 'AIzaSyDz24fY9Z6F291PGKkPo2m8G_r8TtYayV0').toString(CryptoJS.enc.Utf8)
+                if (passwordDB == password) {
+                    res.status(201).send({ username: user.username, msg: "Credenciales válidas", type: "login" })
+                } else {
+                    res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
+                }
             } else {
-                res.status(201).send({ error: "Contraseña incorrecta", type: "login" })
+                res.status(201).send({ error: "Usuario no encontrado", type: "login" });
             }
         }).catch(function(err) {
             res.status(201).send({ error: "Usuario no encontrado", type: "login" });
@@ -85,7 +105,7 @@ function getAllRecords(req, res) {
 }
 
 function getRecords(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
+    User.findOne({ username: req.body.username })
         .then(user => {
             let username = req.body.username;
             if (username != undefined) {
@@ -98,24 +118,24 @@ function getRecords(req, res) {
 }
 
 function addRecord(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
+    User.findOne({ username: req.body.username })
         .then(user => {
             let points = req.body.points;
             let recordList = user.records;
             let result;
-            for (var j = 0; j <= 4; j++) {
-                if (recordList[j] == null || recordList[j] == undefined) {
-                    recordList[j] = 0;
+            if (recordList[0] == null || recordList[0] == undefined) {
+                for (var j = 0; j <= 4; j++) {
+                    if (recordList[j] == null || recordList[j] == undefined) {
+                        recordList[j] = 0;
+                    }
                 }
             }
-
             recordList.sort(function(a, b) { return b - a });
-
             if (recordList[4] == undefined || points > recordList[4]) {
                 recordList[4] = points;
                 result = "Nuevo record guardado";
             } else {
-                result = "No has ningun record anterior";
+                result = "No has superado ningun record anterior";
             }
             recordList.sort(function(a, b) { return b - a });
             user.records = recordList;
@@ -134,14 +154,46 @@ function addRecord(req, res) {
                                 done = true;
                             }
                         }
-
                         if (userUpdated.gamesPlayed >= 5) {
                             todo = true;
                         }
+
                         if (userUpdated.participa) {
-                            res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+                            EmotionalSurvey.find({ username: user.username }).then(surveys => {
+                                let lastSurvey = undefined;
+                                if (surveys.length >= 1) {
+                                    for (var i = 0; i < surveys.length; i++) {
+                                        let survey = surveys[i];
+                                        if (lastSurvey == undefined) {
+                                            lastSurvey = survey;
+                                        } else {
+                                            let dateLast = lastSurvey.createdAt instanceof Date;
+                                            let date = survey.createdAt instanceof Date;
+                                            if (date > dateLast) {
+                                                lastSurvey = survey;
+                                            }
+                                        }
+                                    }
+                                    let now = Date.now();
+                                    let lastDate = lastSurvey.createdAt instanceof Date;
+                                    var hours = Math.abs(now - lastDate) / 36e5;
+                                    console.log(hours);
+                                    if (hours >= 3) {
+                                        console.log(hours);
+                                        res.status(201).send({ username: userUpdated.username, msg: result, emotional: true, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+
+                                    } else {
+                                        res.status(201).send({ username: userUpdated.username, msg: result, emotional: false, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+                                    }
+                                } else {
+                                    res.status(201).send({ username: userUpdated.username, msg: result, emotional: true, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+                                }
+                            }).catch(function(err) {
+                                res.status(201).send({ username: userUpdated.username, msg: result, emotional: true, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
+                            });
+
                         } else {
-                            res.status(201).send({ username: userUpdated.username, msg: result, todo: todo, done: true, type: "newRecord", participa: false })
+                            res.status(201).send({ username: userUpdated.username, msg: result, emotional: false, todo: todo, done: true, type: "newRecord", participa: false })
                         }
                     });
 
@@ -152,7 +204,7 @@ function addRecord(req, res) {
 }
 
 function checkUser(req, res) {
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
+    User.findOne({ username: req.body.username })
         .then(user => {
             let username = req.body.username;
             var found = true;
@@ -185,7 +237,7 @@ function sendEmail(req, res) {
     var mensaje = "Se ha enviado una solicitud para recuperar su contraseña. Por favor, copie este código: " + codigo + '';
 
 
-    User.findOne({ username: { $regex: new RegExp(req.body.username, "i") } })
+    User.findOne({ username: req.body.username })
         .then(user => {
             var mailOptions = {
                 from: 'tfgjuegomultitask@gmail.com',
