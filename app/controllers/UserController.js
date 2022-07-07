@@ -169,8 +169,6 @@ function addRecord(req, res) {
                                         } else {
                                             let dateLast = lastSurvey.createdAt;
                                             let date = survey.createdAt;
-                                            console.log("dateLast" + dateLast);
-                                            console.log("date" + date);
                                             if (date > dateLast) {
                                                 lastSurvey = survey;
                                             }
@@ -178,10 +176,7 @@ function addRecord(req, res) {
                                     }
                                     let now = Date.now();
                                     let lastDate = lastSurvey.createdAt;
-                                    console.log("now" + now);
-                                    console.log("lastdate" + lastDate);
                                     var hours = Math.abs(now - lastDate) / 36e5;
-                                    console.log(hours);
                                     if (hours >= 3) {
                                         console.log(hours);
                                         res.status(201).send({ username: userUpdated.username, msg: result, emotional: true, todo: todo, done: done, type: "newRecord", participa: userUpdated.participa })
