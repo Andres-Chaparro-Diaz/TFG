@@ -9,7 +9,7 @@ class EmotionalSurveyController {
         this.splide = new Splide('#emotionalsplide', {
             perPage: 1,
             pagination: false,
-            wheel: true,
+            start: 4,
         });
 
         this.splide.mount();
@@ -32,34 +32,34 @@ class EmotionalSurveyController {
         let motivado;
         switch (indexMotivado) {
             case 0:
-                motivado = 10;
+                motivado = 1;
                 break;
             case 1:
-                motivado = 9;
-                break;
-            case 2:
-                motivado = 8;
-                break;
-            case 3:
-                motivado = 7;
-                break;
-            case 4:
-                motivado = 6;
-                break;
-            case 5:
-                motivado = 5;
-                break;
-            case 6:
-                motivado = 4;
-                break;
-            case 7:
-                motivado = 3;
-                break;
-            case 8:
                 motivado = 2;
                 break;
+            case 2:
+                motivado = 3;
+                break;
+            case 3:
+                motivado = 4;
+                break;
+            case 4:
+                motivado = 5;
+                break;
+            case 5:
+                motivado = 6;
+                break;
+            case 6:
+                motivado = 7;
+                break;
+            case 7:
+                motivado = 8;
+                break;
+            case 8:
+                motivado = 9;
+                break;
             case 9:
-                motivado = 1;
+                motivado = 10;
                 break;
         }
         return motivado;

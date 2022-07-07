@@ -9,22 +9,22 @@ class PostGameSurveyController {
         this.splide1 = new Splide('#OnePlayerDifficult', {
             perPage: 1,
             pagination: false,
-            wheel: true,
+            start: 4,
         });
         this.splide2 = new Splide('#TwoPlayerDifficult', {
             perPage: 1,
             pagination: false,
-            wheel: true,
+            start: 4,
         });
         this.splide3 = new Splide('#ThreePlayerDifficult', {
             perPage: 1,
             pagination: false,
-            wheel: true,
+            start: 4,
         });
         this.splide4 = new Splide('#FourPlayerDifficult', {
             perPage: 1,
             pagination: false,
-            wheel: true,
+            start: 4,
         });
         this.splide1.mount();
         this.splide2.mount();
@@ -56,34 +56,34 @@ class PostGameSurveyController {
         let value;
         switch (indexSplide) {
             case 0:
-                value = 10;
+                value = 1;
                 break;
             case 1:
-                value = 9;
-                break;
-            case 2:
-                value = 8;
-                break;
-            case 3:
-                value = 7;
-                break;
-            case 4:
-                value = 6;
-                break;
-            case 5:
-                value = 5;
-                break;
-            case 6:
-                value = 4;
-                break;
-            case 7:
-                value = 3;
-                break;
-            case 8:
                 value = 2;
                 break;
+            case 2:
+                value = 3;
+                break;
+            case 3:
+                value = 4;
+                break;
+            case 4:
+                value = 5;
+                break;
+            case 5:
+                value = 6;
+                break;
+            case 6:
+                value = 7;
+                break;
+            case 7:
+                value = 8;
+                break;
+            case 8:
+                value = 9;
+                break;
             case 9:
-                value = 1;
+                value = 10;
                 break;
         }
         return value;
