@@ -36,15 +36,6 @@ class RegisterController {
 
     buildRequest(rType, url, body) {
         let thisController = this;
-        let config;
-        $.ajax({
-            url: '/controllers/configRequest.json',
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                config = response;
-            }
-        });
 
         $.ajax({
             type: rType,
