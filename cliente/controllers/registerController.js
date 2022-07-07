@@ -49,16 +49,9 @@ class RegisterController {
         $.ajax({
             type: rType,
             url: url,
-            crossDomain: true,
-            crossorigin: "anonymous",
             beforeSend: function(xhrObj) {
-                xhrObj.setRequestHeader(config.originH, config.origin);
                 xhrObj.setRequestHeader("Content-Type", "application/json");
                 xhrObj.setRequestHeader("Accept", "application/json");
-                xhrObj.setRequestHeader("crossorigin", "anonymous");
-            },
-            xhrFields: {
-                crossorigin: "anonymous"
             },
             dataType: "JSON",
             data: JSON.stringify(body),
