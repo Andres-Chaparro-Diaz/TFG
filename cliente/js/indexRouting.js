@@ -12,6 +12,7 @@
             new Route('about', 'about.html'),
             new Route('privacidad', 'politica.html'),
             new Route('changePassword', 'changePassword.html'),
+            new Route('instructions', 'instrucciones.html'),
 
             new Route('cuestionario', 'cuestionario.html'),
             new Route('postcuestionario', 'postCuestionario.html'),
