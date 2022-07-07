@@ -176,6 +176,8 @@ function addRecord(req, res) {
                                     }
                                     let now = Date.now();
                                     let lastDate = lastSurvey.createdAt instanceof Date;
+                                    console.log(now);
+                                    console.log(lastDate);
                                     var hours = Math.abs(now - lastDate) / 36e5;
                                     console.log(hours);
                                     if (hours >= 3) {
