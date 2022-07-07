@@ -167,17 +167,19 @@ function addRecord(req, res) {
                                         if (lastSurvey == undefined) {
                                             lastSurvey = survey;
                                         } else {
-                                            let dateLast = lastSurvey.createdAt instanceof Date;
-                                            let date = survey.createdAt instanceof Date;
+                                            let dateLast = lastSurvey.createdAt;
+                                            let date = survey.createdAt;
+                                            console.log("dateLast" + dateLast);
+                                            console.log("date" + date);
                                             if (date > dateLast) {
                                                 lastSurvey = survey;
                                             }
                                         }
                                     }
                                     let now = Date.now();
-                                    let lastDate = lastSurvey.createdAt instanceof Date;
-                                    console.log(now);
-                                    console.log(lastDate);
+                                    let lastDate = lastSurvey.createdAt;
+                                    console.log("now" + now);
+                                    console.log("lastdate" + lastDate);
                                     var hours = Math.abs(now - lastDate) / 36e5;
                                     console.log(hours);
                                     if (hours >= 3) {
