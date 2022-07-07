@@ -84,13 +84,19 @@ class UserController {
         switch (type) {
             case "newRecord":
                 if (res.participa) {
-                    if (res.done && res.emotional) {
-                        window.location.href = 'index.html#cuestionarioemocional'
+                    if (res.done) {
+                        if (res.emotional) {
+                            window.location.href = 'index.html#cuestionarioemocional';
+                        } else {
+                            window.location.href = 'index.html#ranking';
+                            let agradecimiento = document.getElementById("agradecimiento");
+                            agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
+                        }
                     } else {
                         if (res.todo) {
                             window.location.href = 'index.html#postcuestionario';
                         } else {
-                            window.location.href = 'index.html#ranking'
+                            window.location.href = 'index.html#ranking';
                             let agradecimiento = document.getElementById("agradecimiento");
                             agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
                         }
