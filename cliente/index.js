@@ -14,8 +14,6 @@ var app = {
         v.createEventsRegister();
     },
     abrirRanking: function() {
-        let agradecimiento = document.getElementById("agradecimiento");
-        agradecimiento.textContent = "";
         this.destroyGame();
         var v = new RankingController();
         v.loadGlobalRank();

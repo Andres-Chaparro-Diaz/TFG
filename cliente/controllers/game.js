@@ -170,10 +170,8 @@ class playGame extends Phaser.Scene {
         this.hielo = this.sound.add("hielo");
         this.tapon = this.sound.add("tapon");
 
-        this.nPlatformsBot = 0;
         this.nPlatformsTop = 0;
-        this.nPlatformsBotR = 0;
-        this.nPlatformsTopR = 0;
+        this.timerToObstacles = 0;
 
         this.platformGroupTop = this.add.group({
 
@@ -408,72 +406,71 @@ class playGame extends Phaser.Scene {
     update(time, delta) {
 
         this.frameTime += delta
-
         if (this.frameTime > 16.5) {
             this.frameTime = 0;
             this.score++;
             // Code that relies on a consistent 60hz update
-        }
-        if (this.currentInmuneTime > 0) {
-            this.currentInmuneTime--;
-        }
-        this.puntuacion.textContent = this.score;
-        this.addPlatformFloor();
 
-        var range = 1;
-        this.addedTop--;
-
-        this.jumpPlayerTop();
-        if (!this.createdBot) {
-            if (this.score >= this.scoreTocreateBot) {
-                this.createdBot = true;
-                this.createPJBot();
+            if (this.currentInmuneTime > 0) {
+                this.currentInmuneTime--;
             }
-        } else {
-            this.jumpPlayerBot();
-            range = 2;
-            this.addedBot--;
-        }
+            this.puntuacion.textContent = this.score;
+            this.addPlatformFloor();
 
-        if (!this.createdTopR) {
-            if (this.score >= this.scoreTocreateTopR) {
-                this.createdTopR = true;
-                this.createPJTopR();
+            var range = 1;
+            this.addedTop--;
+
+            this.jumpPlayerTop();
+            if (!this.createdBot) {
+                if (this.score >= this.scoreTocreateBot) {
+                    this.createdBot = true;
+                    this.createPJBot();
+                }
+            } else {
+                this.jumpPlayerBot();
+                range = 2;
+                this.addedBot--;
             }
-        } else {
-            this.jumpPlayerTopR();
-            range = 3;
-            this.addedTopR--;
-        }
 
-        if (!this.createdBotR) {
-            if (this.score >= this.scoreTocreateBotR) {
-                this.createdBotR = true;
-                this.createPJBotR();
+            if (!this.createdTopR) {
+                if (this.score >= this.scoreTocreateTopR) {
+                    this.createdTopR = true;
+                    this.createPJTopR();
+                }
+            } else {
+                this.jumpPlayerTopR();
+                range = 3;
+                this.addedTopR--;
             }
-        } else {
-            this.jumpPlayerBotR();
-            range = 4;
-            this.addedBotR--;
 
+            if (!this.createdBotR) {
+                if (this.score >= this.scoreTocreateBotR) {
+                    this.createdBotR = true;
+                    this.createPJBotR();
+                }
+            } else {
+                this.jumpPlayerBotR();
+                range = 4;
+                this.addedBotR--;
+            }
+
+
+            var location = this.randomIntFromInterval(1, range);
+
+
+            if (this.timerToObstacles > this.frecuencytoAddObstacle && this.score > 10) {
+                this.timerToObstacles = 0;
+                this.checkLocationNewObstacle(location);
+                location = this.randomIntFromInterval(1, range);
+                this.checkLocationNewObstacle(location);
+                location = this.randomIntFromInterval(1, range);
+                this.checkLocationNewObstacle(location);
+            }
+
+            if (this.score % this.frecuencyToAddCrystal == 0) {
+                this.addCrystal();
+            }
         }
-
-
-        var location = this.randomIntFromInterval(1, range);
-
-
-        if (this.score > this.reqPointsToAppearObstacles && (this.score % this.frecuencytoAddObstacle == 0 || this.score < 10)) {
-            this.checkLocationNewObstacle(location);
-            location = this.randomIntFromInterval(1, range);
-            this.checkLocationNewObstacle(location);
-            //location = this.randomIntFromInterval(1, range);
-            //this.checkLocationNewObstacle(location);
-        }
-
-        if (this.score % this.frecuencyToAddCrystal == 0) {
-            this.addCrystal();
-        }
-
     }
 
     checkLocationNewObstacle(location) {
@@ -481,17 +478,25 @@ class playGame extends Phaser.Scene {
             case 1:
                 if (this.addedTop <= 0) {
                     this.addedTop = 100;
-                    this.addObstacle(location);
+                    this.addObstacle(1);
                 } else if (this.createdBot && this.addedBot <= 0) {
-                    this.addObstacle(location + 1);
+                    this.addedBot = 100;
+                    this.addObstacle(2);
+                } else if (this.createdTopR && this.addedTopR <= 0) {
+                    this.addedTopR = 100;
+                    this.addObstacle(3);
                 }
                 break;
             case 2:
                 if (this.addedBot <= 0) {
                     this.addedBot = 100;
-                    this.addObstacle(location);
+                    this.addObstacle(2);
                 } else if (this.createdTopR && this.addedTopR <= 0) {
-                    this.addObstacle(location + 1);
+                    this.addedTopR = 100;
+                    this.addObstacle(3);
+                } else if (this.createdBotR && this.addedBotR <= 0) {
+                    this.addedBotR = 100;
+                    this.addObstacle(4);
                 }
                 break;
             case 3:
@@ -499,7 +504,11 @@ class playGame extends Phaser.Scene {
                     this.addedTopR = 100;
                     this.addObstacle(location);
                 } else if (this.createdBotR && this.addedBotR <= 0) {
-                    this.addObstacle(location + 1);
+                    this.addedBotR = 100;
+                    this.addObstacle(4);
+                } else if (this.addedTop <= 0) {
+                    this.addedTop = 100;
+                    this.addObstacle(1);
                 }
                 break;
             case 4:
@@ -507,7 +516,11 @@ class playGame extends Phaser.Scene {
                     this.addedBotR = 100;
                     this.addObstacle(location);
                 } else if (this.addedTop <= 0) {
+                    this.addedTop = 100;
                     this.addObstacle(1);
+                } else if (this.createdBot && this.addedBot <= 0) {
+                    this.addedBot = 100;
+                    this.addObstacle(2);
                 }
                 break;
         }
@@ -681,8 +694,13 @@ class playGame extends Phaser.Scene {
 
     addPlatformFloor(posX, posY) {
         this.nPlatformsTop++;
+        this.timerToObstacles++;
         let platform1;
-        if (this.nPlatformsTop % this.frecuencytoAddPlatform == 0 || this.nPlatformsTop == 1) {
+        if (this.nPlatformsTop > this.frecuencytoAddPlatform || this.nPlatformsTop == 1 || (this.nPlatformsTop == 130 && !this.started)) {
+            if (this.nPlatformsTop == 130) {
+                this.started = true;
+            }
+            this.nPlatformsTop = 10;
             if (this.platformPoolTop.getLength()) {
                 platform1 = this.platformPoolTop.getFirst();
                 if (posX == undefined && posY == undefined) {
