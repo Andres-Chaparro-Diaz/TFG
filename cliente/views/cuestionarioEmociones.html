@@ -5,24 +5,12 @@
             <li id="cid_1" class="form-input-wide" data-type="control_head">
                 <div class="form-header-group header-defecto">
                     <div class="header-text httal htvam">
-                        <h2 id="header_1" class="form-header" data-component="header">Cuestionario Emocional</h2>
+                        <h1 id="header_1" class="form-header" data-component="header">Cuestionario Emocional</h1>
                     </div>
                 </div>
             </li>
-            <li class="form-line" data-type="control_textbox" id="id_3">
-                <label class="form-label form-label-top form-label-auto" id="label_3" for="input_3"> 
-                    <script>
-                        if(localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined){
-                            document.getElementById("label_3").textContent = localStorage.getItem("username");
-                        }else{
-                            window.location.href = 'index.html#login';
-                            return;
-                        }
-                    </script>    
-                </label>
-            </li>
 
-            <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_18"> Has estado motivado para jugar</label>
+            <li class="form-line" data-type="control_textarea" id="id_17"><label class="form-label form-label-top form-label-auto form-label-player" id="label_17" for="input_18"> Has estado motivado para jugar (1 = Has jugado por obligación, 10= estabas deseando jugar)</label>
                 <div id="cid_17" class="form-input-wide">
                     <section id="emotionalsplide" class="splide" aria-label="Splide Basic HTML Example">
                         <div class="splide__track">
@@ -54,10 +42,6 @@
                                     <input class="emotionalRadio" type="radio" id="triste" name="emotion" value="triste"></input>
                                     <img src="/assets/triste.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
                                 </label>
-                    <label for="asustado">
-                                    <input class="emotionalRadio" type="radio" id="asustado" name="emotion" value="asustado"></input>
-                                    <img  src="/assets/asustado.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
-                                </label>
                     <label for="enfadado">
                                     <input class="emotionalRadio"  type="radio" id="enfadado" name="emotion" value="enfadado"></input>
                                     <img src="/assets/enfadado.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
@@ -69,10 +53,6 @@
                     <label for="normal">
                                     <input class="emotionalRadio" type="radio" id="normal" name="emotion" value="normal" selected></input>
                                     <img src="/assets/normal.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
-                                </label>
-                    <label for="sorprendido">
-                                    <input class="emotionalRadio" type="radio" id="sorprendido" name="emotion" value="sorprendido"></input>
-                                    <img src="/assets/sorprendido.png" alt="" style="width: 75px; height:75px ;margin-right: 5px;">
                                 </label>
                     <label for="feliz">
                                     <input class="emotionalRadio" type="radio" id="feliz" name="emotion" value="feliz"></input>

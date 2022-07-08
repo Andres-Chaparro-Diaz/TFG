@@ -131,7 +131,7 @@ class playGame extends Phaser.Scene {
 
         this.score = config.startPoints;
         this.created = false;
-        this.lives = 3;
+        this.lives = config.lives;
         this.hittable = config.hittableObstacles;
         this.scoreTocreateBot = config.scoreToCreateBot;
         this.scoreTocreateTopR = config.scoreToCreateTopR;
@@ -400,6 +400,12 @@ class playGame extends Phaser.Scene {
                 break;
             case 3:
                 document.getElementById('life3').remove();
+                break;
+            case 4:
+                document.getElementById('life4').remove();
+                break;
+            case 5:
+                document.getElementById('life5').remove();
                 break;
         }
     }

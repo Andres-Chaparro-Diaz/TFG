@@ -1,10 +1,10 @@
 {
     "startPoints": 0,
-    "lives": 3,
+    "lives": 5,
     "hittableObstacles": true,
     "scoreToCreateBot": 2000,
-    "scoreToCreateTopR": 5000,
-    "scoreToCreateBotR": 7000,
+    "scoreToCreateTopR": 5500,
+    "scoreToCreateBotR": 8500,
     "frecuencytoAddCrystal": 200,
     "frecuencytoAddObstacle": 260,
     "frecuencytoAddPlatform": 270,
