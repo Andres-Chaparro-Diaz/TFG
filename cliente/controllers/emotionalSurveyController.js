@@ -173,8 +173,6 @@ class EmotionalSurveyController {
         switch (type) {
             case "create":
                 window.location.href = 'index.html#ranking';
-                let agradecimiento = document.getElementById("agradecimiento");
-                agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
                 break;
         }
         if (message != undefined) {

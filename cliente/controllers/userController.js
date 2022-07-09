@@ -23,8 +23,6 @@ class UserController {
         let username = localStorage.getItem("username");
         if (username == undefined || username == "") {
             window.location.href = 'index.html#register';
-            let agradecimiento = document.getElementById("agradecimiento");
-            agradecimiento.textContent = "Gracias por jugar, te estaría eternamente agradecido si te registras y participas en el estudio. Tu puntuación ha sido: " + puntuacionFinal;
         } else {
             let spPoints = document.getElementById("spPuntuacion");
             let points = spPoints.textContent;
@@ -89,16 +87,12 @@ class UserController {
                             window.location.href = 'index.html#cuestionarioemocional';
                         } else {
                             window.location.href = 'index.html#ranking';
-                            let agradecimiento = document.getElementById("agradecimiento");
-                            agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
                         }
                     } else {
                         if (res.todo) {
                             window.location.href = 'index.html#postcuestionario';
                         } else {
                             window.location.href = 'index.html#ranking';
-                            let agradecimiento = document.getElementById("agradecimiento");
-                            agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
                         }
                     }
                 } else {

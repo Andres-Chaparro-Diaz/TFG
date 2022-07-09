@@ -10,11 +10,19 @@ var app = {
     },
     abrirRegister: function() {
         this.destroyGame()
+        if (puntuacionFinal != undefined && puntuacionFinal != 0) {
+            let agradecimiento = document.getElementById("agradecimiento");
+            agradecimiento.textContent = " por jugar, te estaría eternamente agradecido si te registras y participas en el estudio. Tu puntuación ha sido: " + puntuacionFinal;
+        }
         var v = new RegisterController();
         v.createEventsRegister();
     },
     abrirRanking: function() {
         this.destroyGame();
+        if (puntuacionFinal != undefined && puntuacionFinal != 0) {
+            let agradecimiento = document.getElementById("agradecimiento");
+            agradecimiento.textContent = "Gracias por jugar. Tu puntuación ha sido: " + puntuacionFinal;
+        }
         var v = new RankingController();
         v.loadGlobalRank();
         v.loadPersonalRank();
@@ -23,9 +31,7 @@ var app = {
         let agradecimiento = document.getElementById("agradecimiento");
         agradecimiento.textContent = "";
         this.destroyGame();
-        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
-            document.getElementById("label_3").textContent = localStorage.getItem("username");
-        } else {
+        if (localStorage.getItem("username") == null || localStorage.getItem("username") == '' || localStorage.getItem("username") == undefined) {
             window.location.href = 'index.html#login';
             return;
         }
@@ -36,9 +42,7 @@ var app = {
         let agradecimiento = document.getElementById("agradecimiento");
         agradecimiento.textContent = "";
         this.destroyGame();
-        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
-            document.getElementById("label_3").textContent = localStorage.getItem("username");
-        } else {
+        if (localStorage.getItem("username") == null || localStorage.getItem("username") == '' || localStorage.getItem("username") == undefined) {
             window.location.href = 'index.html#login';
             return;
         }
@@ -50,9 +54,7 @@ var app = {
         let agradecimiento = document.getElementById("agradecimiento");
         agradecimiento.textContent = "";
         this.destroyGame();
-        if (localStorage.getItem("username") != null && localStorage.getItem("username") != '' && localStorage.getItem("username") != undefined) {
-            document.getElementById("label_3").textContent = localStorage.getItem("username");
-        } else {
+        if (localStorage.getItem("username") == null || localStorage.getItem("username") == '' || localStorage.getItem("username") == undefined) {
             window.location.href = 'index.html#login';
             return;
         }
@@ -90,12 +92,15 @@ var app = {
     destroyGame: function() {
         if (game != null && game != undefined) {
             if (game.isRunning) {
+                game.sound.stopAll();
                 game.scene.scenes[1].input.keyboard.enabled = false
                 game.scene.stop()
                 game.renderer.destroy();
                 game.loop.stop();
                 game.canvas.remove();
+                game.hasfocus = false;
                 game.destroy(true);
+                game = null
             }
         }
     },

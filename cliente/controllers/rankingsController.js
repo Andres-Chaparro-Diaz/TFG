@@ -99,7 +99,7 @@ class RankingController {
             if (b.points == undefined) b.points = 0;
             return b.points - a.points
         });
-        for (var k = 0; k < globalListUsers.length; k++) {
+        for (var k = 0, users = 0; k < globalListUsers.length && users < 15; k++, users++) {
             let tr = document.createElement("tr");
             let td = document.createElement("td");
             let tdU = document.createElement("td");
