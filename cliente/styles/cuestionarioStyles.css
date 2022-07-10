@@ -118,6 +118,11 @@
     width: 150px;
 }
 
+.divSurvey .form-matrix-row-headers,
+.form-matrix-column-headers {
+    padding: 4px;
+}
+
 .divSurvey .form-all {
     font-size: 12px;
     color: white;
