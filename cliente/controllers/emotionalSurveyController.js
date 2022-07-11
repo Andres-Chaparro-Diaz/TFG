@@ -5,11 +5,11 @@ class EmotionalSurveyController {
 
         let thisController = this;
         btnSend.addEventListener('click', function(e) { thisController.submitEvent() }, false);
-
-        this.splide = new Splide('#emotionalsplide', {
+        //btnRegister.dispatchEvent(event);
+        this.splide = new Splide('#EmotionalSplide', {
             perPage: 1,
             pagination: false,
-            start: 4,
+            start: 4
         });
 
         this.splide.mount();
