@@ -2,7 +2,7 @@
 
 let control = new UserController();
 let game;
-let puntuacionFinal = 0;
+let puntuacionFinal;
 var loadGame = function() {
 
     // object containing configuration options
