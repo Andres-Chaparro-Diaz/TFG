@@ -377,9 +377,9 @@ class playGame extends Phaser.Scene {
                         this.lives--;
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
-
+                        puntuacionFinal = this.score;
                     } else {
-                        puntuacionFinal = this.puntuacion.textContent;
+                        puntuacionFinal = this.score;
                         control.sendPoints();
                         this.removeLife();
                         this.scene.stop("PlayGame");
@@ -576,8 +576,9 @@ class playGame extends Phaser.Scene {
                         this.lives--;
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
+                        puntuacionFinal = this.score;
                     } else {
-                        puntuacionFinal = this.puntuacion.textContent;
+                        puntuacionFinal = this.score;
                         control.sendPoints();
                         this.removeLife();
                         this.scene.stop("PlayGame");
@@ -631,8 +632,10 @@ class playGame extends Phaser.Scene {
                         this.lives--;
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
+                        puntuacionFinal = this.score;
+
                     } else {
-                        puntuacionFinal = this.puntuacion.textContent;
+                        puntuacionFinal = this.score;
                         control.sendPoints();
                         this.removeLife();
                         this.scene.stop("PlayGame");
@@ -685,8 +688,10 @@ class playGame extends Phaser.Scene {
                         this.lives--;
                         this.tapon.play();
                         this.currentInmuneTime = this.inmuneTime;
+                        puntuacionFinal = this.score;
+
                     } else {
-                        puntuacionFinal = this.puntuacion.textContent;
+                        puntuacionFinal = this.score;
                         control.sendPoints();
                         this.removeLife();
                         this.scene.stop("PlayGame");
