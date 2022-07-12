@@ -32,6 +32,8 @@ class UserController {
 
     }
 
+
+
     buildRequest(rType, url, body) {
         let thisController = this;
         $.ajax({

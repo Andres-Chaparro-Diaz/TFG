@@ -113,6 +113,7 @@ class EmotionalSurveyController {
         if (puntuacionFinal != null && puntuacionFinal != undefined && puntuacionFinal > 0) {
             this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/emotionalSurvey/create', emotionalSurveyJSON);
         } else {
+            window.location.href = 'index.html#ranking';
             return;
         }
     }
