@@ -110,8 +110,11 @@ class EmotionalSurveyController {
             "motivado": motivado,
             "puntuacion": puntuacionFinal
         };
-        this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/emotionalSurvey/create', emotionalSurveyJSON);
-
+        if (puntuacionFinal != null && puntuacionFinal != undefined && puntuacionFinal > 0) {
+            this.buildRequest('post', 'https://andres-tfg-backend.herokuapp.com/emotionalSurvey/create', emotionalSurveyJSON);
+        } else {
+            return;
+        }
     }
 
     checkAnswerOnSurvey(list) {
