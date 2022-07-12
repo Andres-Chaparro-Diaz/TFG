@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
     },
     gamesToEmotional: {
         type: Number
+    },
+    lastPoints: {
+        type: Number
     }
 }, { timestamps: true });
 

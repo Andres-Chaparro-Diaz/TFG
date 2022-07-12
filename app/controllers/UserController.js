@@ -144,6 +144,7 @@ function addRecord(req, res) {
             } else {
                 user.gamesPlayed = 1;
             }
+            user.lastPoints = points;
             user.save()
                 .then(userUpdated => {
                     PostGameSurvey.find({}).then(surveys => {

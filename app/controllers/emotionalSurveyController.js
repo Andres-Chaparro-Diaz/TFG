@@ -13,6 +13,9 @@ function listall(req, res) {
 function create(req, res) {
     User.findOne({ username: req.body.username }).then(user => {
         let emotionalSurvey = new EmotionalSurvey(req.body);
+        if (req.body.puntuacion == undefined || req.body.puntuacion == null) {
+            emotionalSurvey.puntuacion = user.lastPoints;
+        }
         emotionalSurvey.save()
             .then(newSurvey => {
                 res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
