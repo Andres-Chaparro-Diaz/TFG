@@ -7,10 +7,13 @@ const EmotionalSurveySchema = new mongoose.Schema({
     motivado: {
         type: Number
     },
-    animo: {
+    emocion: {
+        type: String
+    },
+    puntuacion: {
         type: Number
     }
-});
+}, { timestamps: true });
 
 const EmotionalSurvey = mongoose.model('EmotionalSurvey', EmotionalSurveySchema);
 

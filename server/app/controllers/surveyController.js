@@ -1,5 +1,5 @@
-const Survey = require('../models/Survey');
-const User = require('../models/User');
+const Survey = require('../models/survey');
+const User = require('../models/user');
 
 function listall(req, res) {
     Survey.find({})
@@ -24,7 +24,6 @@ function create(req, res) {
             }
             if (!found) {
                 User.findOne({ username: username }).then(user => {
-                    console.log(user);
                     user.participa = req.body.participa;
                     user.save().then(
                         survey.save()

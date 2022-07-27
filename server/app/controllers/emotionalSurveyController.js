@@ -1,4 +1,5 @@
-const EmotionalSurvey = require('../models/EmotionalSurvey');
+const EmotionalSurvey = require('../models/emotionalSurvey');
+const User = require('../models/user');
 
 function listall(req, res) {
     EmotionalSurvey.find({})
@@ -10,12 +11,19 @@ function listall(req, res) {
 
 
 function create(req, res) {
-    let emotionalSurvey = new EmotionalSurvey(req.body);
+    User.findOne({ username: req.body.username }).then(user => {
+        let emotionalSurvey = new EmotionalSurvey(req.body);
+        if (req.body.puntuacion == undefined || req.body.puntuacion == null) {
+            emotionalSurvey.puntuacion = user.lastPoints;
+        }
+        emotionalSurvey.save()
+            .then(newSurvey => {
+                res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
+            }).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }));
 
-    emotionalSurvey.save()
-        .then(
-            res.status(201).send({ msg: "Formulario enviado correctamente", type: "create" })
-        ).catch(err => res.status(500).send({ error: "No se ha podido enviar el formulario", err, type: "create" }));
+    }).catch(function(err) {
+        res.status(201).send({ error: "Usuario no encontrado", type: "create" });
+    });
 }
 
 function show(req, res) {

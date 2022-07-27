@@ -19,7 +19,7 @@ const SurveySchema = new mongoose.Schema({
     participa: {
         type: Boolean
     }
-});
+}, { timestamps: true });
 
 const Survey = mongoose.model('Survey', SurveySchema);
 
