@@ -3,7 +3,7 @@
 let control = new UserController();
 let game;
 let puntuacionFinal;
-var loadGame = function() {
+let loadGame = function() {
 
     // object containing configuration options
     let gameConfig = {
@@ -159,6 +159,7 @@ class playGame extends Phaser.Scene {
         this.createdBot = false;
         this.createdTopR = false;
         this.createdBotR = false;
+        this.jumpCount = 15;
     }
 
     create() {
@@ -762,23 +763,23 @@ class playGame extends Phaser.Scene {
             obstacleInv.displayWidth = platformWidth;
         } else {
             var random = this.randomIntFromInterval(1, 4);
-
+            var posRandom = this.randomIntFromInterval(900, 1150)
             switch (random) {
                 case 1:
-                    obstacleInv = this.add.tileSprite(998, 180, 34, 110, "InvBody"); //InvBody
-                    obstacle1 = this.add.tileSprite(1000, 180, 98, 120, "tree");
+                    obstacleInv = this.add.tileSprite(posRandom - 2, 180, 34, 110, "skyInv"); //InvBody
+                    obstacle1 = this.add.tileSprite(posRandom, 180, 98, 120, "tree");
                     break;
                 case 2:
-                    obstacleInv = this.add.tileSprite(900, 200, 73, 50, "InvBody");
-                    obstacle1 = this.add.tileSprite(900, 200, 119, 75, "stone");
+                    obstacleInv = this.add.tileSprite(posRandom, 200, 73, 50, "skyInv");
+                    obstacle1 = this.add.tileSprite(posRandom, 200, 119, 75, "stone");
                     break;
                 case 3:
-                    obstacleInv = this.add.tileSprite(993, 185, 55, 95, "InvBody");
-                    obstacle1 = this.add.tileSprite(1000, 185, 101, 110, "snowMan");
+                    obstacleInv = this.add.tileSprite(posRandom - 7, 185, 55, 95, "skyInv");
+                    obstacle1 = this.add.tileSprite(posRandom, 185, 101, 110, "snowMan");
                     break;
                 case 4:
-                    obstacleInv = this.add.tileSprite(900, 200, 60, 50, "InvBody");
-                    obstacle1 = this.add.tileSprite(900, 200, 98, 75, "treeSmall");
+                    obstacleInv = this.add.tileSprite(posRandom, 200, 60, 50, "skyInv");
+                    obstacle1 = this.add.tileSprite(posRandom, 200, 98, 75, "treeSmall");
                     break;
             }
 
@@ -859,7 +860,7 @@ class playGame extends Phaser.Scene {
     jumpPlayerTop() {
         //this.cursors.up.isDown
 
-        if (this.keyQ.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < 23)) { //saltar
+        if (this.keyQ.isDown && (this.playerTop.body.touching.down || this.playerTopJumps < this.jumpCount)) { //saltar
             this.playerTopJumps++;
 
             this.playerTop.anims.stop()
@@ -872,7 +873,7 @@ class playGame extends Phaser.Scene {
     }
 
     jumpPlayerBot() {
-        if (this.keyS.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < 23)) {
+        if (this.keyS.isDown && (this.playerBot.body.touching.down || this.playerBotJumps < this.jumpCount)) {
             this.playerBotJumps++;
             this.playerBot.setVelocityY(this.runnersJumpY);
             this.playerBot.setVelocityX(this.runnersJumpX);
@@ -884,7 +885,7 @@ class playGame extends Phaser.Scene {
     }
 
     jumpPlayerTopR() {
-        if (this.keyP.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < 23)) { //saltar
+        if (this.keyP.isDown && (this.playerTopR.body.touching.down || this.playerTopRJumps < this.jumpCount)) { //saltar
             this.playerTopRJumps++;
             this.playerTopR.anims.stop();
             this.playerTopR.setVelocityY(this.runnersJumpY);
@@ -896,7 +897,7 @@ class playGame extends Phaser.Scene {
     }
 
     jumpPlayerBotR() {
-        if (this.keyL.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < 23)) {
+        if (this.keyL.isDown && (this.playerBotR.body.touching.down || this.playerBotRJumps < this.jumpCount)) {
             this.playerBotRJumps++;
             this.playerBotR.setVelocityY(this.runnersJumpY);
             this.playerBotR.setVelocityX(this.runnersJumpX);
